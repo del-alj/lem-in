@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_read_n_ants.c                                   :+:      :+:    :+:   */
+/*   ft_hash_function.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 12:40:42 by del-alj           #+#    #+#             */
-/*   Updated: 2019/12/02 16:25:44 by del-alj          ###   ########.fr       */
+/*   Created: 2019/11/30 16:01:00 by del-alj           #+#    #+#             */
+/*   Updated: 2019/12/02 16:42:01 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 
-int	ft_read_n_ants(t_stc *node)
+int	ft_hash_function(char *str, int size_array)
 {
-	int		i;
-	char	*line;
+	int	key;
+	int	i;
 
 	i = 0;
-	if (get_next_line(0, &line) <= 0)
-		ft_error_function();
-	if (!ft_check_nbr(line, i))
-		ft_error_function();
-	node->ants_nb = ft_atoi(line);
-	ft_strdel(&line);
-	return (1);
+	key = 0;
+	while (str[i] != ' ' && str[i] != '\0')
+	{
+		key = str[i] * (i + 1) + key;
+		i++;
+	}
+	return (key % size_array);
 }

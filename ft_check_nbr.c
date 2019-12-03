@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 12:39:35 by del-alj           #+#    #+#             */
-/*   Updated: 2019/11/28 12:52:38 by del-alj          ###   ########.fr       */
+/*   Updated: 2019/12/02 16:12:11 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_check_nbr(char *line, int i)
 {
+	if (line[0] == '\0' || line[i] == '\0')
+		ft_error_function();
 	while (line[i] != '\0' && line[i] != ' ')
 	{
 		if (line[i] < '0' || line[i] > '9')

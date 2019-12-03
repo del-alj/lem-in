@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_read_n_ants.c                                   :+:      :+:    :+:   */
+/*   ft_error_fucntion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 12:40:42 by del-alj           #+#    #+#             */
-/*   Updated: 2019/12/02 16:25:44 by del-alj          ###   ########.fr       */
+/*   Created: 2019/12/01 14:11:37 by del-alj           #+#    #+#             */
+/*   Updated: 2019/12/02 16:14:07 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 
-int	ft_read_n_ants(t_stc *node)
+void	ft_error_function(void)
 {
-	int		i;
-	char	*line;
-
-	i = 0;
-	if (get_next_line(0, &line) <= 0)
-		ft_error_function();
-	if (!ft_check_nbr(line, i))
-		ft_error_function();
-	node->ants_nb = ft_atoi(line);
-	ft_strdel(&line);
-	return (1);
+	ft_putendl("ERROR");
+	exit(0);
 }

@@ -1,28 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_read_n_ants.c                                   :+:      :+:    :+:   */
+/*   ft_prime.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 12:40:42 by del-alj           #+#    #+#             */
-/*   Updated: 2019/12/02 16:25:44 by del-alj          ###   ########.fr       */
+/*   Created: 2019/12/02 18:14:10 by del-alj           #+#    #+#             */
+/*   Updated: 2019/12/02 18:14:12 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 
-int	ft_read_n_ants(t_stc *node)
+int     ft_prime(int nb)
 {
-	int		i;
-	char	*line;
+    int cnt;
+    int i;
+    int n;
 
-	i = 0;
-	if (get_next_line(0, &line) <= 0)
-		ft_error_function();
-	if (!ft_check_nbr(line, i))
-		ft_error_function();
-	node->ants_nb = ft_atoi(line);
-	ft_strdel(&line);
-	return (1);
+    n = nb;
+    i = 2;
+    cnt = 0;
+    if (n <= 2)
+        return (n);
+    while (i <= n/2)
+    {
+        if (n % i != 0)
+            i++;
+        else
+        {
+            i = 2;
+            while (n % 2 == 0)
+                n++;
+            cnt++;
+            if (cnt == 10)
+            return (nb);
+        }
+    }
+    return (n);
 }

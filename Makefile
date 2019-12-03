@@ -6,18 +6,20 @@
 #    By: del-alj <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 17:01:57 by del-alj           #+#    #+#              #
-#    Updated: 2019/11/28 12:37:52 by del-alj          ###   ########.fr        #
+#    Updated: 2019/11/30 18:04:25 by del-alj          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 
-SRC =	ft_lem_in.c\
+SRC =	ft_check_nbr.c\
+		ft_read_n_ants.c\
+		ft_hash_function.c\
 		ft_stock_file.c\
-		ft_check_nbr.c\
-		t_read_n_ants.c\
-		ft_read_room.c\
-
+		ft_error_function.c\
+		ft_stock_lines.c\
+		ft_stock_rooms.c\
+		ft_prime.c\
 
 SRC_LIBFT = libft/ft_atoi.c\
 			libft/ft_bzero.c\

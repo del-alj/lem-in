@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2019/11/28 13:10:25 by del-alj          ###   ########.fr       */
+/*   Updated: 2019/11/30 16:18:57 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft/libft.h"
 # include "libft/get_next_line.h"
+
 
 typedef struct		s_stc
 {
@@ -27,8 +28,7 @@ typedef struct		s_node
 	int				coord_x;
 	int				coord_y;
 	char			*rooms_name;
-	char			*pos;
-	int				hash_nb;
+	int				pos;
 	int				indx_list;	
 	int				link_nb;
 }					t_node;
@@ -36,12 +36,22 @@ typedef struct		s_node
 typedef struct  	s_list_rooms
 {
 	struct s_node	*list;
-	struct  s_list	*next;
+	struct s_list	*next;
 }					t_list_rooms;
+
+typedef struct		s_stock_file
+{
+	char				*line;
+	struct s_stock_file	*next;
+}					t_stock_file;
 
 int		ft_check_nbr(char *line, int i);
 int		ft_read_n_ants(t_stc  *node);
-int		ft_read_room(t_list_rooms *list_rooms, char *line);
+int		ft_hash_function(char *str, int size_array);
 int		ft_stock_file();
+void    ft_error_function();
+int		ft_stock_lines(t_stock_file *file);
+void    ft_stock_rooms(t_stock_file *file, int nb_of_line,  t_stc *node);
+int     ft_prime(int nb);
 
 #endif

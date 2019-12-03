@@ -6,14 +6,15 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:26 by del-alj           #+#    #+#             */
-/*   Updated: 2019/11/28 12:49:32 by del-alj          ###   ########.fr       */
+/*   Updated: 2019/12/02 16:38:40 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 
-int		main()
+int	main(void)
 {
 	ft_stock_file();
+	printf("ok\n");
 	return (0);
 }
