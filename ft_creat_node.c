@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_read_n_ants.c                                   :+:      :+:    :+:   */
+/*   ft_creat_node.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 12:40:42 by del-alj           #+#    #+#             */
-/*   Updated: 2019/12/02 16:25:44 by del-alj          ###   ########.fr       */
+/*   Created: 2019/12/04 19:21:26 by del-alj           #+#    #+#             */
+/*   Updated: 2019/12/04 19:21:30 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_lem_in.h"
-
-int	ft_read_n_ants(t_data *node)
+void    ft_creat_node(t_data *s3, char *str, int i)
 {
-	int		i;
-	char	*line;
-
-	i = 0;
-	if (get_next_line(0, &line) <= 0)
-		ft_error_function();
-	if (!ft_check_nbr(line, i))
-		ft_error_function();
-	node->ants_nb = ft_atoi(line);
-	ft_strdel(&line);
-	return (1);
+    s3->tab_rooms[i] = (t_room*)malloc(sizeof(t_room));
+    s3->tab_rooms[i]->rooms_name = ft_strdup(str);
+    s3->tab_rooms[i]->next = NULL;
 }

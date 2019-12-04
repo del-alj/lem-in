@@ -12,30 +12,33 @@
 
 #include "ft_lem_in.h"
 
-void ft_print_node(t_stc *node, int nb_of_line)
+void ft_print_node(t_data *node, int nb_of_line)
 {
 	int i;
    
 	i = 0;
-	printf("ants_nb : %d\n", node->ants_nb);
+	//printf("ants_nb : %d\n", node->ants_nb);
 	while (nb_of_line > i)
 	{
-		printf("***********tab[%d]**********\ncoord_x : %d\ncoord_y : %d\nname room : %s\nposition : %d\n", i, node->tab_rooms[i].coord_x, node->tab_rooms[i].coord_y, node->tab_rooms[i].rooms_name, node->tab_rooms[i].pos);
+		printf("%s\n", node->tab_rooms[i]->rooms_name);
+		printf("***********tab[%d]**********\ncoord_x : %d\ncoord_y : %d\nname room : %s\nposition : %d\n", i, node->tab_rooms[i]->coord_x, node->tab_rooms[i]->coord_y, node->tab_rooms[i]->rooms_name, node->tab_rooms[i]->pos);
+		
 		i++;
 	}
 }
 
 int	ft_stock_file(void)
 {
-	t_stc			*node;
+	t_data			*node;
+	t_data			*node1;
 	int				nb_of_line;
 	t_stock_file	*file;
 	t_stock_file	*head;
 
 	nb_of_line = 0;
-	if (!(node = (t_stc*)malloc(sizeof(t_stc))))
+	if (!(node1 = (t_data*)malloc(sizeof(t_data))))
 		return (0);
-	if (!ft_read_n_ants(node))
+	if (!ft_read_n_ants(node1))
 		return (0);
 	/*file : contains element need to display - (nbr_ants and links) */
 	if (!(file = (t_stock_file*)malloc(sizeof(t_stock_file))))
@@ -44,6 +47,8 @@ int	ft_stock_file(void)
 	nb_of_line = ft_stock_lines(file);
 	nb_of_line = ft_prime(nb_of_line);
 	ft_stock_rooms(file, nb_of_line, node);
+	ft_putendl("ok");
+	printf("%p\n", node);
 	/*just for debug*/
 	ft_print_node(node, nb_of_line);
 	return (1);

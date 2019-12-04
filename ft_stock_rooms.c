@@ -12,7 +12,7 @@
 
 #include "ft_lem_in.h"
 
-int	ft_remp_room(int nb_of_line, char *str, t_stc *node, int pos)
+void	ft_remp_room(int nb_of_line, char *str, t_data **node, int pos)
 {
 	int	i;
 	int	hash_index;
@@ -21,34 +21,42 @@ int	ft_remp_room(int nb_of_line, char *str, t_stc *node, int pos)
 	hash_index = ft_hash_function(str, nb_of_line);
 	while (str[i] != ' ')
 		i++;
-	node->tab_rooms[hash_index].rooms_name = ft_strndup(str, i);
+	//	
+	if (!((*node)->tab_rooms[hash_index]))
+		(*node)->tab_rooms[hash_index] = (t_room*)malloc(sizeof(t_room));
+	(*node)->tab_rooms[hash_index]->rooms_name = ft_strndup(str, i);
 	i++;
 	if (!ft_check_nbr(str, i))
 		ft_error_function();
-	node->tab_rooms[hash_index].coord_x = ft_atoi(str + i);
+	(*node)->tab_rooms[hash_index]->coord_x = ft_atoi(str + i);
 	while (str[i] != ' ' && str[i] != '\0')
 		i++;
 	i++;
 	if (!ft_check_nbr(str, i))
 		ft_error_function();
-	node->tab_rooms[hash_index].coord_y = ft_atoi(str + i);
+	(*node)->tab_rooms[hash_index]->coord_y = ft_atoi(str + i);
 	if (pos != 0)
 	{
-		node->tab_rooms[hash_index].pos = pos;
+		(*node)->tab_rooms[hash_index]->pos = pos;
 		pos = 0;
 	}
-	return (pos);
+	(*node)->tab_rooms[hash_index]->next = NULL;
+	//return (pos);
 }
 
-void	ft_stock_rooms(t_stock_file *file, int nb_of_line, t_stc *node)
+void	ft_stock_rooms(t_stock_file *file, int nb_of_line, t_data *node)
 {
 	t_stock_file	*head;
+	t_data			*rass;
 	int				pos;
 
 	pos = 0;
 	head = file;
-	if (!(node->tab_rooms = (t_node*)malloc(sizeof(t_node) * (nb_of_line))))
-		ft_error_function();
+		
+	node = ft_alloc_big_tab(nb_of_line);
+	rass = node;
+	// if (!(node->tab_rooms = (t_room**)malloc(sizeof(t_room*) * (nb_of_line))))
+	// 	ft_error_function();
 	while (head->next != NULL && head->next->next != NULL)
 	{
 		if (ft_strcmp(head->line, "##start") == 0)
@@ -59,7 +67,8 @@ void	ft_stock_rooms(t_stock_file *file, int nb_of_line, t_stc *node)
 		{
 			if (!(ft_strchr(head->line, ' ')))
 				ft_error_function();
-			pos = ft_remp_room(nb_of_line, head->line, node, pos);
+			ft_remp_room(nb_of_line, head->line, &rass, pos);
+			pos = 0;
 		}
 		if (head->line[0] == 'L')
 			ft_error_function();

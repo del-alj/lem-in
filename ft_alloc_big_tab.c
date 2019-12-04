@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_read_n_ants.c                                   :+:      :+:    :+:   */
+/*   ft_alloc_big_tab.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 12:40:42 by del-alj           #+#    #+#             */
-/*   Updated: 2019/12/02 16:25:44 by del-alj          ###   ########.fr       */
+/*   Created: 2019/12/04 19:21:12 by del-alj           #+#    #+#             */
+/*   Updated: 2019/12/04 19:21:16 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 
-int	ft_read_n_ants(t_data *node)
+t_data    *ft_alloc_big_tab(int size)
 {
-	int		i;
-	char	*line;
+    t_data  *s3;
+    int   i;
 
-	i = 0;
-	if (get_next_line(0, &line) <= 0)
-		ft_error_function();
-	if (!ft_check_nbr(line, i))
-		ft_error_function();
-	node->ants_nb = ft_atoi(line);
-	ft_strdel(&line);
-	return (1);
+    i = -1;
+    s3 = (t_data*)malloc(sizeof(t_data));
+    s3->tab_rooms = (t_room**)malloc(sizeof(t_room*) * size);
+    
+    while (++i < size )
+        s3->tab_rooms[i] = NULL;
+    return (s3);
 }

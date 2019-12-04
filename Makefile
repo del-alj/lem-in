@@ -20,6 +20,8 @@ SRC =	ft_check_nbr.c\
 		ft_stock_lines.c\
 		ft_stock_rooms.c\
 		ft_prime.c\
+		ft_alloc_big_tab.c\
+		
 
 SRC_LIBFT = libft/ft_atoi.c\
 			libft/ft_bzero.c\
