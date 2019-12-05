@@ -22,8 +22,8 @@ void	ft_remp_room(int nb_of_line, char *str, t_data **node, int pos)
 	while (str[i] != ' ')
 		i++;
 	//	
-	if (!((*node)->tab_rooms[hash_index]))
-		(*node)->tab_rooms[hash_index] = (t_room*)malloc(sizeof(t_room));
+	// if (!((*node)->tab_rooms[hash_index]))
+	(*node)->tab_rooms[hash_index] = (t_room*)malloc(sizeof(t_room));
 	(*node)->tab_rooms[hash_index]->rooms_name = ft_strndup(str, i);
 	i++;
 	if (!ft_check_nbr(str, i))
@@ -44,17 +44,19 @@ void	ft_remp_room(int nb_of_line, char *str, t_data **node, int pos)
 	//return (pos);
 }
 
-void	ft_stock_rooms(t_stock_file *file, int nb_of_line, t_data *node)
+t_data	*ft_stock_rooms(t_stock_file *file, int nb_of_line)
 {
 	t_stock_file	*head;
 	t_data			*rass;
+	t_data 			*node;
 	int				pos;
 
 	pos = 0;
 	head = file;
 		
 	node = ft_alloc_big_tab(nb_of_line);
-	rass = node;
+	// rass = ft_alloc_big_tab(nb_of_line);
+	// rass = node;
 	// if (!(node->tab_rooms = (t_room**)malloc(sizeof(t_room*) * (nb_of_line))))
 	// 	ft_error_function();
 	while (head->next != NULL && head->next->next != NULL)
@@ -67,11 +69,13 @@ void	ft_stock_rooms(t_stock_file *file, int nb_of_line, t_data *node)
 		{
 			if (!(ft_strchr(head->line, ' ')))
 				ft_error_function();
-			ft_remp_room(nb_of_line, head->line, &rass, pos);
+			// node = rass;
+			ft_remp_room(nb_of_line, head->line, &node, pos);
 			pos = 0;
 		}
 		if (head->line[0] == 'L')
 			ft_error_function();
 		head = head->next;
 	}
+	return (node);
 }

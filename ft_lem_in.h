@@ -71,7 +71,7 @@ int		ft_hash_function(char *str, int size_array);
 int		ft_stock_file();
 void    ft_error_function();
 int		ft_stock_lines(t_stock_file *file);
-void    ft_stock_rooms(t_stock_file *file, int nb_of_line,  t_data *node);
+t_data  *ft_stock_rooms(t_stock_file *file, int nb_of_line);
 int     ft_prime(int nb);
 t_data	*ft_alloc_big_tab(int size);
 

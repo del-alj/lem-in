@@ -20,7 +20,7 @@ void ft_print_node(t_data *node, int nb_of_line)
 	//printf("ants_nb : %d\n", node->ants_nb);
 	while (nb_of_line > i)
 	{
-		printf("%s\n", node->tab_rooms[i]->rooms_name);
+		if (node && node->tab_rooms[i])
 		printf("***********tab[%d]**********\ncoord_x : %d\ncoord_y : %d\nname room : %s\nposition : %d\n", i, node->tab_rooms[i]->coord_x, node->tab_rooms[i]->coord_y, node->tab_rooms[i]->rooms_name, node->tab_rooms[i]->pos);
 		
 		i++;
@@ -46,9 +46,7 @@ int	ft_stock_file(void)
 	head = file;
 	nb_of_line = ft_stock_lines(file);
 	nb_of_line = ft_prime(nb_of_line);
-	ft_stock_rooms(file, nb_of_line, node);
-	ft_putendl("ok");
-	printf("%p\n", node);
+	node = ft_stock_rooms(file, nb_of_line);
 	/*just for debug*/
 	ft_print_node(node, nb_of_line);
 	return (1);
