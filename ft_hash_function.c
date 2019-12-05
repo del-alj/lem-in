@@ -19,7 +19,7 @@ int	ft_hash_function(char *str, int size_array)
 
 	i = 0;
 	key = 0;
-	while (str[i] != ' ' && str[i] != '\0')
+	while (str[i] != '\0' && str[i] != ' ')
 	{
 		key = str[i] * (i + 1) + key;
 		i++;

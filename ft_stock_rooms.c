@@ -12,29 +12,29 @@
 
 #include "ft_lem_in.h"
 
-void	ft_push(int nb_of_line, char *str, t_data **node, int pos, int i, int hash_index)
+void	ft_push(int nb_of_line, char *str, t_data **node, int pos, int i)
 {
-	(*node)->tab_rooms[hash_index] = (t_room*)malloc(sizeof(t_room));
-	(*node)->tab_rooms[hash_index]->rooms_name = ft_strndup(str, i);
+	(*node)->tab_rooms[(*node)->hash_index] = (t_room*)malloc(sizeof(t_room));
+	(*node)->tab_rooms[(*node)->hash_index]->rooms_name = ft_strndup(str, i);
 	i++;
 	if (!ft_check_nbr(str, i))
 		ft_error_function();
-	(*node)->tab_rooms[hash_index]->coord_x = ft_atoi(str + i);
+	(*node)->tab_rooms[(*node)->hash_index]->coord_x = ft_atoi(str + i);
 	while (str[i] != ' ' && str[i] != '\0')
 		i++;
 	i++;
 	if (!ft_check_nbr(str, i))
 		ft_error_function();
-	(*node)->tab_rooms[hash_index]->coord_y = ft_atoi(str + i);
+	(*node)->tab_rooms[(*node)->hash_index]->coord_y = ft_atoi(str + i);
 	if (pos != 0)
 	{
-		(*node)->tab_rooms[hash_index]->pos = pos;
+		(*node)->tab_rooms[(*node)->hash_index]->pos = pos;
 		pos = 0;
 	}
-	(*node)->tab_rooms[hash_index]->next = NULL;
+	(*node)->tab_rooms[(*node)->hash_index]->next = NULL;
 }
 
-void	ft_back_push(int nb_of_line, char *str, t_data **node, int pos, int i, int hash_index)
+void	ft_back_push(int nb_of_line, char *str, t_data **node, int pos, int i)
 {
 		t_room *tmp;
 		t_room *curent;
@@ -42,7 +42,7 @@ void	ft_back_push(int nb_of_line, char *str, t_data **node, int pos, int i, int 
 		curent = (t_room*)malloc(sizeof(t_room));
 		curent->rooms_name = ft_strndup(str, i);
 		curent->next = NULL;    
-		tmp = (*node)->tab_rooms[hash_index];
+		tmp = (*node)->tab_rooms[(*node)->hash_index];
 		while (tmp->next != NULL)
 		{
 			tmp = tmp->next;
@@ -71,16 +71,16 @@ void	ft_back_push(int nb_of_line, char *str, t_data **node, int pos, int i, int 
 void	ft_remp_room(int nb_of_line, char *str, t_data **node, int pos)
 {
 	int	i;
-	int	hash_index;
+	//int	hash_index;
 
 	i = 0;
-	hash_index = ft_hash_function(str, nb_of_line);
+	(*node)->hash_index = ft_hash_function(str, nb_of_line);
 	while (str[i] != ' ')
 		i++;
-	if ((*node)->tab_rooms[hash_index] == NULL)
-		ft_push(nb_of_line, str, node, pos, i, hash_index);
+	if ((*node)->tab_rooms[(*node)->hash_index] == NULL)
+		ft_push(nb_of_line, str, node, pos, i);
 	else
-		ft_back_push(nb_of_line, str, node, pos, i, hash_index);
+		ft_back_push(nb_of_line, str, node, pos, i);
 }
 
 t_data	*ft_stock_rooms(t_stock_file *file, int nb_of_line)
@@ -94,6 +94,7 @@ t_data	*ft_stock_rooms(t_stock_file *file, int nb_of_line)
 	head = file;
 		
 	node = ft_alloc_big_tab(nb_of_line);
+	node->size_array = nb_of_line;
 	while (head->next != NULL && head->next->next != NULL)
 	{
 		if (ft_strcmp(head->line, "##start") == 0)
@@ -104,7 +105,6 @@ t_data	*ft_stock_rooms(t_stock_file *file, int nb_of_line)
 		{
 			if (!(ft_strchr(head->line, ' ')))
 				ft_error_function();
-			// node = rass;
 			ft_remp_room(nb_of_line, head->line, &node, pos);
 			pos = 0;
 		}
