@@ -21,8 +21,14 @@ void ft_print_node(t_data *node, int nb_of_line)
 	while (nb_of_line > i)
 	{
 		if (node && node->tab_rooms[i])
-		printf("***********tab[%d]**********\ncoord_x : %d\ncoord_y : %d\nname room : %s\nposition : %d\n", i, node->tab_rooms[i]->coord_x, node->tab_rooms[i]->coord_y, node->tab_rooms[i]->rooms_name, node->tab_rooms[i]->pos);
-		
+		{	printf("***********tab[%d]**********\ncoord_x : %d\ncoord_y : %d\nname room : %s\nposition : %d\n", i, node->tab_rooms[i]->coord_x, node->tab_rooms[i]->coord_y, node->tab_rooms[i]->rooms_name, node->tab_rooms[i]->pos);
+			
+			node->tab_rooms[i] = node->tab_rooms[i]->next;
+			if (node->tab_rooms[i] != NULL)
+			{	printf("***********tab[%d]**********\ncoord_x : %d\ncoord_y : %d\nname room : %s\nposition : %d\n", i, node->tab_rooms[i]->coord_x, node->tab_rooms[i]->coord_y, node->tab_rooms[i]->rooms_name, node->tab_rooms[i]->pos);
+				printf("OTOKEE\n");
+			}
+		}
 		i++;
 	}
 }

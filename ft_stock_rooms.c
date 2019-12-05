@@ -12,17 +12,8 @@
 
 #include "ft_lem_in.h"
 
-void	ft_remp_room(int nb_of_line, char *str, t_data **node, int pos)
+void	ft_push(int nb_of_line, char *str, t_data **node, int pos, int i, int hash_index)
 {
-	int	i;
-	int	hash_index;
-
-	i = 0;
-	hash_index = ft_hash_function(str, nb_of_line);
-	while (str[i] != ' ')
-		i++;
-	//	
-	// if (!((*node)->tab_rooms[hash_index]))
 	(*node)->tab_rooms[hash_index] = (t_room*)malloc(sizeof(t_room));
 	(*node)->tab_rooms[hash_index]->rooms_name = ft_strndup(str, i);
 	i++;
@@ -41,7 +32,55 @@ void	ft_remp_room(int nb_of_line, char *str, t_data **node, int pos)
 		pos = 0;
 	}
 	(*node)->tab_rooms[hash_index]->next = NULL;
-	//return (pos);
+}
+
+void	ft_back_push(int nb_of_line, char *str, t_data **node, int pos, int i, int hash_index)
+{
+		t_room *tmp;
+		t_room *curent;
+
+		curent = (t_room*)malloc(sizeof(t_room));
+		curent->rooms_name = ft_strndup(str, i);
+		curent->next = NULL;    
+		tmp = (*node)->tab_rooms[hash_index];
+		while (tmp->next != NULL)
+		{
+			tmp = tmp->next;
+			if (!(ft_strcmp(curent->rooms_name, tmp->rooms_name)))
+				exit(0);
+		}
+		i++;
+		if (!ft_check_nbr(str, i))
+			ft_error_function();
+		curent->coord_x = ft_atoi(str + i);
+		while (str[i] != ' ' && str[i] != '\0')
+			i++;
+		i++;
+		if (!ft_check_nbr(str, i))
+			ft_error_function();
+		curent->coord_y = ft_atoi(str + i);
+		if (pos != 0)
+		{
+			curent->pos = pos;
+			pos = 0;
+		}
+		curent->next = NULL;
+		tmp->next = curent;
+}
+
+void	ft_remp_room(int nb_of_line, char *str, t_data **node, int pos)
+{
+	int	i;
+	int	hash_index;
+
+	i = 0;
+	hash_index = ft_hash_function(str, nb_of_line);
+	while (str[i] != ' ')
+		i++;
+	if ((*node)->tab_rooms[hash_index] == NULL)
+		ft_push(nb_of_line, str, node, pos, i, hash_index);
+	else
+		ft_back_push(nb_of_line, str, node, pos, i, hash_index);
 }
 
 t_data	*ft_stock_rooms(t_stock_file *file, int nb_of_line)
@@ -55,10 +94,6 @@ t_data	*ft_stock_rooms(t_stock_file *file, int nb_of_line)
 	head = file;
 		
 	node = ft_alloc_big_tab(nb_of_line);
-	// rass = ft_alloc_big_tab(nb_of_line);
-	// rass = node;
-	// if (!(node->tab_rooms = (t_room**)malloc(sizeof(t_room*) * (nb_of_line))))
-	// 	ft_error_function();
 	while (head->next != NULL && head->next->next != NULL)
 	{
 		if (ft_strcmp(head->line, "##start") == 0)
