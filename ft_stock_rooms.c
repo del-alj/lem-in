@@ -6,11 +6,15 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 19:59:52 by del-alj           #+#    #+#             */
-/*   Updated: 2020/01/11 13:18:54 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/01/11 14:00:27 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
+
+/*
+** **************************************************************************** 
+*/
 
 void	ft_push(int nb_of_line, char *str, t_data **node, int pos, int i)
 {
@@ -33,6 +37,10 @@ void	ft_push(int nb_of_line, char *str, t_data **node, int pos, int i)
 	}
 	(*node)->tab_rooms[(*node)->hash_index]->next = NULL;
 }
+
+/*
+** **************************************************************************** 
+*/
 
 void	ft_back_push(int nb_of_line, char *str, t_data **node, int pos, int i)
 {
@@ -68,6 +76,10 @@ void	ft_back_push(int nb_of_line, char *str, t_data **node, int pos, int i)
 	tmp->next = curent;
 }
 
+/*
+** **************************************************************************** 
+*/
+
 void	ft_remp_room(int nb_of_line, char *str, t_data **node, int pos)
 {
 	int	i;
@@ -81,6 +93,10 @@ void	ft_remp_room(int nb_of_line, char *str, t_data **node, int pos)
 	else
 		ft_back_push(nb_of_line, str, node, pos, i);
 }
+
+/*
+** **************************************************************************** 
+*/
 
 t_data	*ft_stock_rooms(t_stock_file *file, int nb_of_line)
 {
