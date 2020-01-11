@@ -25,9 +25,9 @@ void ft_print_node(t_data *node)
 			if (node->tab_rooms[i]->link_room)
                 printf("-----> %s <----------\n", node->tab_rooms[i]->link_room->rooms_name);
 			node->tab_rooms[i] = node->tab_rooms[i]->next;
-			if (node->tab_rooms[i] != NULL)
-			{	printf("***********tab[%d]**********\ncoord_x : %d\ncoord_y : %d\nname room : %s\nposition : %d\n", i, node->tab_rooms[i]->coord_x, node->tab_rooms[i]->coord_y, node->tab_rooms[i]->rooms_name, node->tab_rooms[i]->pos);
-			}
+			// if (node->tab_rooms[i] != NULL)
+			// {	printf("***********tab[%d]**********\ncoord_x : %d\ncoord_y : %d\nname room : %s\nposition : %d\n", i, node->tab_rooms[i]->coord_x, node->tab_rooms[i]->coord_y, node->tab_rooms[i]->rooms_name, node->tab_rooms[i]->pos);
+			// }
 		}
 		i++;
 	}
@@ -61,7 +61,10 @@ void    ft_add_add_links(t_data *node)
                     head->tab_rooms[hash_index] = head->tab_rooms[hash_index]->next;
                 }
                 if (head->tab_rooms[hash_index]->rooms_name)
+                {
+                    link_a = (t_room*)malloc(sizeof(t_room));
                     link_a = head->tab_rooms[hash_index];
+                }
             }
             else
                 ft_error_function();
@@ -77,11 +80,14 @@ void    ft_add_add_links(t_data *node)
                     head->tab_rooms[hash_index] = head->tab_rooms[hash_index]->next;
                 }
                 if (head->tab_rooms[hash_index]->rooms_name)
+                {
+                    link_b = (t_room*)malloc(sizeof(t_room));
                     link_b = head->tab_rooms[hash_index];
+                }
             }
             else
                 ft_error_function();
-            if (!(link_a->link_room))
+            if (!(link_a->link_room) && !(link_b->link_room))
             {
                 link_a->link_room = (t_room*)malloc(sizeof(t_room));
                 link_a->link_room = link_b;
@@ -95,13 +101,13 @@ void    ft_add_add_links(t_data *node)
                // link_a->link_room->
                printf("okdoky\n");
             }
-            // link_b->link_room->link_room = NULL;
-            //  link_a->link_room->link_room = NULL;
-
+            link_a->link_room->link_room = (t_room*)malloc(sizeof(t_room));
+            link_b->link_room->link_room = (t_room*)malloc(sizeof(t_room));
+            link_b->link_room->link_room = NULL;
+            link_a->link_room->link_room = NULL;
+            }
         }
-    }
     ft_print_node(node);
-
 }
 
 int	main()
