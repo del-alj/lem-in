@@ -1,116 +1,63 @@
+NAME= lem_in
+
+SRC_PATH= src
+SRC_NAME= ft_add_links.c	ft_alloc_big_tab.c	ft_check_nbr.c\
+		  ft_error_function.c ft_hash_function.c  ft_prime.c\
+		  ft_stock_file.c     ft_stock_rooms.c  
+
+HDR_PATH= includes
+HDR_NAME= ft_lem_in.h
+
+OBJ_PATH= obj
+OBJ_NAME= $(SRC_NAME:.c=.o)
+
+OBJ= $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
+SRC= $(addprefix $(SRC_PATH)/,$(SRC_NAME))
+HDR= $(addprefix $(HDR_PATH)/,$(HDR_NAME))
+
+LIB_PATH= libftprintf
+LIB= libftprintf.a
+
 # **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: del-alj <marvin@42.fr>                     +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/11/11 17:01:57 by del-alj           #+#    #+#              #
-#    Updated: 2020/01/11 08:15:12 by del-alj          ###   ########.fr        #
-#                                                                              #
+
+CW=	gcc
+CFLAGES= -Wall -Wextra -Werror
+
+LD_FLAGS= -L$(LIB_PATH)
+LD_LIBS= -l$(patsubst lib%.a,%, $(LIB))
+
+HDR_FLAGS= -I headers
+
 # **************************************************************************** #
 
-CC = gcc
+all: lib $(NAME) 
 
-SRC =	ft_check_nbr.c\
-		ft_hash_function.c\
-		ft_stock_file.c\
-		ft_error_function.c\
-		ft_stock_rooms.c\
-		ft_prime.c\
-		ft_alloc_big_tab.c\
-		ft_add_links.c\
-		
+lib:
+	@make -sC $(LIB_PATH)
 
-SRC_LIBFT = libft/ft_atoi.c\
-			libft/ft_bzero.c\
-			libft/ft_isalnum.c\
-			libft/ft_isalpha.c\
-			libft/ft_isascii.c\
-			libft/ft_isdigit.c\
-			libft/ft_isprint.c\
-			libft/ft_itoa.c\
-			libft/ft_memalloc.c\
-			libft/ft_memccpy.c\
-			libft/ft_memchr.c\
-			libft/ft_memcmp.c\
-			libft/ft_memcpy.c\
-			libft/ft_memdel.c\
-			libft/ft_memmove.c\
-			libft/ft_memset.c\
-			libft/ft_putchar.c\
-			libft/ft_putstr.c\
-			libft/ft_putendl.c\
-			libft/ft_putendl_fd.c\
-			libft/ft_putchar_fd.c\
-			libft/ft_putnbr.c\
-			libft/ft_putnbr_fd.c\
-			libft/ft_putstr_fd.c\
-			libft/ft_strcat.c\
-			libft/ft_strchr.c\
-			libft/ft_strcmp.c\
-			libft/ft_strclr.c\
-			libft/ft_strcpy.c\
-			libft/ft_strequ.c\
-			libft/ft_strnequ.c\
-			libft/ft_strdel.c\
-			libft/ft_strdup.c\
-			libft/ft_striter.c\
-			libft/ft_striteri.c\
-			libft/ft_strjoin.c\
-			libft/ft_strlcat.c\
-			libft/ft_strlen.c\
-			libft/ft_strmap.c\
-			libft/ft_strmapi.c\
-			libft/ft_strncat.c\
-			libft/ft_strnew.c\
-			libft/ft_strncmp.c\
-			libft/ft_strncpy.c\
-			libft/ft_strnstr.c\
-			libft/ft_strrchr.c\
-			libft/ft_strstr.c\
-			libft/ft_strsub.c\
-			libft/ft_strsplit.c\
-			libft/ft_strtrim.c\
-			libft/ft_tolower.c\
-			libft/ft_toupper.c\
-			libft/ft_lstnew.c\
-			libft/ft_lstdelone.c\
-			libft/ft_lstdel.c\
-			libft/ft_lstadd.c\
-			libft/ft_lstiter.c\
-			libft/ft_lstmap.c\
-			libft/ft_ramstr.c\
-			libft/ft_lstadd_next.c\
-			libft/ft_strndup.c\
-			libft/ft_swapchar.c\
-			libft/ft_print.c\
-			libft/ft_lenlist.c\
-			libft/ft_lst_del_node.c\
-			libft/get_next_line.c
+$(NAME): $(LIB_PATH)/$(LIB) $(OBJ)
+	@$(CW)  $(LD_FLAGS) $(LD_LIBS) $(CFLAGS) $(OBJ) -o $@
+	@ echo "\033[1;32m>> lem-in binary is ready ;)\033[0m"
 
-NAME = lem_in
+$(LIB_PATH)/$(LIB):
+	@make -C $(LIB_PATH)
 
-NAME_LIBFT = libft/libft.a
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(HDR)
+	@mkdir $(OBJ_PATH) 2> /dev/null || true
+	@$(CW) -I$(HDR_PATH)$(CFLAGS) $(HDR_FLAGS) -o $@ -c $<
 
-OBJ = $(SRC:.c=.o)
+clean:
+	@rm -fr $(OBJ)
+	@rm -fr $(OBJ_PATH) 2> /dev/null || true
+	@make -C libftprintf clean
+	@echo "\033[1;33m>> Lem-in object files deleted.\033[0m" 
 
-OBJ_LIBFT = $(SRC_LIBFT:.c=.o)
+fclean:
+	@rm -fr $(OBJ)
+	@rm -fr $(NAME)
+	@rm -fr $(OBJ_PATH) 2> /dev/null || true
+	@echo "\033[1;33m>> Lem-in object files deleted.\033[0m" 
+	@make -C libftprintf fclean
+	@echo "\033[0;31m>> Lem-in binary deleted.\033[0m" 
 
-INCLUDESLIB = libft/libft.h
-INCLUDESGNL = libft/get_next_line.h
-INCLUDESLM = ft_lem_in.h
-
-all : $(NAME)
-
-$(NAME) : $(OBJ) $(OBJ_LIBFT)
-	@ar rc $(NAME_LIBFT) $(OBJ_LIBFT)
-	$(CC) -Wall -Werror -Wextra -o $(NAME) $(OBJ) $(NAME_LIBFT)
-
-clean :
-	@rm -f $(OBJ)
-	@rm -f $(OBJ_LIBFT)
-fclean : clean
-	@rm -f $(NAME)
-	@rm -f $(NAME_LIBFT)
-re : fclean all
+re: fclean all
