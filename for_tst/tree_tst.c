@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
+
 typedef struct	s_avl
 {
 	int				key;
@@ -46,7 +46,7 @@ int		ft_max(int a, int b)
 	return ((a > b) ? a : b);
 }
 
-t_avl	*ft_right_retation(t_avl *tree)
+t_avl	*ft_left_retation(t_avl *tree)
 {
 	t_avl *root;
 
@@ -59,7 +59,7 @@ t_avl	*ft_right_retation(t_avl *tree)
 	return (root);
 }
 
-t_avl   *ft_left_retation(t_avl *tree)
+t_avl   *ft_right_retation(t_avl *tree)
 {
 	t_avl *root;
 
@@ -90,9 +90,9 @@ void	ft_insert_node(t_avl **tree, int key)
 	else
 		balance = 0;
 	if (balance < -1)
-		(*tree)  = ft_left_retation((*tree));
+		(*tree)  = ft_right_retation((*tree));
 	else if (balance > 1)
-		 (*tree) = ft_right_retation((*tree));
+		 (*tree) = ft_left_retation((*tree));
 }
 int	main()
 {
