@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tree_tst.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/16 16:32:14 by del-alj           #+#    #+#             */
+/*   Updated: 2020/02/16 17:13:42 by del-alj          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -68,9 +80,65 @@ t_avl   *ft_right_retation(t_avl *tree)
 	root->left = tree;
 	tree->height = ft_max(ft_height(tree->left), ft_height(tree->right)) + 1;
 	root->height = ft_max(ft_height(root->left), ft_height(root->right)) + 1;
+	printf("ok\n");
 	return (root);
 }
 
+ t_avl   *ft_lr_retation(t_avl *tree)
+{
+	t_avl *root;
+	t_avl *tmpl;
+	t_avl *tmpr;
+
+	tmpl = tree->left->right->left;
+	tmpr = tree->left->right->right;
+	root = tree->left->right;
+	root->left = tree->left;
+	root->right = tree;
+	root->right->left = tmpr;
+	root->left->right = tmpl;
+	tree->height = ft_max(ft_height(tree->left), ft_height(tree->right)) + 1;
+	root->left->height = ft_max(ft_height(root->left->left), 
+			ft_height(root->left->right)) + 1;
+	return (root);
+}
+
+
+ t_avl   *ft_rl_retation(t_avl *tree)
+{
+	t_avl *root;
+	t_avl *tmpl;
+	t_avl *tmpr;
+	
+	tmpl = tree->right->left->right;
+	tmpr = tree->right->left->left;
+	root = tree->right->left;
+	root->right = tree->right;
+	root->left = tree;
+	root->right->left = tmpr;
+	root->left->right = tmpl;
+	tree->height = ft_max(ft_height(tree->left), ft_height(tree->right)) + 1;
+	root->right->height = ft_max(ft_height(root->right->left), 
+			ft_height(root->right->right)) + 1;
+	return (root);
+}
+
+void	ft_balance(t_avl **tree, int key)
+{
+	int     balance;
+	
+	balance = 0;
+	(*tree)->height = 1 + ft_max(ft_height((*tree)->left),
+			ft_height((*tree)->right));
+	if ((*tree))
+		balance = ft_height((*tree)->left) - ft_height((*tree)->right);
+	if (balance < -1)
+		(*tree) = (key > (*tree)->right->key) ?
+			ft_right_retation((*tree)) : ft_rl_retation((*tree));
+	else if (balance > 1)
+	(*tree) = (key < (*tree)->left->key) ?
+			ft_left_retation((*tree)) :  ft_lr_retation((*tree));
+}
 
 void	ft_insert_node(t_avl **tree, int key)
 {
@@ -84,22 +152,19 @@ void	ft_insert_node(t_avl **tree, int key)
 		(*tree)->left = ft_new_node(key);
 	else if ((*tree)->right == NULL && key > (*tree)->key)
 		(*tree)->right = ft_new_node(key);
-	(*tree)->height = 1 + ft_max(ft_height((*tree)->left), ft_height((*tree)->right));
-	if ((*tree))
-		balance = ft_height((*tree)->left) - ft_height((*tree)->right);
-	else
-		balance = 0;
-	if (balance < -1)
-		(*tree)  = ft_right_retation((*tree));
-	else if (balance > 1)
-		 (*tree) = ft_left_retation((*tree));
+	ft_balance(tree, key);
 }
+
 int	main()
 {
-	int	tab[6] = {1, 6, 7, 8, 9, 10};
+//	int	tab[2] = {10, 9};
+//	int tab[2] = {-3, 0};
+//	int tab[2] = {10, 11};
+//	int tab[5] = {2, 9, 8, 12, 10};
+	int tab[5] = {6, 4, 8, 25, 14};
 	t_avl   *tree;
-	int i = 6;
-	tree = ft_new_node(11);
+	int i = 5;
+	tree = ft_new_node(3);
 	ft_print_tree(tree, 'b');
 	while (i)
 	{
