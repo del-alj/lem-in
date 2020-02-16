@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 16:32:14 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/16 17:13:42 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/16 19:55:06 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,10 @@ t_avl   *ft_right_retation(t_avl *tree)
 	root = tree->right;
 	tree->right = root->left;
 	root->left = tree;
+
 	tree->height = ft_max(ft_height(tree->left), ft_height(tree->right)) + 1;
 	root->height = ft_max(ft_height(root->left), ft_height(root->right)) + 1;
+
 	printf("ok\n");
 	return (root);
 }
@@ -100,6 +102,7 @@ t_avl   *ft_right_retation(t_avl *tree)
 	tree->height = ft_max(ft_height(tree->left), ft_height(tree->right)) + 1;
 	root->left->height = ft_max(ft_height(root->left->left), 
 			ft_height(root->left->right)) + 1;
+
 	return (root);
 }
 
@@ -127,6 +130,7 @@ void	ft_balance(t_avl **tree, int key)
 {
 	int     balance;
 	
+
 	balance = 0;
 	(*tree)->height = 1 + ft_max(ft_height((*tree)->left),
 			ft_height((*tree)->right));
@@ -138,6 +142,9 @@ void	ft_balance(t_avl **tree, int key)
 	else if (balance > 1)
 	(*tree) = (key < (*tree)->left->key) ?
 			ft_left_retation((*tree)) :  ft_lr_retation((*tree));
+	if (balance > 1 || balance < -1)
+		(*tree)->height = 1 + ft_max(ft_height((*tree)->left), 
+			ft_height((*tree)->right));
 }
 
 void	ft_insert_node(t_avl **tree, int key)
@@ -157,14 +164,14 @@ void	ft_insert_node(t_avl **tree, int key)
 
 int	main()
 {
-//	int	tab[2] = {10, 9};
+//	int	tab[2] = {11, 10};
 //	int tab[2] = {-3, 0};
 //	int tab[2] = {10, 11};
 //	int tab[5] = {2, 9, 8, 12, 10};
-	int tab[5] = {6, 4, 8, 25, 14};
+	int tab[8] = {10, 12, 9, 7, 1, 2, 3 ,6};
 	t_avl   *tree;
-	int i = 5;
-	tree = ft_new_node(3);
+	int i = 8;
+	tree = ft_new_node(5);
 	ft_print_tree(tree, 'b');
 	while (i)
 	{
