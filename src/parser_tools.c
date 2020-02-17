@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_height.c                                        :+:      :+:    :+:   */
+/*   parser_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/17 08:45:10 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/17 11:47:28 by mzaboub          ###   ########.fr       */
+/*   Created: 2020/02/17 16:19:34 by mzaboub           #+#    #+#             */
+/*   Updated: 2020/02/17 16:49:34 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 
-int		ft_height(t_avl *node)
+int ft_isspace(int c)
 {
-	if (node)
-		return (node->height);
-	else
-		return (0);
+	if (c == '\t' || c == '\n' || c == '\v' || \
+			c == '\f' || c == '\r' || c == ' ')
+		return (1);
+	return (0);
+}
+
+char *ft_escap_whitspace(char *str)
+{
+	while (str && ft_isspace((int)*str))
+		str++;
+	return (str);
 }

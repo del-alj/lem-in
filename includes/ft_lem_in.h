@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/17 09:19:21 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/17 20:33:32 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ typedef struct          s_room
 	struct s_room	*next;
 	struct s_room	*link_room;
 }                       t_room;
+
 typedef struct      s_data
 {
-	int     		ants_nb;
-	int				size_array;
-	int				hash_index;
-	struct s_room  	**tab_rooms;
+	char			*room;
+	char			*adj_room;
+	int 			x;
+	int 			y;
+	char			var;
 }                   t_data;
 
 typedef struct		s_stock_file
@@ -62,7 +64,7 @@ void		ft_print_tree(t_avl *tree, char c);
 t_avl		*ft_new_node(int key);
 int			ft_height(t_avl *node);
 int			ft_max(int a, int b);
-void		ft_insert_node(t_avl **tree, int key);
+//void		ft_insert_node(t_avl **tree, int key);
 void		ft_balance(t_avl **tree, int key);
 //int		ft_check_nbr(char *line, int i);
 //int		ft_read_n_ants(t_data  *node);
@@ -74,6 +76,23 @@ void    ft_error_function();
 //int     ft_prime(int nb);
 //t_data	*ft_alloc_big_tab(int size);
 //void    ft_add_add_links(t_data *node);
+
+/*
+** file : parser.c
+*/
+
+int	ft_get_room_info(char *str, int i, t_data *data);
+int	ft_check_room(char *str, t_data *data);
+
+/*
+** file : parser_tools.c
+*/
+
+char 	*ft_escap_whitspace(char *str);
+int 	ft_isspace(int c);
+void	ft_add_edge(t_avl **tree, char *room, char *adj_room);
+void	ft_insert_node(t_avl **tree, t_data data);
+
 
 
 #endif
