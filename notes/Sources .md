@@ -72,7 +72,7 @@ Note : after any insertion calculate the balance, and balance the tree.
 [RobEdwardsSDSU : AVL Tree 7 complete example of adding data to an AVL tree.](https://youtu.be/7m94k2Qhg68)  
  
  
- Red Trees
+ Red black Trees
 -----------------
 ### the rules 
 * Every node is red or black
