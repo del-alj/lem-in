@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/18 15:55:26 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/18 16:01:02 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct		s_adj
 typedef struct		s_data
 {
 	char            *room;
+	char			*adj_room;
 	int             x;
 	int             y;
 	char            var;

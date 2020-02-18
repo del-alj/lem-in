@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/18 11:09:53 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/18 20:34:45 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #define BUFF_READ 10000
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
 int	ft_get_room_info(char *str, int i, t_data *data)
 {
 	str[i] = '\0';
@@ -37,8 +37,8 @@ int	ft_get_room_info(char *str, int i, t_data *data)
 }
 
 /*
-** ---------------------------------------------------------------------------
-*/
+ ** ---------------------------------------------------------------------------
+ */
 
 int	ft_get_edge_info(char *str, int i, t_data *data)
 {
@@ -55,8 +55,8 @@ int	ft_get_edge_info(char *str, int i, t_data *data)
 }
 
 /*
-** ---------------------------------------------------------------------------
-*/
+ ** ---------------------------------------------------------------------------
+ */
 
 int	ft_check_line(char *str, t_data *data)
 {
@@ -66,12 +66,12 @@ int	ft_check_line(char *str, t_data *data)
 	{
 		if (ft_strnequ(str, "##start", 7) == 1)
 		{
-		//	ft_printf("{red}start{eoc}\n");
+			//	ft_printf("{red}start{eoc}\n");
 			data->var = 'S';
 		}
 		else if (ft_strnequ(str, "##end", 5) == 1)
 		{
-	//		ft_printf("{red}end{eoc}\n");
+			//		ft_printf("{red}end{eoc}\n");
 			data->var = 'E';
 		}
 		return (-1);
@@ -94,8 +94,8 @@ int	ft_check_line(char *str, t_data *data)
 }
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
 int	ft_read_another_part(char **str, int *idx, int *stop)
 {
 	char *end;
@@ -112,7 +112,7 @@ int	ft_read_another_part(char **str, int *idx, int *stop)
 	if(!(end = (char*)ft_memalloc(BUFF_READ + 1)))
 	{
 		// you should free here
-		ft_printf("ERROR"); return (false);
+		ft_printf("{red}ERROR {eoc}\n"); return (false);
 	}
 	ret = read(0, end, BUFF_READ);
 	end[ret] = 0;
@@ -144,13 +144,13 @@ bool	ft_read_input(t_avl **tree)
 
 	if(!(str = (char*)ft_memalloc(BUFF_READ + 1)))
 	{
-		ft_printf("ERROR"); return (false);
+		ft_printf("{red} ERROR {eoc} \n"); return (false);
 	}
 	stop = read(0, str, BUFF_READ);
 	str[stop] = 0;
 	while(index <= stop)
 	{
- 		s = ft_read_another_part(&str, &index, &stop);
+		s = ft_read_another_part(&str, &index, &stop);
 		if (s == -1)
 			break;
 		//ft_printf("{red} start :%d ; index : %d; stop : %d; {eoc}\n", s, index, stop);
@@ -173,7 +173,12 @@ bool	ft_read_input(t_avl **tree)
 			}
 			if (var == 1)
 			{
-				ft_insert_node(tree, data);
+				if (!(*tree))
+				{
+					(*tree) = ft_new_node(data);
+				}
+				else
+					ft_insert_node(tree, data);
 				data.var = 'M';
 			}
 			else if (var == 2)
@@ -189,21 +194,38 @@ bool	ft_read_input(t_avl **tree)
 }
 
 /*
-** ****************************************************************************
+ ** ****************************************************************************
+
+ void	ft_insert_node(t_avl **tree, t_data data)
+ {
+ ft_printf("{green}	insert room {eoc}\t\t");
+ ft_printf("name : %s;\tx:%d;\ty:%d;var:%c;\n",data.room, data.x, data.y, data.var);
+ }
+
+ void	ft_add_edge(t_avl **tree, char *room, char *adj_room)
+ {
+ ft_printf("{blue}	insert edge {eoc}\t\t");
+ ft_printf("room : %s;\tadj_room:%s;\n", room, adj_room);
+ }
+
 */
+/* Print nodes at a given level */
 
-void	ft_insert_node(t_avl **tree, t_data data)
+void	ft_print_link(t_avl *tree , char c)
 {
-	ft_printf("{green}	insert room {eoc}\t\t");
-	ft_printf("name : %s;\tx:%d;\ty:%d;var:%c;\n",data.room, data.x, data.y, data.var);
+	if (tree)
+	{
+		ft_printf("{%s} :\t", tree->rooms_name);
+		while (tree->adj != NULL)
+		{
+			ft_printf("[%s]", tree->adj->n_link->rooms_name);
+			tree->adj = tree->adj->next;
+		}
+		ft_printf("\n");
+		ft_print_link(tree->right, 'r');
+		ft_print_link(tree->left, 'l');
+	}
 }
-
-void	ft_add_edge(t_avl **tree, char *room, char *adj_room)
-{
-	ft_printf("{blue}	insert edge {eoc}\t\t");
-	ft_printf("room : %s;\tadj_room:%s;\n", room, adj_room);
-}
-
 int	main(void)
 {
 	t_avl *tree;
@@ -214,33 +236,34 @@ int	main(void)
 
 	tree = NULL;
 	/*
-	while (nbr--)
+	   while (nbr--)
+	   {
+	   get_next_line(0, &line);
+	   ret = ft_check_room(line, &data);
+	   if (ret == 0)
+	   ft_printf("	ret = {red} %d {eoc}\n", ret);
+	   else if (ret == 1)
+	   {
+	   ft_printf("	ret == %d, name == %s;\n", ret, data.room);
+	   ft_printf("	x == %d, y == %d, var = %c;\n", data.x, data.y, data.var);
+	// room_insert()
+	data.var = 'M';
+	}
+	else if (ret == 2)
 	{
-		get_next_line(0, &line);
-		ret = ft_check_room(line, &data);
-		if (ret == 0)
-			ft_printf("	ret = {red} %d {eoc}\n", ret);
-		else if (ret == 1)
-		{
-			ft_printf("	ret == %d, name == %s;\n", ret, data.room);
-			ft_printf("	x == %d, y == %d, var = %c;\n", data.x, data.y, data.var);
-			// room_insert()
-			data.var = 'M';
-		}
-		else if (ret == 2)
-		{
-			ft_printf("	ret == %d, name1 == %s, name2 == %s;\n", ret, data.room, data.adj_room);
-			// baqi xxx
-		}
-		else
-				ft_printf("	ret = {red} %d {eoc}\n", ret);
+	ft_printf("	ret == %d, name1 == %s, name2 == %s;\n", ret, data.room, data.adj_room);
+	// baqi xxx
+	}
+	else
+	ft_printf("	ret = {red} %d {eoc}\n", ret);
 	}
 	*/
 	ft_read_input(&tree);
+	ft_print_link(tree, 'o');
 	return (0);
 }
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
 

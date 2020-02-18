@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 14:25:45 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/18 15:12:58 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/18 20:32:21 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ t_avl	*ft_find(t_avl *tree, char *room)
 
 	while (tree && tree->rooms_name)
 	{
-		key = ft_strcmp(room, tree->rooms_name);
-		if (key > 0)
+		key = ft_strcmp(tree->rooms_name, room);
+		if (key < 0)
 			tree = tree->right;
+		else if (key > 0)
+			tree = tree->left;
 		else if (key == 0)
 			return (tree);
-		else if (key < 0)
-			tree = tree->left;
 	}
 	return (NULL);
 }
