@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_tools.c                                     :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/17 16:19:34 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/18 11:20:29 by mzaboub          ###   ########.fr       */
+/*   Created: 2020/02/18 11:19:29 by mzaboub           #+#    #+#             */
+/*   Updated: 2020/02/18 11:20:27 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_lem_in.h"
+#include "libft.h"
 
-char *ft_escap_whitspace(char *str)
+int ft_isspace(int c)
 {
-	while (str && ft_isspace((int)*str))
-		str++;
-	return (str);
+	if (c == '\t' || c == '\n' || c == '\v' || \
+			c == '\f' || c == '\r' || c == ' ')
+		return (1);
+	return (0);
 }
