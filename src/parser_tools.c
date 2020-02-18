@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_tree.c                                    :+:      :+:    :+:   */
+/*   parser_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/17 08:47:40 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/18 15:47:59 by del-alj          ###   ########.fr       */
+/*   Created: 2020/02/17 16:19:34 by mzaboub           #+#    #+#             */
+/*   Updated: 2020/02/18 11:20:29 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 
-void	ft_print_tree(t_avl *tree, char c)
+char *ft_escap_whitspace(char *str)
 {
-	if (tree == NULL)
-		return ;
-	ft_printf("|%s| - %c -> %d\n", tree->rooms_name, c, tree->height);
-	ft_print_tree(tree->right, 'r');
-	ft_print_tree(tree->left, 'l');
+	while (str && ft_isspace((int)*str))
+		str++;
+	return (str);
 }

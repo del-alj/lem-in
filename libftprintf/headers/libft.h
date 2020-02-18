@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 23:32:55 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/14 13:56:37 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/18 11:20:25 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int				ft_isdigit(int c);
 int				ft_isalnum(int c);
 int				ft_isascii(int c);
 int				ft_isprint(int c);
+int				ft_isspace(int c);
 char			*ft_itoa(int n);
 int				ft_toupper(int c);
 int				ft_tolower(int	c);

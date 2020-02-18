@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_tree.c                                    :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/17 08:47:40 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/18 15:47:59 by del-alj          ###   ########.fr       */
+/*   Created: 2020/02/18 11:19:29 by mzaboub           #+#    #+#             */
+/*   Updated: 2020/02/18 11:20:27 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_lem_in.h"
+#include "libft.h"
 
-void	ft_print_tree(t_avl *tree, char c)
+int ft_isspace(int c)
 {
-	if (tree == NULL)
-		return ;
-	ft_printf("|%s| - %c -> %d\n", tree->rooms_name, c, tree->height);
-	ft_print_tree(tree->right, 'r');
-	ft_print_tree(tree->left, 'l');
+	if (c == '\t' || c == '\n' || c == '\v' || \
+			c == '\f' || c == '\r' || c == ' ')
+		return (1);
+	return (0);
 }
