@@ -5,10 +5,10 @@ void	ft_print_link(t_avl *tree , char c)
 	if (tree)
 	{
 		ft_printf("|%s| \n", tree->rooms_name);
-		while (tree->links)
+		while (tree->adj)
 		{
-			printf("|%s| --- |%c|", tree->links->adj->rooms_name, c);
-			tree->links = tree->links->next;
+			printf("|%s| --- |%c|", tree->adj->n_link->rooms_name, c);
+			tree->adj = tree->adj->next;
 		}
 		ft_printf(" |%c|etab next \n", c);
 		ft_print_link(tree->right, 'r');
@@ -37,8 +37,8 @@ int		main()
 	}
 //	ft_print_tree(tree, 'o');
 	char    *char_tab1[] = {"2", "3", "1"};
-	char    *char_tab2[] = { "1", "2", "3"};
-	i = 3;
+	char    *char_tab2[] = {"1", "2", "3"};
+	i++;
 	while (i--)
 		ft_add_edge(tree, char_tab2[i], char_tab1[i]);
 	ft_print_link(tree, 'o');

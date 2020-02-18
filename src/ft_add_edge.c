@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 14:25:45 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/18 10:49:35 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/18 12:02:25 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,23 @@ t_avl	*ft_find(t_avl *tree, char *room)
 
 void	ft_push_back(t_avl *link1, t_avl *link2)
 {
-	int i = 0;
-	ft_printf("|%s| ----- |%s|\n", link1->rooms_name, link2->rooms_name);
-	while (link1->links)
-	{
+	t_avl *room;
 
-	printf("%d>>> |%s|\n", i, link1->links->adj->rooms_name);
-		link1->links = link1->links->next;
-		i++;
-		//cheek if link1 link2
+	room = link1;
+	if (room->adj == NULL)
+	{
+		room->adj = (t_adj*)malloc(sizeof(t_adj));
+		room->adj->n_link = link2;
+		room->adj->next = NULL;
 	}
-	if (link1->links == NULL)
-		link1->links = (t_adj*)malloc(sizeof(t_adj));
-//	link1->links->adj = (t_avl*)malloc(sizeof(t_avl));
-	link1->links->adj = link2;
-	link1->links->next = NULL;
+	else
+	{
+		while (room->adj->next != NULL)
+			room->adj = room->adj->next;
+		room->adj->next = (t_adj*)malloc(sizeof(t_adj));
+		room->adj->next->n_link = link2;
+		room->adj->next->next = NULL;
+	}
 }
 
 /*

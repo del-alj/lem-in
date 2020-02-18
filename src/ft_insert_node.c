@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 08:34:21 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/17 19:18:42 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/18 11:11:58 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_avl	*ft_new_node(t_data data)
 	node->height = 1;
 	node->left = NULL;
 	node->right = NULL;
-	node->links = NULL;
+	node->adj = NULL;
 	return (node);
 }
 
