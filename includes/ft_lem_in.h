@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/18 11:42:27 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/18 14:45:11 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ typedef struct		s_data
 t_avl		*ft_new_node(t_data data);
 int			ft_height(t_avl *node);
 int			ft_max(int a, int b);
-void		ft_add_edge(t_avl *tree, char *r1, char *r2);
+void		ft_add_edge(t_avl **tree, char *r1, char *r2);
 void		ft_balance(t_avl **tree, t_data data);
 void		ft_insert_node(t_avl **tree, t_data data);
 void		ft_print_tree(t_avl *tree, char c);
-void		ft_error_function();
+void		ft_error_function(t_avl *tree);
 
 #endif

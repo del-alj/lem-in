@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 08:39:46 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/17 17:11:48 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/18 15:16:44 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ static	t_avl	*ft_rl_retation(t_avl *tree)
 
 void			ft_balance(t_avl **tree, t_data data)
 {
-	int	balance;
-	
+	int		balance;
+
 	balance = 0;
 	(*tree)->height = 1 + ft_max(ft_height((*tree)->left),
 			ft_height((*tree)->right));
@@ -113,7 +113,3 @@ void			ft_balance(t_avl **tree, t_data data)
 		(*tree)->height = 1 + ft_max(ft_height((*tree)->left),
 				ft_height((*tree)->right));
 }
-
-/*
-** **************************************************************************
-*/

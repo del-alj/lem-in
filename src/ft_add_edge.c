@@ -6,14 +6,14 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 14:25:45 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/18 12:41:32 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/18 15:12:58 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 
 /*
-** ***************************************************************************
+ ** ***************************************************************************
 */
 
 t_avl	*ft_find(t_avl *tree, char *room)
@@ -24,7 +24,7 @@ t_avl	*ft_find(t_avl *tree, char *room)
 	{
 		key = ft_strcmp(room, tree->rooms_name);
 		if (key > 0)
-			tree = tree->right;	
+			tree = tree->right;
 		else if (key == 0)
 			return (tree);
 		else if (key < 0)
@@ -34,60 +34,54 @@ t_avl	*ft_find(t_avl *tree, char *room)
 }
 
 /*
-** ***************************************************************************
+ ** ***************************************************************************
 */
 
 void	ft_push_back(t_avl *link1, t_avl *link2)
 {
-	t_avl *room;
+	t_adj *l1;
 
-	ft_printf("{red} (%s)-(%s) {eoc}\n", link1->rooms_name, link2->rooms_name);
-	room = link1;
-	if (room->adj == NULL)
+	l1 = link1->adj;
+	if (l1 == NULL)
 	{
-		room->adj = (t_adj*)malloc(sizeof(t_adj));
-		room->adj->n_link = link2;
-		room->adj->next = NULL;
+		if (!(link1->adj = (t_adj*)malloc(sizeof(t_adj))))
+			return ;
+		link1->adj->n_link = link2;
+		link1->adj->next = NULL;
 	}
 	else
 	{
-	/*	if (ft_strequ(room->adj->n_link->rooms_name, link2->rooms_name) == 1)
-			return ;*/
-		while (room->adj->next != NULL)
+		if (ft_strequ(l1->n_link->rooms_name, link2->rooms_name) == 1)
+			return ;
+		while (l1->next != NULL)
 		{
-		/*	if (ft_strequ(room->adj->next->n_link->rooms_name,
-						link2->rooms_name) == 1)
-				return ;*/
-			room->adj = room->adj->next;
+			if (ft_strequ(l1->next->n_link->rooms_name, link2->rooms_name) == 1)
+				return ;
+			l1 = l1->next;
 		}
-		room->adj->next = (t_adj*)malloc(sizeof(t_adj));
-		room->adj->next->n_link = link2;
-		room->adj->next->next = NULL;
+		if (!(l1->next = (t_adj*)malloc(sizeof(t_adj))))
+			return ;
+		l1->next->n_link = link2;
+		l1->next->next = NULL;
 	}
 }
 
 /*
-** ***************************************************************************
+ ** ***************************************************************************
 */
 
-void	ft_add_edge(t_avl *tree, char *r1, char *r2)
-{		
+void	ft_add_edge(t_avl **tree, char *r1, char *r2)
+{
 	t_avl	*link1;
 	t_avl	*link2;
 
-	if (!(link1 = ft_find(tree,  r1)))
-		ft_error_function();
-	else if (!(link2 = ft_find(tree,  r2)))
-		ft_error_function();
+	if (!(link1 = ft_find((*tree), r1)))
+		ft_error_function((*tree));
+	else if (!(link2 = ft_find((*tree), r2)))
+		ft_error_function((*tree));
 	if (ft_strcmp(link1->rooms_name, link2->rooms_name) == 0)
-		ft_error_function();
+		ft_error_function((*tree));
 	ft_push_back(link1, link2);
-		ft_print_link(tree, 'F');
 	ft_push_back(link2, link1);
-		ft_print_link(tree, 'S');
 	return ;
 }
-
-/*
-** ***************************************************************************
-*/
