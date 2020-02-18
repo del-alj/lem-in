@@ -6,7 +6,7 @@
 #    By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/01 06:06:14 by mzaboub           #+#    #+#              #
-#    Updated: 2020/02/14 14:16:54 by mzaboub          ###   ########.fr        #
+#    Updated: 2020/02/18 11:21:11 by mzaboub          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC_NAME=	ft_atoi.c  		ft_bzero.c		ft_charinword.c	ft_isalnum.c	\
 		 	ft_strrchr.c	ft_strrev.c		ft_strsplit.c	ft_strstr.c 	\
 		 	ft_strsub.c		ft_strtrim.c	ft_tolower.c	ft_toupper.c 	\
 		 	get_next_line.c	ft_lstdelone.c 	ft_isupper.c	ft_strndup.c	\
+			ft_isspace.c	\
 		 	apply_signs.c					fetch_by_sizem.c \
 			apply_hash.c					apply_width.c \
 			ft_putonbr.c					save_precision.c \

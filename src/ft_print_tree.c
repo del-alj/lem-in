@@ -6,11 +6,11 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 08:47:40 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/17 09:27:56 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/17 11:47:50 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_lem_in.h"
+#include "ft_lem_in.h"
 
 void	ft_print_tree(t_avl *tree, char c)
 {

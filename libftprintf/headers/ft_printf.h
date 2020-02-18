@@ -6,7 +6,7 @@
 /*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/22 19:57:29 by fokrober          #+#    #+#             */
-/*   Updated: 2020/01/01 11:27:11 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/18 10:33:10 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@
 # define MAX_L " 9223372036854775808"
 # define DBL_DIGITS 16390
 # define LDBL_DIGITS 16390
+
+/*
+**	available colores 
+** {"eoc", "red", "bold red", "green", "bold green", "yellow", "bold yellow", \
+**	"blue", "bold blue", "magenta", "bold magenta", "cyan", "bold cyan"}
+*/
 
 typedef enum	e_flag
 {
