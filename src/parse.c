@@ -6,13 +6,13 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/17 20:45:04 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/18 11:09:53 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 #include <stdbool.h>
-
+#define BUFF_READ 10000
 
 /*
 ** ****************************************************************************
@@ -96,6 +96,36 @@ int	ft_check_line(char *str, t_data *data)
 /*
 ** ****************************************************************************
 */
+int	ft_read_another_part(char **str, int *idx, int *stop)
+{
+	char *end;
+	char *temp;
+	int		start;
+	int		ret;
+
+	start = *idx;
+	//ft_printf("{green} start = %d, stop = %d; {eoc}\n", start, *stop);
+	while ((*str)[*idx] && (*str)[*idx] != '\n')
+		(*idx)++;
+	if ((*str)[*idx] == '\n')
+		return (start);
+	if(!(end = (char*)ft_memalloc(BUFF_READ + 1)))
+	{
+		// you should free here
+		ft_printf("ERROR"); return (false);
+	}
+	ret = read(0, end, BUFF_READ);
+	end[ret] = 0;
+	temp = ft_strjoin((*str) + start, end);
+	ft_memdel((void**)str);
+	ft_memdel((void**)&end);
+	*str = temp;
+	*stop = *stop - start + ret;
+	*idx = 0;
+	if (*stop == 0)
+		return (-1);
+	return (ft_read_another_part(str, idx, stop));
+}
 
 bool	ft_read_input(t_avl **tree)
 {
@@ -104,7 +134,7 @@ bool	ft_read_input(t_avl **tree)
 	int s;
 	int var;
 	int bol;
-	int ret;
+	int stop;
 	t_data data;
 
 	index = 0;
@@ -112,26 +142,30 @@ bool	ft_read_input(t_avl **tree)
 	bol = 0;
 	var = 'M';
 
-	if(!(str = (char*)ft_memalloc(1000)))
+	if(!(str = (char*)ft_memalloc(BUFF_READ + 1)))
 	{
 		ft_printf("ERROR"); return (false);
 	}
-	ret = read(0, str, 1000);
-	while(index < ret)
+	stop = read(0, str, BUFF_READ);
+	str[stop] = 0;
+	while(index <= stop)
 	{
-		s = index;
-		while (str[index] && str[index] != '\n')
-			index++;
-		//do another read and join
+ 		s = ft_read_another_part(&str, &index, &stop);
+		if (s == -1)
+			break;
+		//ft_printf("{red} start :%d ; index : %d; stop : %d; {eoc}\n", s, index, stop);
 		str[index] = '\0';
-		if (s == 0)
+		//ft_printf("{magenta} str[%d] : [%s] {eoc}\n", s, str+s);
+		if (s == 0 && (bol == 0))
 		{
 			int number_of_rooms = ft_atoi(str);
+			ft_printf("{yellow} numOf rooms == %d {eoc}\n", number_of_rooms);
+			bol = 1;
 		}
 		else
 		{
 			var = ft_check_line(str + s, &data);
-			if (var == 0 || ((var == 1) && (bol == 1)))
+			if (var == 0 || ((var == 1) && (bol == 2)))
 			{
 				ft_printf("{red} ERROR {eoc}\n");
 				ft_memdel((void**)&str);
@@ -145,7 +179,7 @@ bool	ft_read_input(t_avl **tree)
 			else if (var == 2)
 			{
 				ft_add_edge(tree, data.room, data.adj_room);
-				bol = 1;
+				bol = 2;
 			}
 		}
 		index++;
@@ -160,13 +194,13 @@ bool	ft_read_input(t_avl **tree)
 
 void	ft_insert_node(t_avl **tree, t_data data)
 {
-	ft_printf("{green}	insert room {eoc}\n");
+	ft_printf("{green}	insert room {eoc}\t\t");
 	ft_printf("name : %s;\tx:%d;\ty:%d;var:%c;\n",data.room, data.x, data.y, data.var);
 }
 
 void	ft_add_edge(t_avl **tree, char *room, char *adj_room)
 {
-	ft_printf("{blue}	insert edge {eoc}\n");
+	ft_printf("{blue}	insert edge {eoc}\t\t");
 	ft_printf("room : %s;\tadj_room:%s;\n", room, adj_room);
 }
 
