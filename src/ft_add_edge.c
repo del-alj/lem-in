@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 14:25:45 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/18 12:02:25 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/18 12:41:32 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_push_back(t_avl *link1, t_avl *link2)
 {
 	t_avl *room;
 
+	ft_printf("{red} (%s)-(%s) {eoc}\n", link1->rooms_name, link2->rooms_name);
 	room = link1;
 	if (room->adj == NULL)
 	{
@@ -50,8 +51,15 @@ void	ft_push_back(t_avl *link1, t_avl *link2)
 	}
 	else
 	{
+	/*	if (ft_strequ(room->adj->n_link->rooms_name, link2->rooms_name) == 1)
+			return ;*/
 		while (room->adj->next != NULL)
+		{
+		/*	if (ft_strequ(room->adj->next->n_link->rooms_name,
+						link2->rooms_name) == 1)
+				return ;*/
 			room->adj = room->adj->next;
+		}
 		room->adj->next = (t_adj*)malloc(sizeof(t_adj));
 		room->adj->next->n_link = link2;
 		room->adj->next->next = NULL;
@@ -74,8 +82,9 @@ void	ft_add_edge(t_avl *tree, char *r1, char *r2)
 	if (ft_strcmp(link1->rooms_name, link2->rooms_name) == 0)
 		ft_error_function();
 	ft_push_back(link1, link2);
+		ft_print_link(tree, 'F');
 	ft_push_back(link2, link1);
-//	ft_print_link(tree, 'o');
+		ft_print_link(tree, 'S');
 	return ;
 }
 
