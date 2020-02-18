@@ -3,7 +3,7 @@ NAME= lem_in
 SRC_PATH= src
 SRC_NAME= ft_error_function.c	ft_print_tree.c		ft_balance.c\
 		  ft_height.c	ft_max.c	ft_insert_node.c\
-		  ft_read.c\
+		  ft_add_edge.c	ft_read.c\
 
 		#*ft_add_links.c	ft_alloc_big_tab.c	ft_check_nbr.c\
 		  ft_error_function.c ft_hash_function.c  ft_prime.c\

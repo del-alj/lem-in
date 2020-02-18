@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/17 09:19:21 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/18 08:02:03 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,38 +32,48 @@ typedef struct          s_room
 	struct s_room	*next;
 	struct s_room	*link_room;
 }                       t_room;
-typedef struct      s_data
+
+/*typedef struct      s_data
 {
 	int     		ants_nb;
 	int				size_array;
 	int				hash_index;
 	struct s_room  	**tab_rooms;
 }                   t_data;
-
-typedef struct		s_stock_file
-{
-	char				*line;
-	struct s_stock_file	*next;
-}					t_stock_file;
-
+*/
 typedef struct	s_avl
 {
-	int             pos;
+	char            *rooms_name;
 	int             coord_x;
 	int             coord_y;
-	char            *rooms_name;
-	int				key;
 	int				height;
+	char            pos;
 	struct	s_avl	*left;
 	struct  s_avl	*right;
+	struct  s_adj   *links;
 }				t_avl;
 
-void		ft_print_tree(t_avl *tree, char c);
-t_avl		*ft_new_node(int key);
+typedef struct		s_adj
+{
+	t_avl			*adj;
+	struct s_adj	*next;
+}					t_adj;
+
+typedef struct		s_data
+{
+	char            *room;
+	int             x;
+	int             y;
+	char            var;
+}					t_data;
+
+t_avl		*ft_new_node(t_data data);
 int			ft_height(t_avl *node);
 int			ft_max(int a, int b);
-void		ft_insert_node(t_avl **tree, int key);
-void		ft_balance(t_avl **tree, int key);
+void		ft_add_edge(t_avl *tree, char *r1, char *r2);
+void		ft_balance(t_avl **tree, t_data data);
+void		ft_insert_node(t_avl **tree, t_data data);
+void		ft_print_tree(t_avl *tree, char c);
 //int		ft_check_nbr(char *line, int i);
 //int		ft_read_n_ants(t_data  *node);
 //int		ft_hash_function(char *str, int size_array);

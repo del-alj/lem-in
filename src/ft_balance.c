@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 08:39:46 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/17 09:36:45 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/17 17:11:48 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,20 +94,20 @@ static	t_avl	*ft_rl_retation(t_avl *tree)
 ** **************************************************************************
 */
 
-void			ft_balance(t_avl **tree, int key)
+void			ft_balance(t_avl **tree, t_data data)
 {
 	int	balance;
-
+	
 	balance = 0;
 	(*tree)->height = 1 + ft_max(ft_height((*tree)->left),
 			ft_height((*tree)->right));
 	if ((*tree))
 		balance = ft_height((*tree)->left) - ft_height((*tree)->right);
 	if (balance < -1)
-		(*tree) = (key > (*tree)->right->key) ?
+		(*tree) = (ft_strcmp(data.room, (*tree)->right->rooms_name) > 0) ?
 			ft_right_retation((*tree)) : ft_rl_retation((*tree));
 	else if (balance > 1)
-		(*tree) = (key < (*tree)->left->key) ?
+		(*tree) = (ft_strcmp(data.room, (*tree)->left->rooms_name) < 0) ?
 			ft_left_retation((*tree)) : ft_lr_retation((*tree));
 	if (balance > 1 || balance < -1)
 		(*tree)->height = 1 + ft_max(ft_height((*tree)->left),
