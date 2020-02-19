@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/18 20:34:45 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/19 11:45:01 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,13 @@ bool	ft_read_input(t_avl **tree)
 		//ft_printf("{magenta} str[%d] : [%s] {eoc}\n", s, str+s);
 		if (s == 0 && (bol == 0))
 		{
-			int number_of_rooms = ft_atoi(str);
-			ft_printf("{yellow} numOf rooms == %d {eoc}\n", number_of_rooms);
+			int number_of_ants = ft_atoi(str);
+		/*	if (number_of_ants <= 0)
+			{
+				ft_printf("{green} ERROR{eoc}\n");
+				exit (0);
+			}*/
+			ft_printf("{yellow} numOf ants == %d {eoc}\n", number_of_ants);
 			bol = 1;
 		}
 		else
@@ -174,9 +179,7 @@ bool	ft_read_input(t_avl **tree)
 			if (var == 1)
 			{
 				if (!(*tree))
-				{
 					(*tree) = ft_new_node(data);
-				}
 				else
 					ft_insert_node(tree, data);
 				data.var = 'M';

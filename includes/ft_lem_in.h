@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/18 16:01:02 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/19 11:20:02 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void		ft_balance(t_avl **tree, t_data data);
 void		ft_insert_node(t_avl **tree, t_data data);
 void		ft_print_tree(t_avl *tree, char c);
 void		ft_error_function(t_avl *tree);
-
+long long	ft_atoi_m(char *str);
 /*
 ** file : parser.c
 */
