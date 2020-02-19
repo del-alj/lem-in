@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/19 11:45:01 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/19 16:52:52 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_check_line(char *str, t_data *data)
 	{
 		if (ft_strnequ(str, "##start", 7) == 1)
 		{
-			//	ft_printf("{red}start{eoc}\n");
+				//ft_printf("{red}start{eoc}\n");
 			data->var = 'S';
 		}
 		else if (ft_strnequ(str, "##end", 5) == 1)
@@ -129,18 +129,26 @@ int	ft_read_another_part(char **str, int *idx, int *stop)
 
 bool	ft_read_input(t_avl **tree)
 {
-	char *str;
-	int index;
-	int s;
-	int var;
-	int bol;
-	int stop;
-	t_data data;
+	char	*str;
+	int		index;
+	int		s;
+	int		var;
+	int		bol;
+	int		stop;
+	t_data	data;
+	t_box	*box;
+	if (!box)
+	{
+		box = (t_box*)malloc(sizeof(t_box));
+		box->tree = NULL;
+		box->start = NULL;
+		box->end = NULL;
+	}
 
 	index = 0;
 	s = 0;
 	bol = 0;
-	var = 'M';
+	data.var = 'M';
 
 	if(!(str = (char*)ft_memalloc(BUFF_READ + 1)))
 	{
@@ -170,18 +178,22 @@ bool	ft_read_input(t_avl **tree)
 		else
 		{
 			var = ft_check_line(str + s, &data);
+			if ((data.var == 'S' && box->start) || (data.var == 'E' && box->end))
+				ft_error_function((*tree));
 			if (var == 0 || ((var == 1) && (bol == 2)))
 			{
-				ft_printf("{red} ERROR {eoc}\n");
 				ft_memdel((void**)&str);
 				return (0);
 			}
 			if (var == 1)
 			{
 				if (!(*tree))
+				{
 					(*tree) = ft_new_node(data);
+					ft_if_start_end((*tree), data, box);
+				}
 				else
-					ft_insert_node(tree, data);
+					ft_insert_node(tree, data, box);
 				data.var = 'M';
 			}
 			else if (var == 2)
@@ -192,6 +204,8 @@ bool	ft_read_input(t_avl **tree)
 		}
 		index++;
 	}
+	if (!(box->start) || !(box->end))
+		ft_error_function((*tree));
 	ft_memdel((void**)&str);
 	return (true);
 }
@@ -229,6 +243,7 @@ void	ft_print_link(t_avl *tree , char c)
 		ft_print_link(tree->left, 'l');
 	}
 }
+
 int	main(void)
 {
 	t_avl *tree;
