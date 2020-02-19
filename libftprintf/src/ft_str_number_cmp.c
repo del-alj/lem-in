@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/01 03:33:03 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/19 15:54:51 by mzaboub          ###   ########.fr       */
+/*   Created: 2019/04/01 00:01:04 by mzaboub           #+#    #+#             */
+/*   Updated: 2020/02/19 16:15:43 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isdigit(int c)
+int	ft_str_numbercmp(const char *s1, const char *s2)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
+	char *p1;
+	char *p2;
+	unsigned long long l1;
+	unsigned long long l2;
 
-int	ft_isstr_digit(char *str)
-{
-	while (*str)
-	{
-		if ((ft_isdigit((int)*str) == 0) && (ft_isspace((int)*str) == 0))
-			return (0);
-		str++;
-	}
-	return (1);
+	p1 = (char*)s1;
+	p2 = (char*)s2;
+	l1 = ft_strlen(p1);
+	l2 = ft_strlen(p2);
+	if (l1 != l2)
+		return (l1 - l2);
+	if ((*p1 != *p2) || (*p1 == '\0') || (*p2 == '\0'))
+		return (*p1 - *p2);
+	else
+		return (ft_strcmp(s1 + 1, s2 + 1));
 }

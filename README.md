@@ -28,3 +28,15 @@ ments.map (cant find nb of ant  and maybe cant find end  -->> we printing error 
 	 maps/err_no_ants2.map (walo)
      maps/err_no_ants3.map (-1)
 
+++ num of ants after a normal comment
+++ no map/empty
+++ no ants
+++ no ants at start
+++ num of ants wrong ( < 0, > max_int, == 0)
+++ no end
+++ multiple ends
+++ no start
+++ multiple starts
+duplicated rooms (ignoring the second one, you should print error and stop)
+no links/edges >> error and exit
+

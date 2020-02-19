@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 23:32:55 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/18 11:20:25 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/19 16:13:25 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void			ft_striteri(char *s, void (*f)(unsigned int, char *));
 size_t			ft_strlen(const char *s);
 size_t			ft_strlcat(char *dst, const char *src, size_t size);
 int				ft_strcmp(const char *s1, const char *s2);
+int				ft_str_numbercmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_strequ(char const *s1, char const *s2);
 int				ft_strnequ(char const *s1, char const *s2, size_t n);
@@ -69,6 +70,7 @@ int				ft_isalnum(int c);
 int				ft_isascii(int c);
 int				ft_isprint(int c);
 int				ft_isspace(int c);
+int				ft_isstr_digit(char *str);
 char			*ft_itoa(int n);
 int				ft_toupper(int c);
 int				ft_tolower(int	c);

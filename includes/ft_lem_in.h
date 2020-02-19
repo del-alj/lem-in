@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/19 11:20:02 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/19 15:58:04 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@ typedef struct		s_data
 	char            var;
 }					t_data;
 
+typedef struct s_box
+{
+		int	ants_num;
+		t_avl	*tree;
+		t_avl	*start;
+		t_avl	*end;
+}				t_box;
+
 t_avl		*ft_new_node(t_data data);
 int			ft_height(t_avl *node);
 int			ft_max(int a, int b);
@@ -65,7 +73,7 @@ int	ft_check_room(char *str, t_data *data);
 */
 
 char 	*ft_escap_whitspace(char *str);
-int 	ft_isspace(int c);
+void	ft_print_link(t_avl *tree , char c);
 
 
 #endif
