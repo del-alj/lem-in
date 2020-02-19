@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/19 15:58:04 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/19 18:06:47 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,31 @@ typedef struct		s_adj
 
 typedef struct		s_data
 {
-	char            *room;
-	char			*adj_room;
 	int             x;
 	int             y;
+	char            *room;
+	char			*adj_room;
 	char            var;
 }					t_data;
 
-typedef struct s_box
+typedef struct      s_box
 {
-		int	ants_num;
-		t_avl	*tree;
-		t_avl	*start;
-		t_avl	*end;
-}				t_box;
+	t_avl			*tree;
+	t_avl           *start;
+	t_avl           *end;
+	int				ants_nbr;
+}					t_box;
 
 t_avl		*ft_new_node(t_data data);
 int			ft_height(t_avl *node);
 int			ft_max(int a, int b);
 void		ft_add_edge(t_avl **tree, char *r1, char *r2);
 void		ft_balance(t_avl **tree, t_data data);
-void		ft_insert_node(t_avl **tree, t_data data);
-void		ft_print_tree(t_avl *tree, char c);
 void		ft_error_function(t_avl *tree);
+void		ft_if_start_end(t_avl *node, t_data data, t_box *box);
+void		ft_insert_node(t_avl **tree, t_data data, t_box *box);
+void		ft_print_tree(t_avl *tree, char c);
+
 long long	ft_atoi_m(char *str);
 /*
 ** file : parser.c

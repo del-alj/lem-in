@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/19 17:50:32 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/19 18:10:56 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ int		ft_read_input(t_box *head)
 	index = 0;
 	s = 0;
 	bol = 0;
-	var = 'M';
+	data.var = 'M';
 
 	/* you have to add  this part to read another part function */
 	if(!(str = (char*)ft_memalloc(BUFF_READ + 1)))
@@ -196,6 +196,8 @@ int		ft_read_input(t_box *head)
 		else
 		{
 			var = ft_check_line(str + s, &data, head);
+			if ((data.var == 'S' && head->start) || (data.var == 'E' && head->end))
+				ft_error_function(head->tree);
 			if (var == -1)
 			{
 				ft_printf("{red}\tERROR in LINE INFO.{eoc}\n");
@@ -211,9 +213,12 @@ int		ft_read_input(t_box *head)
 					exit(0);
 				}
 				if ((head->tree) != NULL)
-					ft_insert_node(&(head->tree), data); //ft_insert_node(head, data);
+					ft_insert_node(&(head->tree), data, head); //ft_insert_node(head, data);
 				else
+				{
 					(head->tree) = ft_new_node(data);
+					ft_if_start_end(head->tree, data, head);
+				}
 				data.var = 'M';
 			}
 			else if (var == 2)
@@ -226,6 +231,8 @@ int		ft_read_input(t_box *head)
 		}
 		index++;
 	}
+	if (!(head->start) || !(head->end))
+		ft_error_function(head->tree);
 	ft_memdel((void**)&str);
 	return (bol);
 }
@@ -246,7 +253,6 @@ int		ft_read_input(t_box *head)
 ** }
 */
 
-
 int	main(void)
 {
 	t_box	head;
@@ -255,7 +261,7 @@ int	main(void)
 	head.tree = NULL;
 	head.start = NULL;
 	head.end = NULL;
-	head.ants_num = 0;
+	head.ants_nbr = 0;
 
 	ret = ft_read_input(&head);
 	char *error[3] = {"NO ROOMS", "NO EDGES", "NO START/END ROOM"};
