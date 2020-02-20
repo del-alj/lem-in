@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 14:11:37 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/18 15:14:01 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/20 13:33:21 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,12 @@ void	ft_free_tree(t_avl *tree)
 ** ***************************************************************************
 */
 
-void	ft_error_function(t_avl *tree)
+void	ft_error_function(t_avl *tree, char *str)
 {
 	ft_free_tree(tree);
-	ft_putendl("ERROR");
+	if (str)
+		ft_printf("ERROR: %s\n", str);
+	else
+		ft_printf("ERROR.\n");
 	exit(0);
 }

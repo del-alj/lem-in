@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 14:25:45 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/18 20:32:21 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/20 13:47:15 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ void	ft_add_edge(t_avl **tree, char *r1, char *r2)
 	t_avl	*link2;
 
 	if (!(link1 = ft_find((*tree), r1)))
-		ft_error_function((*tree));
+		ft_error_function((*tree), NULL);
 	else if (!(link2 = ft_find((*tree), r2)))
-		ft_error_function((*tree));
+		ft_error_function((*tree), NULL);
 	if (ft_strcmp(link1->rooms_name, link2->rooms_name) == 0)
-		ft_error_function((*tree));
+		ft_error_function((*tree), NULL);
 	ft_push_back(link1, link2);
 	ft_push_back(link2, link1);
 	return ;
