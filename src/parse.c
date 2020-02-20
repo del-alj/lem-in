@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/19 18:10:56 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/20 13:30:01 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,43 +92,44 @@ int	ft_check_line(char *str, t_data *data, t_box *head)
 ** ****************************************************************************
 //ft_printf("{green} start = %d, stop = %d; {eoc}\n", start, *stop);
 */
-int	ft_read_another_part(char **str, int *idx, int *stop)
+void	ft_read_all_file(char **str, int *length)
 {
-	char *end;
-	char *temp;
-	int		start;
+	char	buff[BUFF_READ + 1];
+	char	*temp;
 	int		ret;
 
-	start = *idx;
-	while ((*str)[*idx] && (*str)[*idx] != '\n')
-		(*idx)++;
-	if ((*str)[*idx] == '\n')
-		return (start);
-	if(!(end = (char*)ft_memalloc(BUFF_READ + 1)))
+	*str = (char*)ft_memalloc(BUFF_READ + 1);
+	if (!str)
+		exit(0);
+	ret = read(0, *str, BUFF_READ);
+	(*str)[ret] = '\0';
+	*length = ret;
+	/*
+	while ((ret = read(0, buff, BUFF_READ)) > 0)
 	{
-		// you should free here
-		ft_printf("{red}\tERROR in ALLOCATION.{eoc}\n"); return (false);
+		buff[ret] = 0;
+		temp = ft_strjoin(*str, buff);
+		if (!temp)
+			exit(0);
 		ft_memdel((void**)str);
-		exit (0);
+		*str = temp;
+		*length += ret;
+		if (ret < BUFF_READ)
+			break;
 	}
-	ret = read(0, end, BUFF_READ);
-	end[ret] = 0;
+	*/
+}
 
-	temp = ft_strjoin((*str) + start, end);
-	ft_memdel((void**)str);
-	ft_memdel((void**)&end);
-	*str = temp;
-	*stop = *stop - start + ret;
-	//possible infinit loop if ret == 0
-	*idx = 0;
-	if (*stop == 0)
-		return (-1);
-	if (ret == 0)
-	{
-		*stop = start;
-		return (start);
-	}
-	return (ft_read_another_part(str, idx, stop));
+int		ft_next_start(char *str, int *idx, int stop)
+{
+	int		start;
+
+	start = *idx;
+	while ((*idx < stop) && str[*idx] != '\n')
+		(*idx)++;
+	str[*idx] = '\0';
+	++*idx;
+	return (start);
 }
 
 /*
@@ -148,6 +149,10 @@ int	get_ants_num(char *str, int *number_of_ants)
 	return (1);
 }
 
+/*
+** ****************************************************************************
+*/
+
 int		ft_read_input(t_box *head)
 {
 	char *str;
@@ -159,31 +164,19 @@ int		ft_read_input(t_box *head)
 	int	number_of_ants;
 	t_data data;
 
-	index = 0;
 	s = 0;
-	bol = 0;
-	data.var = 'M';
-
-	/* you have to add  this part to read another part function */
-	if(!(str = (char*)ft_memalloc(BUFF_READ + 1)))
-	{
-		ft_printf("{red}\tERROR in ALLOCATION.{eoc}\n"); return (false);
-	}
-	stop = read(0, str, BUFF_READ);
-	str[stop] = 0;
-
-
-
 	var = 0;
-	while(index <= stop)
+	bol = 0;
+	index = 0;
+	data.var = 'M';
+	number_of_ants = 0;
+	ft_read_all_file(&str, &stop);
+	while(index < stop)
 	{
-		s = ft_read_another_part(&str, &index, &stop);
-		if (s == -1)
-			break;
-		str[index] = '\0';
+		s = ft_next_start(str, &index, stop);
 		if (bol == 0)// about first line info
 		{
-			var = get_ants_num(str, &number_of_ants);
+			var = get_ants_num(str + s, &number_of_ants);
 			if (var == -1)
 			{
 				ft_printf("{red}\tANTS NUMBER ERROR.{eoc}\n");
@@ -229,7 +222,6 @@ int		ft_read_input(t_box *head)
 				
 			}
 		}
-		index++;
 	}
 	if (!(head->start) || !(head->end))
 		ft_error_function(head->tree);
