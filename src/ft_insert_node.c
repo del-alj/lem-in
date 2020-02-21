@@ -41,7 +41,6 @@ void	ft_insert_node(t_avl **tree, t_data data, t_box *box)
 {
 	int		balance;
 	int		key;
-	static int i;
 
 	key = ft_strcmp(data.room, (*tree)->rooms_name);
 	if (key == 0)
@@ -52,7 +51,7 @@ void	ft_insert_node(t_avl **tree, t_data data, t_box *box)
 		ft_insert_node(&(*tree)->right, data, box);
 	if ((*tree)->left == NULL && key < 0)
 	{
-		if(!((*tree)->left = ft_new_node(data)))
+		if (!((*tree)->left = ft_new_node(data)))
 			ft_error_function((*tree), NULL);
 		ft_if_start_end((*tree)->left, data, box);
 	}

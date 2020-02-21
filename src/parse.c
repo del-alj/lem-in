@@ -118,6 +118,10 @@ void	ft_read_all_file(char **str, int *length)
 	}
 }
 
+/*
+** ****************************************************************************
+*/
+
 int		ft_next_start(char *str, int *idx, int stop)
 {
 	int		start;
@@ -131,7 +135,7 @@ int		ft_next_start(char *str, int *idx, int stop)
 }
 
 /*
-** ****************************************************************************
+** ***********************************5*****************************************
 */
 
 int	get_ants_num(char *str, int *number_of_ants)
@@ -169,6 +173,10 @@ void	ft_add_room(t_box *head, t_data *data, int bol, char **str)
 	data->var = 'M';
 }
 
+/*
+** ****************************************************************************
+*/
+
 int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 {
 	int		start;
@@ -181,6 +189,8 @@ int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 	while (index < stop)
 	{
 		start = ft_next_start(str, &index, stop);
+		if (str[start] == 'L')
+			ft_error_function(head->tree, "ERROR in LINE INFO");
 		var = ft_check_line(str + start, &data, head);
 		if (var == -1 || (data.var == 'S' && head->start) || \
 						(data.var == 'E' && head->end))
@@ -191,13 +201,14 @@ int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 		else if (var == 1)
 			ft_add_room(head, &data, bol, &str);
 		else if ((var == 2) && (bol = 2))
-		{
-			//ft_add_edge(head, data.room, data.adj_room);
 			ft_add_edge(&(head->tree), data.room, data.adj_room);
-		}
 	}
 	return (bol);
 }
+
+/*
+** ****************************************************************************
+*/
 
 int		ft_read_input(t_box *head)
 {

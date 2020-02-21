@@ -57,7 +57,6 @@ int			ft_height(t_avl *node);
 int			ft_max(int a, int b);
 void		ft_add_edge(t_avl **tree, char *r1, char *r2);
 void		ft_balance(t_avl **tree, t_data data);
-//void		ft_error_function(t_avl *tree);
 void		ft_error_function(t_avl *tree, char *str);
 void		ft_if_start_end(t_avl *node, t_data data, t_box *box);
 void		ft_insert_node(t_avl **tree, t_data data, t_box *box);

@@ -99,8 +99,6 @@ void			ft_balance(t_avl **tree, t_data data)
 	int		balance;
 
 	balance = 0;
-/*	(*tree)->height = 1 + ft_max(ft_height((*tree)->left),
-			ft_height((*tree)->right));*/
 	if ((*tree))
 		balance = ft_height((*tree)->left) - ft_height((*tree)->right);
 	if (balance < -1)
