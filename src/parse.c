@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/20 14:32:27 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/21 16:58:20 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 ** ****************************************************************************
 */
 
-int		ft_read_input(t_box *head)
+int		ft_read_input(t_box *head, char **buff)
 {
 	char	*str;
 	int		index;
@@ -221,6 +221,7 @@ int		ft_read_input(t_box *head)
 	bol = 0;
 	index = 0;
 	ft_read_all_file(&str, &stop);
+	*buff = ft_strdup(str);
 	while (bol == 0)
 	{
 		start = ft_next_start(str, &index, stop);
@@ -247,17 +248,17 @@ int		main(void)
 	t_box			head;
 	int				ret;
 	const	char	*error[3] = {"NO ROOMS", "NO EDGES", "NO START/END ROOM"};
+	char			*buff;
 
 	head.tree = NULL;
 	head.start = NULL;
 	head.end = NULL;
 	head.ants_nbr = 0;
-	ret = ft_read_input(&head);
+	ret = ft_read_input(&head, &buff);
 	if (ret < 2)
-	{
-		ft_printf("{red}\tERROR %s;{eoc}\n", error[ret]);
-		return (0);
-	}
+		ft_error_function(head.tree, (char*)error[ret]);
+	ft_printf("%s\n\n\n", buff);
+	ft_memdel((void**)&buff);
 	ft_print_link(head.tree, 'o');
 	return (0);
 }

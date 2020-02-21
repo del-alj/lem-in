@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/20 13:47:16 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/21 16:53:30 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ long long	ft_atoi_m(char *str);
 
 int	ft_get_room_info(char *str, int i, t_data *data);
 int	ft_check_room(char *str, t_data *data);
+int	ft_read_input(t_box *head, char **buff);
 
 /*
 ** file : parser_tools.c
