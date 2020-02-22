@@ -6,7 +6,7 @@
 /*   By: fokrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 14:51:50 by fokrober          #+#    #+#             */
-/*   Updated: 2020/01/01 02:56:21 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/22 13:03:07 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*flag_scope(int *nbr, char *fmt, va_list ap)
 	int		pos;
 
 	flags = 0;
+	pos = 0;
 	fmt += va_argnth(ap, fmt);
 	ft_bzero(pw, sizeof(pw));
 	while (*fmt && is_conv_spec(*fmt, FLAGS_BUF) == -1 && !(pos = 0))

@@ -6,7 +6,7 @@
 #    By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/01 06:06:14 by mzaboub           #+#    #+#              #
-#    Updated: 2020/02/19 16:13:52 by mzaboub          ###   ########.fr        #
+#    Updated: 2020/02/22 13:02:00 by mzaboub          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ HDR= $(addprefix $(HDR_PATH)/, $(HDR_NAME))
 
 # **************************************************************************** #
 
-CFLAGS=  -Wall -Wextra -Werror
+CFLAGS=  -g -Wall -Wextra -Werror
 CC= gcc
 HDR_FLAGS= -I headers
 

@@ -21,7 +21,7 @@ OBJ= $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
 # **************************************************************************** #
 
 CW=	gcc
-CFLAGES= -Wall -Wextra -Werror
+CFLAGES= -g -Wall -Wextra -Werror
 
 LD_FLAGS= -L$(LIB_PATH)
 LD_LIBS= -l$(patsubst lib%.a,%, $(LIB))
@@ -34,7 +34,7 @@ all: lib $(NAME)
 
 
 $(NAME): $(LIB_PATH)/$(LIB) $(OBJ)
-	@$(CW)  $(LD_FLAGS) $(LD_LIBS) $(CFLAGS) $(OBJ) -o $@
+	@$(CW) -g $(LD_FLAGS) $(LD_LIBS) $(CFLAGS) $(OBJ) -o $@
 	@ echo "\033[1;32m>> lem-in binary is ready ;)\033[0m"
 
 lib:

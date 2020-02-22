@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/21 16:58:20 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/22 13:13:13 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,16 @@ int		ft_get_room_info(char *str, int i, t_data *data)
 	data->room = str;
 	str = str + i + 1;
 	data->x = ft_atoi(str);
+	if (*str == '-' || *str == '+')
+		++str;
 	while (*str && ft_isdigit(*str))
 		++str;
 	if (ft_isspace((int)*str) != 1)
 		return (-1);
 	++str;
 	data->y = ft_atoi(str);
+	if (*str == '-' || *str == '+')
+		++str;
 	while (*str && ft_isdigit(*str))
 		++str;
 	if (*str != '\0')
@@ -147,7 +151,8 @@ int	get_ants_num(char *str, int *number_of_ants)
 				(ft_str_numbercmp(str, "2147483647") > 0) || \
 				(ft_str_numbercmp(str, "0") == 0))
 		return (-1);
-	*number_of_ants = ft_atoi(str);
+	if ((*number_of_ants = ft_atoi(str)) == 0)
+		return (-1);
 	return (1);
 }
 
@@ -160,8 +165,7 @@ void	ft_add_room(t_box *head, t_data *data, int bol, char **str)
 	if (bol == 2)
 	{
 		ft_memdel((void**)str);
-		ft_error_function(head->tree, \
-				"{red}\tERROR in ROOM DEFINED AFTER AN EDGE.{eoc}");
+		ft_error_function(head->tree, "\tin ROOM DEFINED AFTER AN EDGE.");
 	}
 	if ((head->tree) != NULL)
 		ft_insert_node(&(head->tree), *data, head);
@@ -190,13 +194,13 @@ int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 	{
 		start = ft_next_start(str, &index, stop);
 		if (str[start] == 'L')
-			ft_error_function(head->tree, "ERROR in LINE INFO");
+			ft_error_function(head->tree, "in LINE INFO");
 		var = ft_check_line(str + start, &data, head);
 		if (var == -1 || (data.var == 'S' && head->start) || \
 						(data.var == 'E' && head->end))
 		{
 			ft_memdel((void**)&str);
-			ft_error_function(head->tree, "{red}\tERROR in LINE INFO.{eoc}");
+			ft_error_function(head->tree, "\tin LINE INFO.");
 		}
 		else if (var == 1)
 			ft_add_room(head, &data, bol, &str);
@@ -221,7 +225,8 @@ int		ft_read_input(t_box *head, char **buff)
 	bol = 0;
 	index = 0;
 	ft_read_all_file(&str, &stop);
-	*buff = ft_strdup(str);
+	if (!(*buff = ft_strdup(str)))
+			exit(0);
 	while (bol == 0)
 	{
 		start = ft_next_start(str, &index, stop);
@@ -229,7 +234,7 @@ int		ft_read_input(t_box *head, char **buff)
 		if (bol == -1)
 		{
 			ft_memdel((void**)&str);
-			ft_error_function(head->tree, "{red}\tANTS NUMBER ERROR.{eoc}");
+			ft_error_function(head->tree, "\tANTS NUMBER ERROR.");
 		}
 	}
 	bol = ft_hundle_rooms(index, str, stop, head);
@@ -259,7 +264,9 @@ int		main(void)
 		ft_error_function(head.tree, (char*)error[ret]);
 	ft_printf("%s\n\n\n", buff);
 	ft_memdel((void**)&buff);
+/* 			algo 	*/
 	ft_print_link(head.tree, 'o');
+	ft_free_tree(head.tree);
 	return (0);
 }
 

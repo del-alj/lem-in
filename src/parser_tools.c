@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:19:34 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/19 14:47:57 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/22 13:12:10 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,16 @@ char *ft_escap_whitspace(char *str)
 
 void	ft_print_link(t_avl *tree , char c)
 {
+	t_adj *adj_temp;
+
 	if (tree)
 	{
 		ft_printf("{%s} :\t", tree->rooms_name);
-		while (tree->adj != NULL)
+		adj_temp = tree->adj;
+		while (adj_temp != NULL)
 		{
-			ft_printf("[%s]", tree->adj->n_link->rooms_name);
-			tree->adj = tree->adj->next;
+			ft_printf("[%s]", adj_temp->n_link->rooms_name);
+			adj_temp = adj_temp->next;
 		}
 		ft_printf("\n");
 		ft_print_link(tree->right, 'r');

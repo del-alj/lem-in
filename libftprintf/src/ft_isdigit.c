@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 03:33:03 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/19 15:54:51 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/22 12:12:37 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_isstr_digit(char *str)
 {
 	while (*str)
 	{
-		if ((ft_isdigit((int)*str) == 0) && (ft_isspace((int)*str) == 0))
+		if (ft_isdigit((int)*str) == 0)
 			return (0);
 		str++;
 	}
