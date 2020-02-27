@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:19:34 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/27 14:07:45 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/27 23:26:15 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ void	ft_print_link(t_avl *tree , char c)
 
 	if (tree)
 	{
-		ft_printf("{red}%s {eoc}:\t", tree->rooms_name);
 		adj_temp = tree->adj;
+		ft_printf("{red}%s {eoc} {bold cyan}%d {eoc}:\t", \
+				tree->rooms_name, tree->id);
 		while (adj_temp != NULL)
 		{
 			ft_printf("{green}%s {eoc}", adj_temp->n_link->rooms_name);
@@ -40,5 +41,32 @@ void	ft_print_link(t_avl *tree , char c)
 		ft_printf("\n");
 		ft_print_link(tree->right, 'r');
 		ft_print_link(tree->left, 'l');
+	}
+}
+
+/*	print the paths	*/
+
+
+void	ft_print_all_paths(t_path **paths, int maxflow)
+{
+	int		i;
+	t_path	*path;
+
+	i = 0;
+	ft_printf("number of paths/max flow value : {cyan}%d {eoc} \n", maxflow);
+	while (i < maxflow && paths[i])
+	{
+		ft_printf("[%d]\t:", paths[i]->len);
+		path = paths[i];
+
+		ft_printf("{red}%s {eoc} ", path->vert_name);
+		path = path->next;
+		while (path->next)
+		{
+			ft_printf("-- {green}%s {eoc}", path->vert_name);
+			path = path->next;
+		}
+		ft_printf("{red}%s {eoc} \n", path->vert_name);
+		i++;
 	}
 }

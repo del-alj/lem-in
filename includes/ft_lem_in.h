@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/27 20:17:06 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/27 23:16:54 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ typedef struct      s_box
 
 typedef struct	s_path
 {
-	int				*vert_name;
+	char			*vert_name;
+	int				len;
 	struct	s_path	*next;
 }				t_path;
 
@@ -87,10 +88,22 @@ int	ft_read_input(t_box *head, char **buff);
 
 char 	*ft_escap_whitspace(char *str);
 void	ft_print_link(t_avl *tree , char c);
+void	ft_print_all_paths(t_path **paths, int maxflow);
 
 /*
 ** file : ft_error_function.c
 */
 
 void	ft_free_tree(t_avl *tree);
+
+/*
+**	ft_dfs.c
+*/
+
+void	ft_increase_capacity(t_adj *edge, t_avl *v, int flow);
+int		dfs(t_avl *u, t_avl *v, int flow);
+int		ft_get_the_max_flow(t_box *head);
+int		ft_get_path(t_avl *u, t_avl *v, t_path **path);
+t_path	**ft_all_paths(t_box *head, int	*maxflow);
+
 #endif

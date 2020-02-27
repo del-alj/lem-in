@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/27 14:08:20 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/27 23:34:28 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,20 +254,35 @@ int		main(void)
 	int				ret;
 	const	char	*error[3] = {"NO ROOMS", "NO EDGES", "NO START/END ROOM"};
 	char			*buff;
+	t_path			**paths;
+	int				maxflow;
 
 	head.tree = NULL;
 	head.start = NULL;
 	head.end = NULL;
 	head.ants_nbr = 0;
+
+/*	the parsing part	*/
 	ret = ft_read_input(&head, &buff);
 	if (ret < 2)
 		ft_error_function(head.tree, (char*)error[ret]);
 	ft_printf("%s\n\n\n", buff);
 	ft_memdel((void**)&buff);
+
+/*			print the current graph to debug	*/
+//	ft_print_link(head.tree, 'o');
+//	ft_printf("{blue}start : %s. {eoc}\n", head.start->rooms_name);
+//	ft_printf("{blue}sink  : %s. {eoc}\n", head.end->rooms_name);
+
+
 /* 			algo 	*/
-	ft_print_link(head.tree, 'o');
-	ft_printf("{blue}start : %s. {eoc}\n", head.start->rooms_name);
-	ft_printf("{blue}sink  : %s. {eoc}\n", head.end->rooms_name);
+	paths = ft_all_paths(&head, &maxflow);
+	ft_print_all_paths(paths, maxflow);
+//	ft_sort_paths(&paths);
+//	ft_print_solution(head, paths);
+
+
+/*			free every thing	*/
 	ft_free_tree(head.tree);
 	return (0);
 }
