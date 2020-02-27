@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/22 13:13:13 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/27 14:08:20 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,8 @@ int		main(void)
 	ft_memdel((void**)&buff);
 /* 			algo 	*/
 	ft_print_link(head.tree, 'o');
+	ft_printf("{blue}start : %s. {eoc}\n", head.start->rooms_name);
+	ft_printf("{blue}sink  : %s. {eoc}\n", head.end->rooms_name);
 	ft_free_tree(head.tree);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/21 16:53:30 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/27 14:11:39 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,9 @@ int	ft_read_input(t_box *head, char **buff);
 char 	*ft_escap_whitspace(char *str);
 void	ft_print_link(t_avl *tree , char c);
 
+/*
+** file : ft_error_function.c
+*/
 
+void	ft_free_tree(t_avl *tree);
 #endif
