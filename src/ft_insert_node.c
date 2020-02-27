@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 08:34:21 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/20 13:47:17 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/27 19:26:42 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@
 t_avl	*ft_new_node(t_data data)
 {
 	t_avl	*node;
+	static int id;
 
 	if (!(node = (t_avl*)malloc(sizeof(t_avl))))
 		return (NULL);
-	node->pos = data.var;
 	node->rooms_name = ft_strdup(data.room);
-	node->coord_x = data.x;
-	node->coord_y = data.y;
+	node->id = id++;
+	node->cord = (t_point){data.x, data.y};
 	node->height = 1;
+	node->taken = 0;
 	node->left = NULL;
 	node->right = NULL;
 	node->adj = NULL;

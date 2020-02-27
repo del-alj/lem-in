@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/27 14:11:39 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/27 20:17:06 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@
 # include "../libftprintf/headers/libft.h"
 # include "../libftprintf/headers/ft_printf.h"
 
+#define MIN_OF2(a, b) (a < b ? a : b)
+
 typedef struct	s_avl
 {
 	char            *rooms_name;
-	int             coord_x;
-	int             coord_y;
+	int				id;
+	t_point			cord;
+	int             level;
 	int				height;
-	char            pos;
+	int				taken;
 	struct	s_avl	*left;
 	struct  s_avl	*right;
 	struct  s_adj   *adj;
@@ -32,6 +35,7 @@ typedef struct	s_avl
 typedef struct		s_adj
 {
 	t_avl			*n_link;
+	int				cap;
 	struct s_adj	*next;
 }					t_adj;
 
@@ -51,6 +55,12 @@ typedef struct      s_box
 	t_avl           *end;
 	int				ants_nbr;
 }					t_box;
+
+typedef struct	s_path
+{
+	int				*vert_name;
+	struct	s_path	*next;
+}				t_path;
 
 t_avl		*ft_new_node(t_data data);
 int			ft_height(t_avl *node);

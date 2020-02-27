@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 23:32:55 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/19 16:13:25 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/27 19:20:38 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ typedef struct	s_list
 	size_t			content_size;
 	struct s_list	*next;
 }				t_list;
+
+typedef struct	s_point
+{
+	int	x;
+	int	y;
+}				t_point;
+
 void			ft_bzero(void	*s, size_t	n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
 void			ft_memdel(void **ap);
