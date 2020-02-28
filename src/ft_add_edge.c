@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 14:25:45 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/20 13:47:15 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/28 22:13:11 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	ft_push_back(t_avl *link1, t_avl *link2)
 		if (!(link1->adj = (t_adj*)malloc(sizeof(t_adj))))
 			return ;
 		link1->adj->n_link = link2;
+		link1->adj->cap = 1;
 		link1->adj->next = NULL;
 	}
 	else
@@ -62,6 +63,7 @@ void	ft_push_back(t_avl *link1, t_avl *link2)
 		if (!(l1->next = (t_adj*)malloc(sizeof(t_adj))))
 			return ;
 		l1->next->n_link = link2;
+		l1->next->cap = 1;
 		l1->next->next = NULL;
 	}
 }
