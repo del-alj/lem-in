@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:02:35 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/27 23:31:12 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/29 14:42:19 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_increase_capacity(t_adj *edge, t_avl *v, int flow)
 	t_adj	*ptr;
 
 	ptr = edge;
-	while (ptr && (ptr->n_link->id != v->id))
+	while (ptr && (ptr->edge->id != v->id))
 		ptr = ptr->next;
 	if (ptr)
 		ptr->cap -= flow;
@@ -43,14 +43,14 @@ int		dfs(t_avl *u, t_avl *v, int flow)
 	{
 		// you should check if you can go to this vertics.
 		// if that vertics is taken, check if you gonna do correction
-		if ((edge->cap > 0) && (u->level == (edge->n_link->level - 1)))
+		if ((edge->cap > 0) && (u->level == (edge->edge->level - 1)))
 		{
-			valid_flow = dfs(edge->n_link, v, MIN_OF2(edge->cap, flow));
+			valid_flow = dfs(edge->edge, v, MIN_OF2(edge->cap, flow));
 			if (valid_flow > 0)
 			{
 				edge->cap -= valid_flow;
 				u->taken = (++(u->taken) % 2);
-				ft_increase_capacity(edge->n_link->adj, u, valid_flow);
+				ft_increase_capacity(edge->edge->adj, u, valid_flow);
 				return (valid_flow);
 			}
 		}
@@ -91,7 +91,7 @@ int		ft_get_path(t_avl *u, t_avl *v, t_path **path)
 	{
 		if(!(tmp = (t_path*)ft_memalloc(sizeof(t_path))))
 			exit(0);
-		tmp->vert_name = ft_strdup(u->rooms_name);
+		tmp->vert_name = ft_strdup(u->name);
 		tmp->next = *path;
 		tmp->len = 1;
 		*path = tmp;
@@ -102,11 +102,11 @@ int		ft_get_path(t_avl *u, t_avl *v, t_path **path)
 	{
 		if (edge->cap == 0)
 		{
-			valid_flow = ft_get_path(edge->n_link, v, path);
+			valid_flow = ft_get_path(edge->edge, v, path);
 			if (valid_flow > 0)
 			{
 				edge->cap += valid_flow;
-				tmp->vert_name = ft_strdup(u->rooms_name);
+				tmp->vert_name = ft_strdup(u->name);
 				tmp->next = *path;
 				tmp->len = (*path)->len + 1;
 				*path = tmp;

@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 14:11:37 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/20 13:33:21 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/29 14:42:17 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	ft_free_tree(t_avl *tree)
 		return ;
 	ft_free_tree(tree->right);
 	ft_free_tree(tree->left);
-	free(tree->rooms_name);
-	tree->rooms_name = NULL;
+	free(tree->name);
+	tree->name = NULL;
 	while (tree->adj != NULL)
 	{
 		tmp = tree->adj;

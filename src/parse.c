@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/28 17:16:16 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/29 14:42:13 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,8 +271,8 @@ int		main(void)
 
 /*			print the current graph to debug	*/
 //	ft_print_link(head.tree, 'o');
-//	ft_printf("{blue}start : %s. {eoc}\n", head.start->rooms_name);
-//	ft_printf("{blue}sink  : %s. {eoc}\n", head.end->rooms_name);
+//	ft_printf("{blue}start : %s. {eoc}\n", head.start->name);
+//	ft_printf("{blue}sink  : %s. {eoc}\n", head.end->name);
 
 
 /* 			algo 	*/

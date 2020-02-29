@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/28 15:25:59 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/29 14:28:55 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 typedef struct	s_avl
 {
-	char            *rooms_name;
+	char            *name;
 	int				id;
 	t_point			cord;
 	int             level;
@@ -34,7 +34,7 @@ typedef struct	s_avl
 
 typedef struct		s_adj
 {
-	t_avl			*n_link;
+	t_avl			*edge;
 	int				cap;
 	struct s_adj	*next;
 }					t_adj;

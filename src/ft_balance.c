@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 08:39:46 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/18 20:30:52 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/29 14:42:21 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,10 @@ void			ft_balance(t_avl **tree, t_data data)
 	if ((*tree))
 		balance = ft_height((*tree)->left) - ft_height((*tree)->right);
 	if (balance < -1)
-		(*tree) = (ft_strcmp(data.room, (*tree)->right->rooms_name) > 0) ?
+		(*tree) = (ft_strcmp(data.room, (*tree)->right->name) > 0) ?
 			ft_right_retation((*tree)) : ft_rl_retation((*tree));
 	else if (balance > 1)
-		(*tree) = (ft_strcmp(data.room, (*tree)->left->rooms_name) < 0) ?
+		(*tree) = (ft_strcmp(data.room, (*tree)->left->name) < 0) ?
 			ft_left_retation((*tree)) : ft_lr_retation((*tree));
 	if (balance > 1 || balance < -1)
 		(*tree)->height = 1 + ft_max(ft_height((*tree)->left),

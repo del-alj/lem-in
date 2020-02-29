@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 08:34:21 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/27 19:26:42 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/29 14:42:16 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_avl	*ft_new_node(t_data data)
 
 	if (!(node = (t_avl*)malloc(sizeof(t_avl))))
 		return (NULL);
-	node->rooms_name = ft_strdup(data.room);
+	node->name = ft_strdup(data.room);
 	node->id = id++;
 	node->cord = (t_point){data.x, data.y};
 	node->height = 1;
@@ -43,7 +43,7 @@ void	ft_insert_node(t_avl **tree, t_data data, t_box *box)
 	int		balance;
 	int		key;
 
-	key = ft_strcmp(data.room, (*tree)->rooms_name);
+	key = ft_strcmp(data.room, (*tree)->name);
 	if (key == 0)
 		ft_error_function((*tree), NULL);
 	else if ((*tree)->left && key < 0)
