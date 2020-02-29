@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:02:35 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/29 16:41:11 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/29 23:46:04 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,35 @@ int		dfs(t_avl *u, t_avl *v, int flow)
 	t_adj	*adj;
 	int		valid_flow;
 
+//	ft_printf("dfs flow == %d; u->id == %d; u->name = %s;\n", flow, u->id, u->name);
+	if (flow == 0) return (0);
 	if (u->id == v->id)
+	{
+//		ft_printf("dfs flow == %d; u->id == %d; u->name = %s;\n", flow, u->id, u->name);
 		return (flow);
+	}
 	adj = u->adj;
 	while (adj != NULL)
 	{
 		// you should check if you can go to this vertics.
 		// if that vertics is taken, check if you gonna do correction
-		if ((adj->cap > 0) && ((u->level == adj->edge->level - 1) || (adj->edge->id == v->id)))
+//		if (((adj->edge->taken == 0 && adj->cap > 0) || (u->taken == 1 && adj->cap == 2)) && \
+				((u->level == adj->edge->level - 1) || (adj->edge->id == v->id)))
+	//	if ((adj->cap > 0) && ((u->level == adj->edge->level - 1) || (adj->edge->id == v->id)))
+		if ((adj->cap > 0) && ((u->level < adj->edge->level) || (adj->edge->id == v->id)))
 		{
-			valid_flow = dfs(adj->edge, v, MIN_OF2(adj->cap, flow));
+			u->taken = (++(u->taken) % 2);
+			adj->cap -= 1;
+			ft_increase_capacity(adj->edge->adj, u, 1);
+
+			valid_flow = dfs(adj->edge, v, MIN_OF2(adj->cap + 1, flow));
 			if (valid_flow > 0)
-			{
-				adj->cap -= valid_flow;
-				u->taken = (++(u->taken) % 2);
-				ft_increase_capacity(adj->edge->adj, u, valid_flow);
 				return (valid_flow);
+			else
+			{
+				u->taken = (++(u->taken) % 2);
+				adj->cap += 1;
+				ft_increase_capacity(adj->edge->adj, u, -1);
 			}
 		}
 		adj = adj->next;
@@ -71,11 +84,15 @@ int		ft_get_the_max_flow(t_box *head)
 	graph_flow = 0;
 	while (ft_bfs(head->start, head->end) != -1)
 	{
+//		ft_printf("{red} bfs is done. flow == %d; {eoc} \n", graph_flow);
 		while ((ret = dfs(head->start, head->end, INT_MAX)) > 0)
 		{
 			graph_flow += ret;
+			ft_printf("g_flow == %d;\n", graph_flow);
 			//ft_print_link(head->tree, 's');
 		}
+		//if (graph_flow == 3)
+		//	return (3);
 	}
 	return (graph_flow);
 }
