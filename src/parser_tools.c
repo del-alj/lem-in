@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:19:34 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/27 23:26:15 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/02/28 18:10:15 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_print_link(t_avl *tree , char c)
 				tree->rooms_name, tree->id);
 		while (adj_temp != NULL)
 		{
-			ft_printf("{green}%s {eoc}", adj_temp->n_link->rooms_name);
+			ft_printf("{green}%s {eoc} {yellow}%d {eoc} {yellow}%d {eoc}", adj_temp->n_link->rooms_name, adj_temp->n_link->level, adj_temp->cap);
 			adj_temp = adj_temp->next;
 			if (adj_temp)
 				ft_printf("--> ");
