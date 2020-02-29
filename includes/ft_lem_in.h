@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/29 14:28:55 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/29 17:06:20 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,18 @@ typedef struct  s_queue
 }				t_queue;
 
 t_avl		*ft_new_node(t_data data);
+int			ft_bfs(t_avl *start, t_avl *end);
 int			ft_height(t_avl *node);
+int			ft_is_not_visited(t_adj *list, t_avl *room);
 int			ft_max(int a, int b);
+int			ft_origin_bfs(t_avl *start, t_avl *end);
 void		ft_add_edge(t_avl **tree, char *r1, char *r2);
 void		ft_balance(t_avl **tree, t_data data);
 void		ft_error_function(t_avl *tree, char *str);
 void		ft_if_start_end(t_avl *node, t_data data, t_box *box);
 void		ft_insert_node(t_avl **tree, t_data data, t_box *box);
 void		ft_print_tree(t_avl *tree, char c);
-int			ft_bfs(t_avl *start, t_avl *end);
+t_queue		*ft_init_queue(t_avl *start);
 
 long long	ft_atoi_m(char *str);
 /*
