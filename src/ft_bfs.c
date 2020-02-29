@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 15:02:25 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/28 21:51:15 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/29 14:25:44 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,8 @@ int		ft_bfs(t_avl *start, t_avl *end)
 		{
 			q->front->next = (t_adj*)malloc(sizeof(t_adj));
 			q->front->next->n_link = u->n_link;
-			if (q->front->next->n_link->level == 0 && q->front->next->cap == 0)
-			{		q->front->next->n_link->level = q->rear->n_link->level + 1;
-			}
+			if (q->front->next->n_link->level == 0 && u->cap == 1)
+				q->front->next->n_link->level = q->rear->n_link->level + 1;
 			q->front->next->next = NULL;
 			q->front = q->front->next;
 			if (q->front->n_link->id == end->id)
