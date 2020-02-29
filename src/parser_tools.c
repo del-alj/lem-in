@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:19:34 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/29 14:42:08 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/02/29 16:41:00 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	ft_print_all_paths(t_path **paths, int maxflow)
 	ft_printf("number of paths/max flow value : {cyan}%d {eoc} \n", maxflow);
 	while (i < maxflow && paths[i])
 	{
-		ft_printf("[%d]\t:", paths[i]->len);
 		path = paths[i];
+		ft_printf("[%d]\t:", path->len);
 
 		ft_printf("{red}%s {eoc} ", path->vert_name);
 		path = path->next;
@@ -66,7 +66,7 @@ void	ft_print_all_paths(t_path **paths, int maxflow)
 			ft_printf("-- {green}%s {eoc}", path->vert_name);
 			path = path->next;
 		}
-		ft_printf("{red}%s {eoc} \n", path->vert_name);
+		ft_printf("{red}-- %s {eoc} \n", path->vert_name);
 		i++;
 	}
 }
