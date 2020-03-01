@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:02:35 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/01 22:11:59 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/02 00:13:39 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,32 @@ int		dfs(t_avl *u, t_avl *v, int flow)
 	adj = u->adj;
 	while (adj != NULL)
 	{
-//		if (((adj->edge->taken == 0 && adj->cap > 0) || (u->taken == 1 && adj->cap == 2)) && \
-				((u->level == adj->edge->level - 1) || (adj->edge->id == v->id)))
-		if ((adj->cap > 0) && ((u->level < adj->edge->level) || (adj->edge->id == v->id)))
+		if ((adj->cap == 1 || adj->cap == 2) && ((u->level + 1 == adj->edge->level) || (adj->edge->id == v->id)))
+		//if (((adj->edge->taken == 0 && adj->cap == 1) || (u->taken == 1 && adj->cap == 2)) && \
+				((u->level < adj->edge->level) || (adj->edge->id == v->id)))
 		{
-			u->taken = (++(u->taken) % 2);
+			u->taken = 1;
 			adj->cap -= 1;
 			ft_increase_capacity(adj->edge->adj, u, 1);
-
-			valid_flow = dfs(adj->edge, v, 1);
-			if (valid_flow > 0)
-				return (valid_flow);
-			else
+			valid_flow = dfs(adj->edge, v, adj->cap + 1);
+			if(valid_flow == 0)
 			{
-				u->taken = (++(u->taken) % 2);
 				adj->cap += 1;
 				ft_increase_capacity(adj->edge->adj, u, -1);
+				if (adj->cap == 1)
+					u->taken = 0;
 			}
+			else
+				return (valid_flow);
+
+
+		//if (valid_flow > 0)
+		//{
+		//	u->taken = 1;
+		//	adj->cap -= 1;
+		//	ft_increase_capacity(adj->edge->adj, u, 1);
+		//	return (valid_flow);
+		//}
 		}
 		adj = adj->next;
 	}
@@ -86,7 +95,7 @@ int		ft_get_the_max_flow(t_box *head)
 	while (ft_bfs(head->start, head->end) != -1)
 	{
 //		ft_printf("{red} bfs is done. flow == %d; {eoc} \n", graph_flow);
-		while ((ret = dfs(head->start, head->end, INT_MAX)) > 0)
+		while ((ret = dfs(head->start, head->end, 1)) > 0)
 		{
 			graph_flow += ret;
 //			ft_printf("\t{green}g_flow == %d; {eoc}\n", graph_flow);
