@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/29 23:45:49 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/01 15:31:17 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,48 @@ int		ft_read_input(t_box *head, char **buff)
 ** ****************************************************************************
 */
 
+int		ft_len_adj(t_adj *list)
+{
+	int		len;
+	t_adj	*current;
+
+	current = list;
+	len = 0;
+	while (current)
+	{
+		current = current->next;
+		len++;
+	}
+	return (len);
+}
+
+/*
+** ****************************************************************************
+*/
+
+int		ft_min(int a, int b)
+{
+	return ((a > b) ? b : a);
+}
+
+/*
+** ****************************************************************************
+*/
+
+void	ft_cnt_ports(t_box *head)
+{
+	int	p_start;
+	int	p_end;
+
+	p_start = ft_len_adj(head->start->adj);
+	p_end = ft_len_adj(head->end->adj);
+	head->ports = ft_min(p_start, p_end);
+}
+
+/*
+** ****************************************************************************
+*/
+
 int		main(void)
 {
 	t_box			head;
@@ -268,7 +310,8 @@ int		main(void)
 		ft_error_function(head.tree, (char*)error[ret]);
 	ft_printf("%s\n\n\n", buff);
 	ft_memdel((void**)&buff);
-
+	ft_cnt_ports(&head);
+//	ft_printf("ports ----> %d\n", head.ports);
 /*			print the current graph to debug	*/
 //	ft_print_link(head.tree, 'o');
 //	ft_printf("{blue}start : %s. {eoc}\n", head.start->name);
@@ -276,6 +319,7 @@ int		main(void)
 
 
 /* 			algo 	*/
+	//ft_bfs(head.start, head.end);
 	paths = ft_all_paths(&head, &maxflow);
 	ft_print_all_paths(paths, maxflow);
 //	ft_sort_paths(&paths);

@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:02:35 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/29 23:46:04 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/01 15:49:21 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,29 @@ int		ft_get_the_max_flow(t_box *head)
 {
 	int ret;
 	int graph_flow;
+	int	cnt;
 
+	cnt = 0;
 	graph_flow = 0;
-	while (ft_bfs(head->start, head->end) != -1)
-	{
+//	if (ft_bfs(head->start, head->end) != -1 )
+//	{
+	while (ft_bfs(head->start, head->end) == 1 && cnt < head->ports)
+	//	if (ft_bfs(head->start, head->end) == 1 /*&& cnt < head->ports*/)
+		{
 //		ft_printf("{red} bfs is done. flow == %d; {eoc} \n", graph_flow);
+		//ft_printf("{green} get the max flow 1. flow == %d; {eoc} \n", graph_flow);
 		while ((ret = dfs(head->start, head->end, INT_MAX)) > 0)
 		{
 			graph_flow += ret;
-			ft_printf("g_flow == %d;\n", graph_flow);
+//			ft_printf("g_flow == %d;\n", graph_flow);
+
+			//ft_printf("{red} get the max flow 2. flow == %d; {eoc} \n", graph_flow);
 			//ft_print_link(head->tree, 's');
 		}
+		cnt++;
 		//if (graph_flow == 3)
 		//	return (3);
+//	}
 	}
 	return (graph_flow);
 }
@@ -156,7 +166,7 @@ t_path	**ft_all_paths(t_box *head, int	*maxflow)
 	// explore all paths and marking them by '0'
 	//ft_print_link(head->tree, 'p');
 	g_flow = ft_get_the_max_flow(head);
-	//ft_print_link(head->tree, 'p');
+//	ft_print_link(head->tree, 'p');
 	// allocate a table for all the paths
 	if(!(paths = ft_memalloc((g_flow + 1)* sizeof(t_path*))))
 		exit(0);

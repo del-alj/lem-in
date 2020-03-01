@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/29 17:06:20 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/01 12:28:55 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct      s_box
 	t_avl			*tree;
 	t_avl           *start;
 	t_avl           *end;
+	int				ports;
 	int				ants_nbr;
 }					t_box;
 
