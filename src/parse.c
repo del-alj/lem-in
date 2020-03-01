@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/01 15:31:17 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/01 18:19:43 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,6 +283,7 @@ void	ft_cnt_ports(t_box *head)
 
 	p_start = ft_len_adj(head->start->adj);
 	p_end = ft_len_adj(head->end->adj);
+	ft_printf("start_edge = %d, end_edge = %d;\n", p_start, p_end);
 	head->ports = ft_min(p_start, p_end);
 }
 
@@ -321,13 +322,14 @@ int		main(void)
 /* 			algo 	*/
 	//ft_bfs(head.start, head.end);
 	paths = ft_all_paths(&head, &maxflow);
+//	ft_print_link(head.tree, 'o');
 	ft_print_all_paths(paths, maxflow);
 //	ft_sort_paths(&paths);
 //	ft_print_solution(head, paths);
 
 
 //	ft_bfs(head.start, head.end);
-//	ft_print_link(head.tree, 'o');
+	ft_cnt_ports(&head);
 /*			free every thing	*/
 	ft_free_tree(head.tree);
 	return (0);

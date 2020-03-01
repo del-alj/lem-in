@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 15:02:25 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/01 14:23:26 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/01 18:48:28 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ int		ft_bfs(t_avl *start, t_avl *end)
 		if (!u)
 		{
 			q->rear = q->rear->next;
-			if ((q->rear) && q->rear->edge->id == end->id)
-				q->rear = q->rear->next;
+/*			if ((q->rear) && q->rear->edge->id == end->id)
+				q->rear = q->rear->next;*/
 			if (!q->rear)
 				return (cnt);
 			u = q->rear->edge->adj;
