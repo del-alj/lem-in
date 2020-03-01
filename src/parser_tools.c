@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:19:34 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/01 18:26:40 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/01 21:28:16 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,15 @@ void	ft_print_link(t_avl *tree , char c)
 	if (tree)
 	{
 		adj_temp = tree->adj;
-		ft_printf("{red}%s {eoc} {bold cyan}%d, %d {eoc}:\t", \
-				tree->name, tree->id, tree->level);
+		ft_printf("{red}%s {eoc} {bold cyan}%.3d {eoc}:\t", \
+				tree->name, tree->level);
 		while (adj_temp != NULL)
 		{
-			ft_printf("{green}%s {eoc} {yellow}%d {eoc} {yellow}%d {eoc}", adj_temp->edge->name, adj_temp->edge->level, adj_temp->cap);
+			ft_printf("{green}%s {eoc} {bold cyan}%.3d {eoc} {yellow}%.3d {eoc}", \
+					adj_temp->edge->name, adj_temp->edge->level, adj_temp->cap);
 			adj_temp = adj_temp->next;
 			if (adj_temp)
-				ft_printf("--> ");
+				ft_printf(" -->\t");
 		}
 		ft_printf("\n");
 		ft_print_link(tree->right, 'r');

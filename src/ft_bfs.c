@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 15:02:25 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/01 18:48:28 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/01 21:54:29 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		ft_bfs(t_avl *start, t_avl *end)
 	u = start->adj;
 	while (u)
 	{
-		if (ft_is_not_visited(q->list, u->edge) && u->cap != 0)
+		if (u->cap != 0 && ft_is_not_visited(q->list, u->edge))
 		{
 			q->front->next = (t_adj*)malloc(sizeof(t_adj));
 			q->front->next->edge = u->edge;
@@ -68,7 +68,9 @@ int		ft_bfs(t_avl *start, t_avl *end)
 			q->front->next->next = NULL;
 			q->front = q->front->next;
 			if (q->front->edge->id == end->id)
+			{
 				cnt = 1;
+			}
 		}
 		u = u->next;
 		if (!u)

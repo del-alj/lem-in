@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/01 18:19:43 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/01 22:12:28 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,7 +309,7 @@ int		main(void)
 	ret = ft_read_input(&head, &buff);
 	if (ret < 2)
 		ft_error_function(head.tree, (char*)error[ret]);
-	ft_printf("%s\n\n\n", buff);
+//	ft_printf("%s\n\n\n", buff);
 	ft_memdel((void**)&buff);
 	ft_cnt_ports(&head);
 //	ft_printf("ports ----> %d\n", head.ports);
@@ -329,7 +329,8 @@ int		main(void)
 
 
 //	ft_bfs(head.start, head.end);
-	ft_cnt_ports(&head);
+//	ft_print_link(head.tree, 's');
+//	ft_cnt_ports(&head);
 /*			free every thing	*/
 	ft_free_tree(head.tree);
 	return (0);
