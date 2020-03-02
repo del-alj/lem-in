@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 16:59:37 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/01 21:52:45 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/02 21:36:37 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		ft_origin_bfs(t_avl *start, t_avl *end)
 	u = start->adj;
 	while (u)
 	{
-		if (ft_is_not_visited(q->list, u->edge))
+		if (ft_is_not_visited(q->head, u->edge))
 		{
 			q->front->next = (t_adj*)malloc(sizeof(t_adj));
 			q->front->next->edge = u->edge;

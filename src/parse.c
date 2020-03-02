@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/01 22:12:28 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/02 19:09:34 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,7 @@ void	ft_cnt_ports(t_box *head)
 	p_start = ft_len_adj(head->start->adj);
 	p_end = ft_len_adj(head->end->adj);
 	ft_printf("start_edge = %d, end_edge = %d;\n", p_start, p_end);
+	ft_printf("vertics_num == %d;\n", head->vertics_num);
 	head->ports = ft_min(p_start, p_end);
 }
 

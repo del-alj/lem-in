@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 08:34:21 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/29 23:44:41 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/02 19:07:45 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ void	ft_insert_node(t_avl **tree, t_data data, t_box *box)
 	{
 		if (!((*tree)->left = ft_new_node(data)))
 			ft_error_function((*tree), NULL);
+		box->vertics_num = (*tree)->left->id;
 		ft_if_start_end((*tree)->left, data, box);
 	}
 	else if ((*tree)->right == NULL && key > 0)
 	{
 		if (!((*tree)->right = ft_new_node(data)))
 			ft_error_function((*tree), NULL);
+		box->vertics_num = (*tree)->right->id;
 		ft_if_start_end((*tree)->right, data, box);
 	}
 	ft_balance(tree, data);
