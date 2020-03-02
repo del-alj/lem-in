@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 19:00:45 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/02 23:30:29 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/03 00:20:01 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ int		bfs(t_box *box, t_avl *start, t_avl *end)
 				(can_i_pass(q->front->prev, currentVertex, cur_e) == 1))
 			{
 		//		if (q->front->prev && currentVertex && cur_e)
-		//			ft_printf("prev = [%s], cur = [%s], next = [%s].\n", \
-						q->front->prev->name, currentVertex->name, cur_e->edge->name);
+		//			ft_printf("prev = [%s, %d], cur = [%s, %d], next = [%s, %d].\n", \
+						q->front->prev->name, visited[q->front->prev->id], \
+						currentVertex->name, visited[currentVertex->id], \
+						cur_e->edge->name, visited[cur_e->edge->id]);
 				visited[cur_e->edge->id] = 1;
-			//	if (cur_e->edge->level == 0)
+				if (cur_e->edge->level == 0)
 					cur_e->edge->level = currentVertex->level + 1;
 				enqueue(q, cur_e->edge, cur_e->cap);
 				if (cur_e->edge->id == end->id)
@@ -50,10 +52,10 @@ int		bfs(t_box *box, t_avl *start, t_avl *end)
 			}
 			cur_e = cur_e->next;
 		}
-		if (bol_is_some_edge_added == 0)
+		if (bol_is_some_edge_added == 0 && currentVertex->id != end->id)
 		{
 			visited[currentVertex->id] = 0;
-		//	currentVertex->level = 0;
+			currentVertex->level = 0;
 		}
 
 		pop_queue(q);

@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:19:34 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/02 17:31:03 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/03 00:00:13 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_print_link(t_avl *tree , char c)
 					adj_temp->edge->name, adj_temp->edge->level, adj_temp->cap);
 			adj_temp = adj_temp->next;
 			if (adj_temp)
-				ft_printf(" -->\t");
+				ft_printf("-->   ");
 		}
 		ft_printf("\n");
 		ft_print_link(tree->right, 'r');
