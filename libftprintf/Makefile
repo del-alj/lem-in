@@ -6,7 +6,7 @@
 #    By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/01 06:06:14 by mzaboub           #+#    #+#              #
-#    Updated: 2020/02/22 13:02:00 by mzaboub          ###   ########.fr        #
+#    Updated: 2020/03/06 17:53:25 by mzaboub          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
-	@echo "\033[1;32m>> library compilled.\033[0m"
+	@echo "\033[1;34m>>\033[0m libftprintf\033[1;32m Library compilled.\033[0m"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(HDR)
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
@@ -80,10 +80,10 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(HDR)
 clean:
 	@rm -fr $(OBJ)
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
-	@echo "\033[1;33m>> Library object files deleted.\033[0m"
+	@echo "\033[1;34m>>\033[0m libftprintf\033[1;33m Library object files deleted.\033[0m"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "\033[0;31m>> library deleted.\033[0m"
+	@echo "\033[0;34m>>\033[0m libftprintf\033[0;31m Library deleted.\033[0m"
 
 re: fclean all

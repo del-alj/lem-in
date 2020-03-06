@@ -36,7 +36,7 @@ all: lib $(NAME)
 
 $(NAME): $(LIB_PATH)/$(LIB) $(OBJ)
 	@$(CW) -g $(LD_FLAGS) $(LD_LIBS) $(CFLAGS) $(OBJ) -o $@
-	@ echo "\033[1;32m>> lem-in binary is ready ;)\033[0m"
+	@ echo "\033[1;34m >>\033[0m lem-in\033[1;32m binary is ready.\033[0m"
 
 lib:
 	@make -sC $(LIB_PATH)
@@ -51,14 +51,14 @@ clean:
 	@rm -fr $(OBJ)
 	@rm -fr $(OBJ_PATH) 2> /dev/null || true
 	@make -C libftprintf clean
-	@echo "\033[1;33m>> Lem-in object files deleted.\033[0m" 
+	@echo "\033[1;34m >>\033[0m Lem-in\033[1;33m object files deleted.\033[0m" 
 
 fclean:
-	@rm -fr $(OBJ)
-	@rm -fr $(NAME)
-	@rm -fr $(OBJ_PATH) 2> /dev/null || true
-	@echo "\033[1;33m>> Lem-in object files deleted.\033[0m" 
 	@make -C libftprintf fclean
-	@echo "\033[0;31m>> Lem-in binary deleted.\033[0m" 
+	@rm -fr $(OBJ)
+	@rm -fr $(OBJ_PATH) 2> /dev/null || true
+	@echo "\033[1;34m >>\033[0m Lem-in\033[1;33m object files deleted.\033[0m" 
+	@rm -fr $(NAME)
+	@echo "\033[0;34m >>\033[0m Lem-in\033[0;31m binary deleted.\033[0m" 
 
 re: fclean all
