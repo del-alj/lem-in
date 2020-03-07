@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:02:35 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/03 00:20:39 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/07 21:12:30 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,24 +103,18 @@ int		dfs(t_avl *prev, t_avl *u, t_avl *v, int flow)
 
 int		ft_get_the_max_flow(t_box *head)
 {
-	int ret;
-	int graph_flow;
-	int	iter = 1;
+	int		ret;
+	int		graph_flow;
+	int		iter = 1;
+	t_path	**path_tab[2];
 
 	graph_flow = 0;
-	//	if (ft_bfs(head->start, head->end) == 1 /*&& cnt < head->ports*/)
 	while (bfs(head, head->start, head->end) != -1)
 	{
-	//	ft_printf("{red} bfs is done. [%d] flow == %d; {eoc}\n", iter++, graph_flow);
-	//	if (iter == 4)
-	//		break;
 		while ((ret = dfs(NULL, head->start, head->end, 1)) > 0)
-		{
 			graph_flow += ret;
-		}
 		ft_origin_bfs(head->start, head->end);
 	}
-//	ft_print_link(head->tree, 's');
 	return (graph_flow);
 }
 
@@ -189,7 +183,6 @@ t_path	**ft_all_paths(t_box *head, int	*maxflow)
 	// allocate a table for all the paths
 	if(!(paths = ft_memalloc((g_flow + 1)* sizeof(t_path*))))
 		exit(0);
-	paths[g_flow] = NULL;	
 	i = 0;
 	// traversing the graph for one last time, to get all paths
 	while (i < g_flow )
@@ -199,6 +192,7 @@ t_path	**ft_all_paths(t_box *head, int	*maxflow)
 			break;
 		i++;
 	}
+	paths[i] = NULL;	
 	*maxflow = g_flow;
 	return (paths);
 }
