@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/02 22:09:04 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/07 19:56:15 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void		ft_if_start_end(t_avl *node, t_data data, t_box *box);
 void		ft_insert_node(t_avl **tree, t_data data, t_box *box);
 void		ft_print_tree(t_avl *tree, char c);
 t_queue		*ft_init_queue(t_avl *start);
+t_path		**ft_make_group(t_box *head, int nb_path, int *score);
+int			ft_score(t_box *head, int nb_path, int *score, t_path ***paths);
 
 long long	ft_atoi_m(char *str);
 /*
@@ -116,7 +118,7 @@ void	ft_free_tree(t_avl *tree);
 
 void	ft_increase_capacity(t_adj *edge, t_avl *v, int flow);
 int		dfs(t_avl* prev, t_avl *u, t_avl *v, int flow);
-int		ft_get_the_max_flow(t_box *head);
+int		ft_get_the_max_flow(t_box *head, t_path ***paths);
 int		ft_get_path(t_avl *u, t_avl *v, t_path **path);
 t_path	**ft_all_paths(t_box *head, int	*maxflow);
 int		can_i_pass(t_avl *prev, t_avl *u, t_adj *adj);

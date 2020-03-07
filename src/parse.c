@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/02 19:09:34 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/07 16:45:19 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,7 +324,7 @@ int		main(void)
 	//ft_bfs(head.start, head.end);
 	paths = ft_all_paths(&head, &maxflow);
 //	ft_print_link(head.tree, 'o');
-	ft_print_all_paths(paths, maxflow);
+//	ft_print_all_paths(paths, maxflow);
 //	ft_sort_paths(&paths);
 //	ft_print_solution(head, paths);
 

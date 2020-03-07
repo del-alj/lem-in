@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:02:35 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/03 00:20:39 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/07 20:00:22 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,13 @@ int		dfs(t_avl *prev, t_avl *u, t_avl *v, int flow)
 	int		valid_flow;
 	int i = 0;
 
-//	ft_printf("----------------------\n");
 	if (flow <= 0)
 	{
 		ft_printf("flow is zeeeero \n");
 		exit(0);
 	}
 	if (u->id == v->id)
-	{
-//		ft_printf("{yellow} sink is reached. {eoc}\n");
 		return (1);
-	}
 	adj = u->adj;
 	while (adj != NULL)
 	{
@@ -101,26 +97,22 @@ int		dfs(t_avl *prev, t_avl *u, t_avl *v, int flow)
 **	***************************************************************************
 */
 
-int		ft_get_the_max_flow(t_box *head)
+int		ft_get_the_max_flow(t_box *head, t_path ***paths)
 {
 	int ret;
 	int graph_flow;
 	int	iter = 1;
+	int	score = 2147483647;
 
 	graph_flow = 0;
-	//	if (ft_bfs(head->start, head->end) == 1 /*&& cnt < head->ports*/)
 	while (bfs(head, head->start, head->end) != -1)
 	{
-	//	ft_printf("{red} bfs is done. [%d] flow == %d; {eoc}\n", iter++, graph_flow);
-	//	if (iter == 4)
-	//		break;
 		while ((ret = dfs(NULL, head->start, head->end, 1)) > 0)
-		{
 			graph_flow += ret;
-		}
+		if (!(ft_score(head, graph_flow, &score, paths)))
+			break ;
 		ft_origin_bfs(head->start, head->end);
 	}
-//	ft_print_link(head->tree, 's');
 	return (graph_flow);
 }
 
@@ -154,8 +146,7 @@ int		ft_get_path(t_avl *u, t_avl *v, t_path **path)
 			valid_flow = ft_get_path(adj->edge, v, path);
 			if (valid_flow > 0)
 			{
-				//adj->cap += valid_flow;
-				adj->cap = 1;
+				adj->cap = 5;
 				if(!(tmp = (t_path*)ft_memalloc(sizeof(t_path))))
 					exit(0);
 				tmp->vert_name = ft_strdup(u->name);
@@ -181,25 +172,9 @@ t_path	**ft_all_paths(t_box *head, int	*maxflow)
 	int		g_flow;
 	int		i;
 
-	// explore all paths and marking them by '0'
-	//ft_print_link(head->tree, 'p');
-	g_flow = ft_get_the_max_flow(head);
-
-//	ft_print_link(head->tree, 'p');
-	// allocate a table for all the paths
-	if(!(paths = ft_memalloc((g_flow + 1)* sizeof(t_path*))))
-		exit(0);
-	paths[g_flow] = NULL;	
-	i = 0;
-	// traversing the graph for one last time, to get all paths
-	while (i < g_flow )
-	{
-		// getting the name a paths (linked list if vertics names)
-		if ((paths[i]->len = ft_get_path(head->start, head->end, paths + i)) == 0)
-			break;
-		i++;
-	}
-	*maxflow = g_flow;
+	paths = NULL;
+	g_flow = ft_get_the_max_flow(head, &paths);
+	ft_print_all_paths(paths, g_flow);
 	return (paths);
 }
 
