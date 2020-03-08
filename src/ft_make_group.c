@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 19:31:58 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/08 02:08:00 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 18:18:13 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,21 @@ t_path  *ft_make_group(t_box *head, int nb_path, int *score)
 	if(!(paths = (t_path*)ft_memalloc((nb_path)* sizeof(t_path))))
 		return (0);
 	i = 0;
-	while (i < nb_path)
+	t_adj *ptr;
+	ptr = head->start->adj;
+	while (i < nb_path && ptr)
 	{
 		paths[i].list = NULL;
-		paths[i].len = ft_get_path(head->start, head->end, paths + i);
+		while (ptr->cap != 0)
+			ptr = ptr->next;
+		paths[i].len = ft_get_path(ptr->edge, head->end, paths + i) + 1;
+		ft_add_to_path(paths + i, head->start->name);
 		if (!(paths + i))
 			break;
 		if(paths[i].len == 0)
 			break;
 		i++;
+		ptr = ptr->next;
 	}
 	return (paths);
 }
@@ -56,9 +62,9 @@ int	ft_score(t_box *head, int nb_path, int *score, t_path **paths)
 		i = i + (group[indx].len) - 1;// numbre of edges
 		indx++;
 	}
-	ft_printf("{red} nb_path = %d\n {eoc}", nb_path);
+	//ft_printf("{red} nb_path = %d\n {eoc}", nb_path);
 	if (nb_path - 1 > 0)
-		i = (i + head->ants_nbr) / nb_path - 1;
+		i = ((i + head->ants_nbr) / nb_path) - 1;
 	else
 		i = (i + head->ants_nbr);//this may not be the right thing !!!!!!!
 	if (i < (*score))
@@ -66,6 +72,9 @@ int	ft_score(t_box *head, int nb_path, int *score, t_path **paths)
 		(*score) = i;
 		//free *path here;
 		*paths = group;
+//		ft_printf("score == %d;ants = %d, paths = %d\n", \
+				*score, head->ants_nbr, nb_path);
+//		ft_print_all_paths(group, nb_path);
 		return (1);
 	}
 	return (0);
@@ -94,7 +103,7 @@ int		ft_get_path(t_avl *u, t_avl *v, t_path *path)
 			valid_flow = ft_get_path(adj->edge, v, path);
 			if (valid_flow > 0)
 			{
-				adj->cap = 5;
+				//adj->cap = 5;
 				ft_add_to_path(path, u->name);
 				return (valid_flow + 1);
 			}

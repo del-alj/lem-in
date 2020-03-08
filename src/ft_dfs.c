@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:02:35 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/08 02:08:49 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 17:54:49 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,24 +115,25 @@ int		ft_get_the_max_flow(t_box *head, t_path **paths)
 	int	level_tab[head->vertics_num];
 
 	graph_flow = 0;
-	ft_memset(level_tab, 0, head->vertics_num);
+	ft_memset(level_tab, 0, head->vertics_num * sizeof(int));
+	//ft_memset(level_tab, 0, head->vertics_num);
 	while (bfs(head, head->start, head->end, level_tab) != -1)
 	{
-				int i = 0;
-				ft_printf("level == ");
-				while (i < head->vertics_num)
-					ft_printf(" %d ", level_tab[i++]);
-				ft_printf("\n");
+		//		int i = 0;
+		//		ft_printf("level == ");
+		//		while (i < head->vertics_num)
+		//			ft_printf(" %d ", level_tab[i++]);
+		//		ft_printf("\n");
 
 		while ((ret = dfs(NULL, head->start, head->end, 1, level_tab)) > 0)
 			graph_flow += ret;
-		ft_printf("ret == %d, graph_flow == %d;\n", ret, graph_flow);
+		//ft_printf("ret == %d, graph_flow == %d;\n", ret, graph_flow);
 		if (!(ft_score(head, graph_flow, &score, paths)))
 		{
 			--graph_flow; // in this case, we'll ignore the last path we added
 			return (graph_flow);
 		}
-		ft_memset(level_tab, 0, head->vertics_num);
+		ft_memset(level_tab, 0, head->vertics_num * sizeof(int));
 //		ft_origin_bfs(head->start, head->end);
 	}
 	return (graph_flow);

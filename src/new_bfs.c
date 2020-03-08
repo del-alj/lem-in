@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 19:00:45 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/08 02:47:08 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 17:54:35 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		bfs(t_box *box, t_avl *start, t_avl *end, int *level)
 	int		bol_is_some_edge_added;
 
 	ft_memset((void*)visited, 0, (box->vertics_num + 1)* sizeof(int));
+	//ft_memset((void*)level, 0, (box->vertics_num)* sizeof(int));
 	visited[start->id] = 1;
 	end_reached = -1;
 
@@ -46,16 +47,17 @@ int		bfs(t_box *box, t_avl *start, t_avl *end, int *level)
 				if (level[cur_e->edge->id] == 0)
 				{
 					level[cur_e->edge->id] = level[currentVertex->id] + 1;
-					ft_printf("new level[%d] = %d\n", \
+					//ft_printf("new level[%d] = %d\n", \
 							cur_e->edge->id, level[cur_e->edge->id]);
 				}
 				else
 				{
-					ft_printf("old level[%d] = %d\n", \
+					//ft_printf("old level[%d] = %d\n", \
 							cur_e->edge->id, level[cur_e->edge->id]);
 				}
 				//if (cur_e->edge->level == 0)
 				//	cur_e->edge->level = currentVertex->level + 1;
+			//	ft_printf("[%s] was added from [%s]\n", cur_e->edge->name, currentVertex->name);
 				enqueue(q, cur_e->edge, cur_e->cap);
 				if (cur_e->edge->id == end->id)
 					end_reached = 1;
@@ -67,7 +69,7 @@ int		bfs(t_box *box, t_avl *start, t_avl *end, int *level)
 		{
 			visited[currentVertex->id] = 0;
 			level[currentVertex->id] = 0;
-			ft_printf("rst level[%d] = %d\n", \
+		//	ft_printf("rst level[%d] = %d\n", \
 					currentVertex->id, level[currentVertex->id]);
 			//currentVertex->level = 0;
 		}
