@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 19:00:45 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/07 16:24:59 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/08 02:47:08 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 
-int		bfs(t_box *box, t_avl *start, t_avl *end)
+int		bfs(t_box *box, t_avl *start, t_avl *end, int *level)
 {
 	t_queue *q = ft_init_queue(start);
 	int		visited[box->vertics_num + 1];
@@ -43,8 +43,19 @@ int		bfs(t_box *box, t_avl *start, t_avl *end)
 						currentVertex->name, visited[currentVertex->id], \
 						cur_e->edge->name, visited[cur_e->edge->id]);
 				visited[cur_e->edge->id] = 1;
-				if (cur_e->edge->level == 0)
-					cur_e->edge->level = currentVertex->level + 1;
+				if (level[cur_e->edge->id] == 0)
+				{
+					level[cur_e->edge->id] = level[currentVertex->id] + 1;
+					ft_printf("new level[%d] = %d\n", \
+							cur_e->edge->id, level[cur_e->edge->id]);
+				}
+				else
+				{
+					ft_printf("old level[%d] = %d\n", \
+							cur_e->edge->id, level[cur_e->edge->id]);
+				}
+				//if (cur_e->edge->level == 0)
+				//	cur_e->edge->level = currentVertex->level + 1;
 				enqueue(q, cur_e->edge, cur_e->cap);
 				if (cur_e->edge->id == end->id)
 					end_reached = 1;
@@ -55,7 +66,10 @@ int		bfs(t_box *box, t_avl *start, t_avl *end)
 		if (bol_is_some_edge_added == 0 && currentVertex->id != end->id)
 		{
 			visited[currentVertex->id] = 0;
-			currentVertex->level = 0;
+			level[currentVertex->id] = 0;
+			ft_printf("rst level[%d] = %d\n", \
+					currentVertex->id, level[currentVertex->id]);
+			//currentVertex->level = 0;
 		}
 
 		pop_queue(q);

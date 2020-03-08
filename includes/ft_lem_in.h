@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/08 00:34:06 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 02:31:11 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct	s_avl
 	char            *name;
 	int				id;
 	t_point			cord;
-	int             level;
+//	int             level;
 	int				height;
 	int				taken;
 	struct	s_avl	*left;
@@ -100,7 +100,7 @@ int	ft_read_input(t_box *head, char **buff);
  */
 
 char 	*ft_escap_whitspace(char *str);
-void	ft_print_link(t_avl *tree , char c);
+void	ft_print_link(t_avl *tree);
 void	ft_print_all_paths(t_path *paths, int maxflow);
 
 /*
@@ -114,7 +114,7 @@ void	ft_free_tree(t_avl *tree);
  */
 
 void	ft_increase_capacity(t_adj *edge, t_avl *v, int flow);
-int		dfs(t_avl* prev, t_avl *u, t_avl *v, int flow);
+int		dfs(t_avl* prev, t_avl *u, t_avl *v, int flow, int *level);
 int		ft_get_the_max_flow(t_box *head, t_path **paths);
 int		ft_get_path(t_avl *u, t_avl *v, t_path *path);
 t_path	*ft_all_paths(t_box *head, int	*maxflow);
@@ -124,7 +124,7 @@ int		can_i_pass(t_avl *prev, t_avl *u, t_adj *adj);
 **	file : new_bfs.c
 */
 
-int		bfs(t_box *box, t_avl *start, t_avl *end);
+int		bfs(t_box *box, t_avl *start, t_avl *end, int *level);
 int		is_empty(t_queue *q);
 void	pop_queue(t_queue *q);
 t_avl	*dequeue(t_queue *q);

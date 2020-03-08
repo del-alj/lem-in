@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 16:59:37 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/07 16:59:05 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/08 01:17:46 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		ft_origin_bfs(t_avl *start, t_avl *end)
 		{
 			q->front->next = (t_adj*)malloc(sizeof(t_adj));
 			q->front->next->edge = u->edge;
-			q->front->next->edge->level = 0;
+	//		q->front->next->edge->level = 0;
 			q->front->next->next = NULL;
 			q->front = q->front->next;
 			if (q->front->edge->id == end->id)

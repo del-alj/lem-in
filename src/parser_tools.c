@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:19:34 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/08 00:34:03 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 02:25:46 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,26 @@ char *ft_escap_whitspace(char *str)
 
 /* Print nodes at a given level */
 
-void	ft_print_link(t_avl *tree , char c)
+void	ft_print_link(t_avl *tree)
 {
 	t_adj *adj_temp;
 
 	if (tree)
 	{
 		adj_temp = tree->adj;
-		ft_printf("{red}%s[%d] {eoc} {bold cyan}%.3d {eoc}:\t", \
-				tree->name, tree->taken, tree->level);
+		ft_printf("{red}%s[%d] {eoc} :\t", \
+				tree->name, tree->taken);
 		while (adj_temp != NULL)
 		{
-			ft_printf("{green}%s {eoc} {bold cyan}%.3d {eoc} {yellow}%.3d {eoc}", \
-					adj_temp->edge->name, adj_temp->edge->level, adj_temp->cap);
+			ft_printf("{green}%s {eoc}  {yellow}%.3d {eoc}", \
+					adj_temp->edge->name, adj_temp->cap);
 			adj_temp = adj_temp->next;
 			if (adj_temp)
 				ft_printf("-->   ");
 		}
 		ft_printf("\n");
-		ft_print_link(tree->right, 'r');
-		ft_print_link(tree->left, 'l');
+		ft_print_link(tree->right);
+		ft_print_link(tree->left);
 	}
 }
 

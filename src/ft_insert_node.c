@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 08:34:21 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/02 19:07:45 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 01:19:23 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_avl	*ft_new_node(t_data data)
 	node->cord = (t_point){data.x, data.y};
 	node->height = 1;
 	node->taken = 0;
-	node->level = 0;
+	//node->level = 0;
 	node->left = NULL;
 	node->right = NULL;
 	node->adj = NULL;

@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 15:02:25 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/02 22:06:20 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 01:20:27 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ t_queue	*ft_init_queue(t_avl *start)
 
 /*
 ** ***************************************************************************
-*/
 
 int		ft_bfs(t_box *box, t_avl *start, t_avl *end)
 {
@@ -82,8 +81,8 @@ int		ft_bfs(t_box *box, t_avl *start, t_avl *end)
 		{
 			prev = q->rear->edge;
 			q->rear = q->rear->next;
-/*			if ((q->rear) && q->rear->edge->id == end->id)
-				q->rear = q->rear->next;*/
+			if ((q->rear) && q->rear->edge->id == end->id)
+				q->rear = q->rear->next;
 			if (!q->rear)
 				return (cnt);
 			u = q->rear->edge->adj;
@@ -91,3 +90,6 @@ int		ft_bfs(t_box *box, t_avl *start, t_avl *end)
 	}
 	return (0);
 }
+
+** ***************************************************************************
+*/

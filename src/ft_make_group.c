@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 19:31:58 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/08 00:54:24 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 02:08:00 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,14 @@ int	ft_score(t_box *head, int nb_path, int *score, t_path **paths)
 	group = ft_make_group(head, nb_path, score);
 	while ((indx < nb_path) && (group + indx != NULL))
 	{
-		i = i + (group[indx].len) - 1;
+		i = i + (group[indx].len) - 1;// numbre of edges
 		indx++;
 	}
-	i = (i + head->ants_nbr) / nb_path - 1;
+	ft_printf("{red} nb_path = %d\n {eoc}", nb_path);
+	if (nb_path - 1 > 0)
+		i = (i + head->ants_nbr) / nb_path - 1;
+	else
+		i = (i + head->ants_nbr);//this may not be the right thing !!!!!!!
 	if (i < (*score))
 	{	
 		(*score) = i;
