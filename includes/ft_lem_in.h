@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/08 23:52:59 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/09 00:14:19 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,13 @@ typedef struct  s_queue
 	t_adj	*rear;
 }				t_queue;
 
+typedef struct s_bfs_data
+{
+	t_queue *q;
+	int		*level;
+	int		*visited;
+}				t_bfs_data;
+
 t_avl		*ft_new_node(t_data data);
 int			ft_bfs(t_box *box, t_avl *start, t_avl *end);
 int			ft_height(t_avl *node);
@@ -123,13 +130,6 @@ int		can_i_pass(t_avl *prev, t_avl *u, t_adj *adj);
 **	file : new_bfs.c
 */
 
-typedef struct s_bfs_data
-{
-	t_queue *q;
-	int		*level;
-	int		*visited;
-}				t_bfs_data;
-
 int		bfs(t_box *box, t_avl *start, t_bfs_data *data);
 int		is_empty(t_queue *q);
 void	pop_queue(t_queue *q);
@@ -137,6 +137,7 @@ t_avl	*dequeue(t_queue *q);
 void	enqueue(t_queue *q, t_avl *node, int cap);
 int		is_empty(t_queue *q);
 int		ft_bfs_extentions(t_box *box, t_bfs_data *data, t_adj *cur_e, t_avl *curr_vertex);
+void	ft_free_data(t_bfs_data dt);
 
 
 
