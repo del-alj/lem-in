@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/08 18:15:18 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 23:59:06 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,14 @@ int		ft_check_line(char *str, t_data *data, t_box *head)
 ** ****************************************************************************
 */
 
-void	ft_read_all_file(char **str, int *length)
+void	ft_read_all_file(char **str, int *length, char **backup_buff)
 {
 	char	buff[BUFF_READ + 1];
 	char	*temp;
 	int		ret;
 
-	*str = (char*)ft_memalloc(BUFF_READ + 1);
-	if (!str)
-		exit(0);
+	if (!(*str = (char*)ft_memalloc(BUFF_READ + 1)))
+		exit(EXIT_FAILURE);
 	ret = read(0, *str, BUFF_READ);
 	(*str)[ret] = '\0';
 	*length = ret;
@@ -120,6 +119,8 @@ void	ft_read_all_file(char **str, int *length)
 		if (ret < BUFF_READ)
 			break ;
 	}
+	if ((*backup_buff = ft_strdup(*str)) == NULL)
+		exit(EXIT_FAILURE);
 }
 
 /*
@@ -216,17 +217,15 @@ int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 
 int		ft_read_input(t_box *head, char **buff)
 {
+	int		bol;
 	char	*str;
+	int		stop;
 	int		index;
 	int		start;
-	int		bol;
-	int		stop;
 
 	bol = 0;
 	index = 0;
-	ft_read_all_file(&str, &stop);
-	if (!(*buff = ft_strdup(str)))
-			exit(0);
+	ft_read_all_file(&str, &stop, buff);
 	while (bol == 0)
 	{
 		start = ft_next_start(str, &index, stop);
@@ -234,6 +233,7 @@ int		ft_read_input(t_box *head, char **buff)
 		if (bol == -1)
 		{
 			ft_memdel((void**)&str);
+			ft_memdel((void**)buff);
 			ft_error_function(head->tree, "\tANTS NUMBER ERROR.");
 		}
 	}
@@ -253,12 +253,12 @@ int		ft_len_adj(t_adj *list)
 	int		len;
 	t_adj	*current;
 
-	current = list;
 	len = 0;
+	current = list;
 	while (current)
 	{
-		current = current->next;
 		len++;
+		current = current->next;
 	}
 	return (len);
 }
@@ -278,13 +278,11 @@ int		ft_min(int a, int b)
 
 void	ft_cnt_ports(t_box *head)
 {
-	int	p_start;
 	int	p_end;
+	int	p_start;
 
 	p_start = ft_len_adj(head->start->adj);
 	p_end = ft_len_adj(head->end->adj);
-	ft_printf("start_edge = %d, end_edge = %d;\n", p_start, p_end);
-	ft_printf("vertics_num == %d;\n", head->vertics_num);
 	head->ports = ft_min(p_start, p_end);
 }
 
@@ -296,35 +294,28 @@ int		main(void)
 {
 	t_box			head;
 	int				ret;
-	const	char	*error[3] = {"NO ROOMS", "NO EDGES", "NO START/END ROOM"};
 	char			*buff;
 	t_path			*paths;
-	int				maxflow;
+	const	char	*error[3] = {"NO ROOMS", "NO EDGES", "NO START/END ROOM"};
 
 	head.tree = NULL;
 	head.start = NULL;
 	head.end = NULL;
 	head.ants_nbr = 0;
 
-/*				the parsing part	*/
 	ret = ft_read_input(&head, &buff);
 	head.vertics_num++;
 	if (ret < 2)
 		ft_error_function(head.tree, (char*)error[ret]);
-	ft_memdel((void**)&buff);
 	ft_cnt_ports(&head);
 
-/* 					algo 			*/
-	//paths = ft_all_paths(&head, &maxflow);
-	maxflow = ft_get_the_max_flow(&head, &paths);
-	ft_print_all_paths(paths, maxflow);
-//	ft_print_link(head.tree);
-//	ft_sort_paths(&paths);
-//	ft_print_solution(head, paths);
+	ret = ft_get_the_max_flow(&head, &paths);
+	ft_print_all_paths(paths, ret);
 
-
-/*				free every thing	*/
 	ft_free_tree(head.tree);
+	ft_memdel((void**)&buff);
+	ft_simple_lstdel(&(paths->list));
+	ft_memdel((void**)&paths);
 	return (0);
 }
 

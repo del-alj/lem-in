@@ -6,25 +6,26 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:19:34 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/08 21:40:36 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 23:54:00 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 
-char *ft_escap_whitspace(char *str)
+char	*ft_escap_whitspace(char *str)
 {
 	while (str && ft_isspace((int)*str))
 		str++;
 	return (str);
 }
 
-
-/* Print nodes at a given level */
+/*
+** ***************************************************************************
+*/
 
 void	ft_print_link(t_avl *tree)
 {
-	t_adj *adj_temp;
+	t_adj	*adj_temp;
 
 	if (tree)
 	{
@@ -45,13 +46,14 @@ void	ft_print_link(t_avl *tree)
 	}
 }
 
-/*	print the paths	*/
-
+/*
+** ***************************************************************************
+*/
 
 void	ft_print_all_paths(t_path *paths, int maxflow)
 {
-	int		i;
-	t_list	*path;
+	int				i;
+	t_list_simple	*path;
 
 	i = 0;
 	ft_printf("number of paths/max flow value : {cyan}%d {eoc} \n", maxflow);
@@ -59,18 +61,16 @@ void	ft_print_all_paths(t_path *paths, int maxflow)
 	{
 		path = paths[i].list;
 		ft_printf("[%d]\t:", paths[i].len);
-//		if (paths[i].len != 0)
-//		{
-		//	ft_printf("{red}%s {eoc} ", (char*)path->content);
-		//	path = path->next;
-			while (path->next)
-			{
-				ft_printf("-- {green}%s {eoc}", path->content);
-				path = path->next;
-			}
-			ft_printf("{red}-- %s {eoc} \n", path->content);
-//		}
-//		else ft_printf("\n");
+		while (path->next)
+		{
+			ft_printf("-- {green}%s {eoc}", path->content);
+			path = path->next;
+		}
+		ft_printf("{red}-- %s {eoc} \n", path->content);
 		i++;
 	}
 }
+
+/*
+** ***************************************************************************
+*/
