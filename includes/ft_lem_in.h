@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/08 02:31:11 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 19:36:02 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,12 +124,23 @@ int		can_i_pass(t_avl *prev, t_avl *u, t_adj *adj);
 **	file : new_bfs.c
 */
 
-int		bfs(t_box *box, t_avl *start, t_avl *end, int *level);
+typedef struct s_bfs_data
+{
+	t_queue *q;
+	int		*level;
+	int		*visited;
+}				t_bfs_data;
+
+int		bfs(t_box *box, t_avl *start, t_bfs_data *data);
 int		is_empty(t_queue *q);
 void	pop_queue(t_queue *q);
 t_avl	*dequeue(t_queue *q);
 void	enqueue(t_queue *q, t_avl *node, int cap);
 int		is_empty(t_queue *q);
+int		ft_bfs_extentions(t_box *box, t_adj *cur_e, int *visited, t_queue *q, int *level, t_avl *curr_vertex);
+
+
+
 
 /*
 **	file : make_group.c

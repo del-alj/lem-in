@@ -6,79 +6,64 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 19:00:45 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/08 17:54:35 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 19:36:53 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 
-
-
-int		bfs(t_box *box, t_avl *start, t_avl *end, int *level)
+int		bfs(t_box *box, t_avl *start, t_bfs_data *data)
 {
-	t_queue *q = ft_init_queue(start);
-	int		visited[box->vertics_num + 1];
-	t_avl	*currentVertex;
+	//t_queue *q;
 	t_adj	*cur_e;
 	int		end_reached;
+	t_avl	*curr_vertex;
 	int		bol_is_some_edge_added;
 
-	ft_memset((void*)visited, 0, (box->vertics_num + 1)* sizeof(int));
-	//ft_memset((void*)level, 0, (box->vertics_num)* sizeof(int));
-	visited[start->id] = 1;
 	end_reached = -1;
-
-	while(!is_empty(q))
+	data->q = ft_init_queue(start);
+	data->visited[start->id] = 1;
+	while (!is_empty(data->q))
 	{
-		currentVertex = dequeue(q);
-		cur_e = currentVertex->adj;
+		curr_vertex = dequeue(data->q);
+		cur_e = curr_vertex->adj;
 		bol_is_some_edge_added = 0;
-		while (cur_e != NULL)
-		{
-			if(cur_e->cap > 0 && (visited[cur_e->edge->id] == 0) && \
-				(can_i_pass(q->front->prev, currentVertex, cur_e) == 1))
-			{
-		//		if (q->front->prev && currentVertex && cur_e)
-		//			ft_printf("prev = [%s, %d], cur = [%s, %d], next = [%s, %d].\n", \
-						q->front->prev->name, visited[q->front->prev->id], \
-						currentVertex->name, visited[currentVertex->id], \
-						cur_e->edge->name, visited[cur_e->edge->id]);
-				visited[cur_e->edge->id] = 1;
-				if (level[cur_e->edge->id] == 0)
-				{
-					level[cur_e->edge->id] = level[currentVertex->id] + 1;
-					//ft_printf("new level[%d] = %d\n", \
-							cur_e->edge->id, level[cur_e->edge->id]);
-				}
-				else
-				{
-					//ft_printf("old level[%d] = %d\n", \
-							cur_e->edge->id, level[cur_e->edge->id]);
-				}
-				//if (cur_e->edge->level == 0)
-				//	cur_e->edge->level = currentVertex->level + 1;
-			//	ft_printf("[%s] was added from [%s]\n", cur_e->edge->name, currentVertex->name);
-				enqueue(q, cur_e->edge, cur_e->cap);
-				if (cur_e->edge->id == end->id)
-					end_reached = 1;
-				bol_is_some_edge_added = 1;
-			}
-			cur_e = cur_e->next;
-		}
-		if (bol_is_some_edge_added == 0 && currentVertex->id != end->id)
-		{
-			visited[currentVertex->id] = 0;
-			level[currentVertex->id] = 0;
-		//	ft_printf("rst level[%d] = %d\n", \
-					currentVertex->id, level[currentVertex->id]);
-			//currentVertex->level = 0;
-		}
-
-		pop_queue(q);
+		end_reached += ft_bfs_extentions(box, cur_e, data->visited, data->q, data->level, curr_vertex);
+		pop_queue(data->q);
 	}
-	return (end_reached);
+	return ((end_reached == 0) ? 0 : 1);
 }
 
+int		ft_bfs_extentions(t_box *box, t_adj *cur_e, int *visited, t_queue *q, int *level, \
+						  t_avl *curr_vertex)
+{
+	int		is_end_reached;
+	int		bol_is_some_edge_added;
+
+	is_end_reached = 0;
+	bol_is_some_edge_added = 0;
+	while (cur_e != NULL)
+	{
+		if (cur_e->cap > 0 && (visited[cur_e->edge->id] == 0) && \
+			(can_i_pass(q->front->prev, curr_vertex, cur_e) == 1))
+		{
+			visited[cur_e->edge->id] = 1;
+			if (level[cur_e->edge->id] == 0)
+				level[cur_e->edge->id] = level[curr_vertex->id] + 1;
+			enqueue(q, cur_e->edge, cur_e->cap);
+			if (cur_e->edge->id == box->end->id)
+				is_end_reached = 1;
+			bol_is_some_edge_added = 1;
+		}
+		cur_e = cur_e->next;
+	}
+	if (bol_is_some_edge_added == 0 && curr_vertex->id != box->end->id)
+	{
+		visited[curr_vertex->id] = 0;
+		level[curr_vertex->id] = 0;
+	}
+	return (is_end_reached);
+}
 
 int		is_empty(t_queue *q)
 {

@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:02:35 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/08 18:34:57 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 21:38:34 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,33 +108,29 @@ int		dfs(t_avl *prev, t_avl *u, t_avl *v, int flow, int *level)
 
 int		ft_get_the_max_flow(t_box *head, t_path **paths)
 {
-	int ret;
-	int graph_flow;
-	int	iter = 1;
-	int	score = 2147483647;
-	int	level_tab[head->vertics_num];
+	int			ret;
+	t_bfs_data	data;
+	int			graph_flow;
+	int			score = 2147483647;
 
 	graph_flow = 0;
-	ft_memset(level_tab, 0, head->vertics_num * sizeof(int));
-	//ft_memset(level_tab, 0, head->vertics_num);
-	while (bfs(head, head->start, head->end, level_tab) != -1)
+	data.level = malloc((head->vertics_num) * sizeof(int));
+	data.visited = malloc((head->vertics_num + 1) * sizeof(int));
+	ft_memset(data.level, 0, head->vertics_num * sizeof(int));
+	ft_memset((void*)data.visited, 0, (head->vertics_num + 1) * sizeof(int));
+	while (bfs(head, head->start, &data) != -1)
 	{
-		//		int i = 0;
-		//		ft_printf("level == ");
-		//		while (i < head->vertics_num)
-		//			ft_printf(" %d ", level_tab[i++]);
-		//		ft_printf("\n");
-
-		while ((ret = dfs(NULL, head->start, head->end, 1, level_tab)) > 0)
+		int tmp = graph_flow;
+		while ((ret = dfs(NULL, head->start, head->end, 1, data.level)) > 0)
 			graph_flow += ret;
-		//ft_printf("ret == %d, graph_flow == %d;\n", ret, graph_flow);
-		if (graph_flow > 0 && !(ft_score(head, graph_flow, &score, paths)))
+		if ((0 == (ret = ft_score(head, graph_flow, &score, paths))))
 		{
-			--graph_flow; // in this case, we'll ignore the last path we added
+		//	ft_printf("graph_flow == %d, ret == %d;\n", graph_flow, ret);
+			graph_flow -= (graph_flow - tmp); // in this case, we'll ignore the last path we added
 			return (graph_flow);
 		}
-		ft_memset(level_tab, 0, head->vertics_num * sizeof(int));
-//		ft_origin_bfs(head->start, head->end);
+		ft_memset(data.level, 0, head->vertics_num * sizeof(int));
+		ft_memset(data.visited, 0, (head->vertics_num + 1) * sizeof(int));
 	}
 	return (graph_flow);
 }
