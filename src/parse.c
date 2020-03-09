@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/08 18:15:18 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/08 19:47:47 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #define BUFF_READ 10000
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
 
 int		ft_get_room_info(char *str, int i, t_data *data)
 {
@@ -42,8 +42,8 @@ int		ft_get_room_info(char *str, int i, t_data *data)
 }
 
 /*
-** ---------------------------------------------------------------------------
-*/
+ ** ---------------------------------------------------------------------------
+ */
 
 int		ft_get_edge_info(char *str, int i, t_data *data)
 {
@@ -60,8 +60,8 @@ int		ft_get_edge_info(char *str, int i, t_data *data)
 }
 
 /*
-** ---------------------------------------------------------------------------
-*/
+ ** ---------------------------------------------------------------------------
+ */
 
 int		ft_check_line(char *str, t_data *data, t_box *head)
 {
@@ -71,7 +71,7 @@ int		ft_check_line(char *str, t_data *data, t_box *head)
 	if (str[0] == '#')
 	{
 		if (((ft_strequ(str, "##start") == 1) && head->start != NULL) || \
-			((ft_strequ(str, "##end") == 1) && head->end != NULL))
+				((ft_strequ(str, "##end") == 1) && head->end != NULL))
 			return (-1);
 		if (ft_strequ(str, "##start") == 1)
 			data->var = 'S';
@@ -93,8 +93,8 @@ int		ft_check_line(char *str, t_data *data, t_box *head)
 }
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
 
 void	ft_read_all_file(char **str, int *length)
 {
@@ -123,8 +123,8 @@ void	ft_read_all_file(char **str, int *length)
 }
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
 
 int		ft_next_start(char *str, int *idx, int stop)
 {
@@ -139,8 +139,8 @@ int		ft_next_start(char *str, int *idx, int stop)
 }
 
 /*
-** ***********************************5*****************************************
-*/
+ ** ***********************************5*****************************************
+ */
 
 int	get_ants_num(char *str, int *number_of_ants)
 {
@@ -148,8 +148,8 @@ int	get_ants_num(char *str, int *number_of_ants)
 			ft_strequ(str, "##end") == 0)
 		return (0);
 	else if ((*str == '-') || (ft_isstr_digit(str) == 0) || \
-				(ft_str_numbercmp(str, "2147483647") > 0) || \
-				(ft_str_numbercmp(str, "0") == 0))
+			(ft_str_numbercmp(str, "2147483647") > 0) || \
+			(ft_str_numbercmp(str, "0") == 0))
 		return (-1);
 	if ((*number_of_ants = ft_atoi(str)) == 0)
 		return (-1);
@@ -157,8 +157,8 @@ int	get_ants_num(char *str, int *number_of_ants)
 }
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
 
 void	ft_add_room(t_box *head, t_data *data, int bol, char **str)
 {
@@ -178,8 +178,8 @@ void	ft_add_room(t_box *head, t_data *data, int bol, char **str)
 }
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
 
 int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 {
@@ -197,7 +197,7 @@ int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 			ft_error_function(head->tree, "in LINE INFO");
 		var = ft_check_line(str + start, &data, head);
 		if (var == -1 || (data.var == 'S' && head->start) || \
-						(data.var == 'E' && head->end))
+				(data.var == 'E' && head->end))
 		{
 			ft_memdel((void**)&str);
 			ft_error_function(head->tree, "\tin LINE INFO.");
@@ -211,8 +211,8 @@ int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 }
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
 
 int		ft_read_input(t_box *head, char **buff)
 {
@@ -226,7 +226,7 @@ int		ft_read_input(t_box *head, char **buff)
 	index = 0;
 	ft_read_all_file(&str, &stop);
 	if (!(*buff = ft_strdup(str)))
-			exit(0);
+		exit(0);
 	while (bol == 0)
 	{
 		start = ft_next_start(str, &index, stop);
@@ -245,8 +245,8 @@ int		ft_read_input(t_box *head, char **buff)
 }
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
 
 int		ft_len_adj(t_adj *list)
 {
@@ -264,8 +264,8 @@ int		ft_len_adj(t_adj *list)
 }
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
 
 int		ft_min(int a, int b)
 {
@@ -273,8 +273,8 @@ int		ft_min(int a, int b)
 }
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
 
 void	ft_cnt_ports(t_box *head)
 {
@@ -289,8 +289,34 @@ void	ft_cnt_ports(t_box *head)
 }
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
+
+void	ft_pass_ants(t_path *path, int maxflow)
+{
+	int		ant;
+	int		cnt;
+	t_path *paths;
+
+	paths = path;
+	cnt = 0;
+	ant = 1;
+	while (cnt < paths[0].len)
+	{
+		ft_putchar('L');
+		ft_putnbr(ant);
+		ft_putchar('-');
+		ft_putstr(paths[0].list->content);
+		ft_putchar('\n');
+		paths[0].list = paths[0].list->next;
+		cnt++;
+//		ant++;
+	}
+}
+
+/*
+ ** ****************************************************************************
+ */
 
 int		main(void)
 {
@@ -306,7 +332,7 @@ int		main(void)
 	head.end = NULL;
 	head.ants_nbr = 0;
 
-/*				the parsing part	*/
+	/*				the parsing part	*/
 	ret = ft_read_input(&head, &buff);
 	head.vertics_num++;
 	if (ret < 2)
@@ -314,20 +340,16 @@ int		main(void)
 	ft_memdel((void**)&buff);
 	ft_cnt_ports(&head);
 
-/* 					algo 			*/
-	//paths = ft_all_paths(&head, &maxflow);
+	/* 					algo 			*/
 	maxflow = ft_get_the_max_flow(&head, &paths);
+	ft_pass_ants(paths, maxflow);
 	ft_print_all_paths(paths, maxflow);
-//	ft_print_link(head.tree);
-//	ft_sort_paths(&paths);
-//	ft_print_solution(head, paths);
 
-
-/*				free every thing	*/
+	/*				free every thing	*/
 	ft_free_tree(head.tree);
 	return (0);
 }
 
 /*
-** ****************************************************************************
-*/
+ ** ****************************************************************************
+ */
