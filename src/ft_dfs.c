@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:02:35 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/09 00:16:28 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/10 01:20:19 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,13 @@ int		dfs(t_avl *prev, t_avl *u, t_avl *v, int *level)
 
 /*
 **	***************************************************************************
+**	tmp[0] = ret;
+**  tmp[1] = tmp;
 */
 
 int		ft_get_the_max_flow(t_box *head, t_path **paths)
 {
-	int			ret;
-	int			tmp;
+	int			tmp[2];
 	t_bfs_data	dt;
 	int			graph_flow;
 	int			score;
@@ -112,13 +113,13 @@ int		ft_get_the_max_flow(t_box *head, t_path **paths)
 		exit(EXIT_FAILURE);
 	while (bfs(head, head->start, &dt) != -1)
 	{
-		tmp = graph_flow;
-		while ((ret = dfs(NULL, head->start, head->end, dt.level)) > 0)
-			graph_flow += ret;
-		if ((0 == (ret = ft_score(head, graph_flow, &score, paths))))
+		tmp[1] = graph_flow;
+		while ((tmp[0] = dfs(NULL, head->start, head->end, dt.level)) > 0)
+			graph_flow += tmp[0];
+		if (0 == ft_score(head, graph_flow, &score, paths))
 		{
-			graph_flow -= (graph_flow - tmp);
-			return (graph_flow);
+			graph_flow -= (graph_flow - tmp[1]);
+			break ;
 		}
 		ft_memset(dt.level, 0, head->vertics_num * sizeof(int));
 		ft_memset(dt.visited, 0, (head->vertics_num + 1) * sizeof(int));
@@ -133,19 +134,27 @@ int		ft_get_the_max_flow(t_box *head, t_path **paths)
 
 void	ft_free_data(t_bfs_data dt)
 {
+	ft_memdel((void**)&dt.visited);
+	ft_memdel((void**)&dt.level);
+	if (dt.q != NULL)
+		ft_free_queue(&dt.q);
+}
+
+void	ft_free_queue(t_queue **q)
+{
 	t_adj	*head;
 	t_adj	*nxt;
 
-	ft_memdel((void**)&dt.visited);
-	ft_memdel((void**)&dt.level);
-
-
-	head = dt.q->head;
-	while (head != NULL)
+	if (q && *q)
 	{
-		nxt = head->next;
-		ft_memdel((void**)&head);
-		head = nxt;
+		head = (*q)->head;
+		while (head != NULL)
+		{
+			nxt = head->next;
+			ft_memdel((void**)&head);
+			head = nxt;
+		}
+		ft_memdel((void**)q);
+		*q = NULL;
 	}
-	ft_memdel((void**)&(dt.q));	
 }
