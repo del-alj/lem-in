@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/09 00:14:19 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/10 01:23:04 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "../libftprintf/headers/ft_printf.h"
 
 #define MIN_OF2(a, b) (a < b ? a : b)
+#define BUFF_READ 10000
 
 typedef struct	s_avl
 {
@@ -33,8 +34,8 @@ typedef struct	s_avl
 
 typedef struct		s_adj
 {
-	t_avl			*edge;
 	int				cap;
+	t_avl			*edge;
 	t_avl			*prev;
 	struct s_adj	*next;
 }					t_adj;
@@ -138,6 +139,7 @@ void	enqueue(t_queue *q, t_avl *node, int cap);
 int		is_empty(t_queue *q);
 int		ft_bfs_extentions(t_box *box, t_bfs_data *data, t_adj *cur_e, t_avl *curr_vertex);
 void	ft_free_data(t_bfs_data dt);
+void	ft_free_queue(t_queue **q);
 
 
 
@@ -148,6 +150,7 @@ void	ft_free_data(t_bfs_data dt);
 t_path		*ft_make_group(t_box *head, int nb_path, int *score);
 int			ft_score(t_box *head, int nb_path, int *score, t_path **paths);
 void		ft_add_to_path(t_path *path, char *name);
+void		ft_free_path_group(t_path **paths);
 
 /*
 **	file : ft_simple_lstdel.c

@@ -6,13 +6,11 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/08 23:59:06 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/10 01:23:07 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
-#include <stdbool.h>
-#define BUFF_READ 10000
 
 /*
 ** ****************************************************************************
@@ -143,7 +141,7 @@ int		ft_next_start(char *str, int *idx, int stop)
 ** ***********************************5*****************************************
 */
 
-int	get_ants_num(char *str, int *number_of_ants)
+int		get_ants_num(char *str, int *number_of_ants)
 {
 	if ((*str == '#') && ft_strequ(str, "##start") == 0 && \
 			ft_strequ(str, "##end") == 0)
@@ -302,19 +300,17 @@ int		main(void)
 	head.start = NULL;
 	head.end = NULL;
 	head.ants_nbr = 0;
-
 	ret = ft_read_input(&head, &buff);
 	head.vertics_num++;
 	if (ret < 2)
 		ft_error_function(head.tree, (char*)error[ret]);
 	ft_cnt_ports(&head);
-
+	paths = NULL;
 	ret = ft_get_the_max_flow(&head, &paths);
 	ft_print_all_paths(paths, ret);
-
 	ft_free_tree(head.tree);
 	ft_memdel((void**)&buff);
-	ft_simple_lstdel(&(paths->list));
+	ft_free_path_group(&paths);
 	ft_memdel((void**)&paths);
 	return (0);
 }
