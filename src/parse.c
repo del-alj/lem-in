@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/11 20:32:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/11 23:17:31 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/11 23:40:00 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,14 +355,17 @@ void	cout_ants_in_path(int maxflow, t_path *paths, int nbr_of_ants)
 		div = div + paths[i].path_ant_nbr;
 		i++;
 	}
-	div = (nbr_of_ants - div) / maxflow;
 	mod = (nbr_of_ants - div) % maxflow;
+	div = (nbr_of_ants - div) / maxflow;
 	i = 0;
 	while (i < maxflow)
 	{
 		paths[i].path_ant_nbr = paths[i].path_ant_nbr + div;
 		if (mod > 0)
+		{
+			mod--;
 			paths[i].path_ant_nbr++;
+		}
 		i++;
 	}
 }
