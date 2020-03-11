@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 19:00:45 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/08 22:49:50 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/10 01:10:13 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int		bfs(t_box *box, t_avl *start, t_bfs_data *data)
 		end_reached += ft_bfs_extentions(box, data, cur_e, curr_vertex);
 		data->q->front = data->q->front->next;
 	}
+	ft_free_queue(&(data->q));
+	data->q = NULL;
 	return ((end_reached == 0) ? 0 : 1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 19:31:58 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/10 01:09:05 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/11 01:13:16 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_path	*ft_make_group(t_box *head, int nb_path, int *score)
 
 	i = 0;
 	paths = NULL;
-	if (!(paths = (t_path*)ft_memalloc((nb_path) * sizeof(t_path))))
+	if (!(paths = (t_path*)ft_memalloc((nb_path + 1) * sizeof(t_path))))
 		exit(EXIT_FAILURE);
 	ptr = head->start->adj;
 	while (i < nb_path && ptr)
@@ -38,6 +38,8 @@ t_path	*ft_make_group(t_box *head, int nb_path, int *score)
 		i++;
 		ptr = ptr->next;
 	}
+	while (i <= nb_path)
+		paths[i++].list = NULL;
 	return (paths);
 }
 
@@ -63,12 +65,42 @@ int		ft_score(t_box *head, int nb_path, int *score, t_path **paths)
 	new_score = ((new_score + head->ants_nbr) / nb_path) - 1;
 	if (new_score < (*score))
 	{
-		//free *path here;
+		ft_free_path_group(paths);
 		*paths = group;
 		(*score) = new_score;
 		return (1);
 	}
+	ft_free_path_group(&group);
 	return (0);
+}
+
+void	ft_free_path_group(t_path **paths_ptr)
+{
+	int				i;
+	t_list_simple	*lst;
+	t_list_simple	*nxt;
+	t_path			*paths;
+
+	paths = *paths_ptr;
+	if (paths_ptr && paths)
+	{
+		i = -1;
+		while (paths[++i].list != NULL)
+		{
+			lst = paths[i].list;
+			while (lst != NULL)
+			{
+				nxt = lst->next;
+				if (lst->content)
+					free(lst->content);
+				free(lst);
+				lst = nxt;
+			}
+		}
+		if (*paths_ptr)
+			free(*paths_ptr);
+		*paths_ptr = NULL;
+	}
 }
 
 /*
