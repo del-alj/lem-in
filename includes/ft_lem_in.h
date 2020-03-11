@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/10 00:53:45 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/12 00:36:45 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ void		ft_if_start_end(t_avl *node, t_data data, t_box *box);
 void		ft_insert_node(t_avl **tree, t_data data, t_box *box);
 void		ft_print_tree(t_avl *tree, char c);
 t_queue		*ft_init_queue(t_avl *start);
+void		ft_pass_ants(t_path *paths, int nb_paths, int nbr_of_ants);
+void		ft_print_ant(int i, char *str);
 
 long long	ft_atoi_m(char *str);
 /*

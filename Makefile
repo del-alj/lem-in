@@ -1,10 +1,11 @@
-NAME= lem_in
+NAME= lem-in
 
 SRC_PATH= src
 SRC_NAME= ft_error_function.c	ft_print_tree.c		ft_balance.c \
 		  ft_height.c	ft_max.c	ft_insert_node.c	ft_if_start_end.c \
-		  parse.c	parser_tools.c	ft_add_edge.c	ft_bfs.c	ft_dfs.c \
-		  new_bfs.c  ft_make_group.c ft_simple_lstdel.c\
+		  parse.c	parser_tools.c	ft_add_edge.c	ft_dfs.c	ft_bfs.c \
+		  new_bfs.c  ft_make_group.c ft_simple_lstdel.c \
+		  ft_pass_ants.c	ft_print_ant.c \
 
 HDR_PATH= includes
 HDR_NAME= ft_lem_in.h

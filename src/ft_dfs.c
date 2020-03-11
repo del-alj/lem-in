@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:02:35 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/09 00:16:28 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/12 00:48:40 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,6 @@ void	ft_free_data(t_bfs_data dt)
 
 	ft_memdel((void**)&dt.visited);
 	ft_memdel((void**)&dt.level);
-
-
 	head = dt.q->head;
 	while (head != NULL)
 	{
@@ -147,5 +145,5 @@ void	ft_free_data(t_bfs_data dt)
 		ft_memdel((void**)&head);
 		head = nxt;
 	}
-	ft_memdel((void**)&(dt.q));	
+	ft_memdel((void**)&(dt.q));
 }
