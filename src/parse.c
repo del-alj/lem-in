@@ -3,10 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/11 20:32:05 by del-alj           #+#    #+#             */
+/*   Updated: 2020/03/11 23:17:31 by del-alj          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/11 01:07:37 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/11 20:21:54 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,62 +302,16 @@ void	ft_cnt_ports(t_box *head)
  ** ****************************************************************************
  */
 
-void		ft_print_ant(int i, char *str, int nbr_of_ants)
+void		ft_print_ant(int i, char *str)
 {
-//	if (i <= nbr_of_ants)
-	{
-		ft_putchar('L');
-		ft_putnbr(i);
-		ft_putchar('-');
-		ft_putstr(str);
-		ft_putchar(' ');
-	}
+	ft_putchar('L');
+	ft_putnbr(i);
+	ft_putchar('-');
+	ft_putstr(str);
+	ft_putchar(' ');
 }
 
 /*
- ** ****************************************************************************
-
-
- void	ft_pass_ants(t_path *paths, int maxflow, int nbr_of_ants)
- {
- int				ant;
- int				cnt;
- int				i;
- t_list_simple	*path;
-
- i = 0;
- cnt = 0;
- ant = 1;
- nbr_of_ants++;
- while (cnt < nbr_of_ants + paths[i].len)
- {
- path = paths[i].list;
- while (path->next && path->position == 0)
- {
- if (path->next->position != 0)
- break;
- path = path->next;
- }
- if (path->position == 0 && !path->next)
- path->position = 1;
- if (path->next && path->position == 0 && path->next->position != 0)
- path->position = path->next->position;
- while (path && path->position != 0)
- {
- ft_print_ant(path->position, path->content, nbr_of_ants);
- if (ft_strequ(path->content, paths[i].list->content) && path->content != 0)
- path->position =  path->position + 1;
- path = path->next;
- if (path && path->position < nbr_of_ants)
- path->position = path->position + 1; 
- }
- ft_putchar('\n');
- cnt++;
- }
-
- }
-
-
  ** ****************************************************************************
  */
 
@@ -362,11 +328,6 @@ int		ft_find_big_path(int maxflow, t_path *paths, int *index)
 	{
 		if (len < paths[i].len)
 			len = paths[i].len;
-		if (min > paths[i].len)
-		{	
-			min = paths[i].len;
-			*index = i;
-		}
 		i++;
 	}
 	return (len);
@@ -400,46 +361,15 @@ void	cout_ants_in_path(int maxflow, t_path *paths, int nbr_of_ants)
 	while (i < maxflow)
 	{
 		paths[i].path_ant_nbr = paths[i].path_ant_nbr + div;
+		if (mod > 0)
+			paths[i].path_ant_nbr++;
 		i++;
 	}
-	paths[min_path].path_ant_nbr = paths[min_path].path_ant_nbr + mod;
 }
 
 /*
  ** *****************************************************************************
-
-
- void	ft_recursive(t_list_simple *path, int nbr_of_ants,
- int i, t_path *paths, int maxflow)
- {
- while (path->next && path->position == 0)
- {
- if (path->next->position != 0)
- break;
- path = path->next;
- }
- if (path->position == 0 && !path->next)
- path->position = 1 + i;
- if (path->next && path->position == 0 && path->next->position != 0)
- path->position = path->next->position;
- while (path && path->position != 0)
- {
- ft_print_ant(path->position, path->content, nbr_of_ants);
- if (ft_strequ(path->content, paths[i].list->content)
- && path->content != 0)
- path->position =  path->position + 1 + i;
- path = path->next;
- if (maxflow > 1 && path && path->position < nbr_of_ants)
- path->position = path->position + 1 + i + 1;
- else if (maxflow == 1 && path && path->position < nbr_of_ants)
- path->position = path->position + 1 + i;
-//kindir nasali les path	
-}
-}
-
-
- ** ****************************************************************************
- */
+ *
 
 int		ft_in_this_room(t_list_simple *path, int ant, int nbr_of_ants)
 {
@@ -466,99 +396,86 @@ int		ft_in_this_room(t_list_simple *path, int ant, int nbr_of_ants)
 	return (i);
 }
 
-/*
- ** *****************************************************************************
+*
+ ** ***************************************************************************
  */
 
-int		ft_rest_ant(int nbr_of_ants, int len, t_path *paths)
+int		ft_move_ants(t_list_simple *path, int nbr_of_ants)
 {
 	int		temp1;
 	int		temp2;
-	int		i;
 	int		ret;
 
 	ret = 0;
-	t_list_simple *path;
-	i = 0;
-	while (i < len)
+	temp2 = 0;
+	while (path && path->position == 0)
+		path = path->next;
+	if(path)
 	{
-		path = paths[i].list;
-		temp2 = 0;
-		while (path && path->position == 0)
-			path = path->next;
-		if(path)
-		{
-			temp1 = path->position;
-			path->position = 0;
-			path = path->next;
-			ret++;
-		}
-		while (path)
-		{
-			temp2 = path->position;
-			path->position = temp1;
-			temp1 = temp2;
-			ft_print_ant(path->position, path->content, nbr_of_ants);
-			path = path->next;
-		}
-		i++;
+		temp1 = path->position;
+		path->position = 0;
+		path = path->next;
+		ret++;
+	}
+	while (path)
+	{
+		temp2 = path->position;
+		path->position = temp1;
+		temp1 = temp2;
+		if (path->position != 0)
+			ft_print_ant(path->position, path->content);
+		path = path->next;
 	}
 	return (ret);
 }
 
 /*
- ** *****************************************************************************
+ ** ***************************************************************************
  */
 
-void	ft_pass_ants(t_path *paths, int maxflow, int nbr_of_ants)
+void	ft_init_path(int ant_nbr, t_path *paths, int i)
 {
-	int				cnt;
-	int				i;
-	int				rep;
-	t_list_simple	*path;
-
-	i = 0;
-	cnt = 0;
-	rep = 0;
-	cout_ants_in_path(maxflow, paths, nbr_of_ants);
-	nbr_of_ants++;
-	path = paths[i].list;
-	while (cnt < nbr_of_ants)
-	{
-		while (i < maxflow)
-		{
-			path = paths[i].list;
-			if (paths[i].path_ant_nbr > 0)
-			{
-				if (path->position == 0)
-				{
-					path->position = ++cnt;
-					ft_print_ant(path->position, path->content, nbr_of_ants);
-				}
-				else
-					ft_in_this_room(path, ++cnt, nbr_of_ants);
-				paths[i].path_ant_nbr--;
-			}
-			else
-				rep++;
-			i++;
-		}
-		if (cnt != nbr_of_ants)
-			ft_putchar('\n');
-		i = 0;
-		if (rep >= maxflow)
-			break;
-	}
-	i = 0;
-	while (ft_in_this_room(path, -1, nbr_of_ants))
-		ft_putchar('\n');
-	while(ft_rest_ant(nbr_of_ants, maxflow, paths))
-		ft_putchar('\n');
+			paths[i].list->position = ant_nbr;
+			paths[i].path_ant_nbr--;
 }
 
 /*
- ** ****************************************************************************
- */
+ ** ***************************************************************************
+*/
+
+void	ft_pass_ants(t_path *paths, int nb_paths, int nbr_of_ants)
+{
+	int	i;
+	int	i_move;
+	int	ant_nbr;
+
+	i_move = -1;
+	ant_nbr = 0;
+	cout_ants_in_path(nb_paths, paths, nbr_of_ants);
+	while (i_move != 0)
+	{
+		i = 0;
+		i_move = -1;
+		while (i < nb_paths)
+		{
+			if (ant_nbr > 0)
+				i_move = ft_move_ants(paths[i].list, nbr_of_ants);
+			if (paths[i].path_ant_nbr > 0)
+			{
+				ant_nbr = ant_nbr + 1;
+				i_move = 1;
+				ft_init_path(ant_nbr, paths, i);
+				ft_print_ant(paths[i].list->position, paths[i].list->content);
+			}
+			i++;
+		}
+		ft_putchar('\n');
+	}
+}
+
+/*
+ ** *****************************************************************************
+*/
 
 int		main(void)
 {
@@ -580,7 +497,7 @@ int		main(void)
 	ft_cnt_ports(&head);
 	ret = ft_get_the_max_flow(&head, &paths);
 	ft_pass_ants(paths, ret, head.ants_nbr);
-//	ft_print_all_paths(paths, ret);
+	ft_print_all_paths(paths, ret);
 	ft_free_tree(head.tree);
 	ft_memdel((void**)&buff);
 	ft_simple_lstdel(&(paths->list));
