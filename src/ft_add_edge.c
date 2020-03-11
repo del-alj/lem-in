@@ -6,14 +6,14 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 14:25:45 by del-alj           #+#    #+#             */
-/*   Updated: 2020/02/29 14:42:22 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/08 23:18:23 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 
 /*
- ** ***************************************************************************
+** ***************************************************************************
 */
 
 t_avl	*ft_find(t_avl *tree, char *room)
@@ -34,42 +34,40 @@ t_avl	*ft_find(t_avl *tree, char *room)
 }
 
 /*
- ** ***************************************************************************
+** ***************************************************************************
 */
 
 void	ft_push_back(t_avl *link1, t_avl *link2)
 {
-	t_adj *l1;
+	t_adj	*l1;
 
 	l1 = link1->adj;
 	if (l1 == NULL)
 	{
 		if (!(link1->adj = (t_adj*)malloc(sizeof(t_adj))))
-			return ;
-		link1->adj->edge = link2;
+			exit(EXIT_FAILURE);
 		link1->adj->cap = 1;
 		link1->adj->next = NULL;
+		link1->adj->edge = link2;
 	}
 	else
 	{
 		if (ft_strequ(l1->edge->name, link2->name) == 1)
 			return ;
-		while (l1->next != NULL)
-		{
-			if (ft_strequ(l1->next->edge->name, link2->name) == 1)
-				return ;
+		while (l1->next && (ft_strequ(l1->next->edge->name, link2->name) != 1))
 			l1 = l1->next;
-		}
+		if (l1->next != NULL)
+			return ;
 		if (!(l1->next = (t_adj*)malloc(sizeof(t_adj))))
 			return ;
-		l1->next->edge = link2;
 		l1->next->cap = 1;
 		l1->next->next = NULL;
+		l1->next->edge = link2;
 	}
 }
 
 /*
- ** ***************************************************************************
+** ***************************************************************************
 */
 
 void	ft_add_edge(t_avl **tree, char *r1, char *r2)
@@ -85,5 +83,4 @@ void	ft_add_edge(t_avl **tree, char *r1, char *r2)
 		ft_error_function((*tree), NULL);
 	ft_push_back(link1, link2);
 	ft_push_back(link2, link1);
-	return ;
 }

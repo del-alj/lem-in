@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/08 02:31:11 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/10 00:53:45 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct	s_avl
 	char            *name;
 	int				id;
 	t_point			cord;
-//	int             level;
 	int				height;
 	int				taken;
 	struct	s_avl	*left;
@@ -61,8 +60,9 @@ typedef struct      s_box
 
 typedef struct	s_path
 {
-	t_list			*list;
 	int				len;
+	int				path_ant_nbr;
+	t_list_simple	*list;
 }				t_path;
 
 typedef struct  s_queue
@@ -71,6 +71,13 @@ typedef struct  s_queue
 	t_adj	*front;
 	t_adj	*rear;
 }				t_queue;
+
+typedef struct s_bfs_data
+{
+	t_queue *q;
+	int		*level;
+	int		*visited;
+}				t_bfs_data;
 
 t_avl		*ft_new_node(t_data data);
 int			ft_bfs(t_box *box, t_avl *start, t_avl *end);
@@ -114,7 +121,7 @@ void	ft_free_tree(t_avl *tree);
  */
 
 void	ft_increase_capacity(t_adj *edge, t_avl *v, int flow);
-int		dfs(t_avl* prev, t_avl *u, t_avl *v, int flow, int *level);
+int		dfs(t_avl* prev, t_avl *u, t_avl *v, int *level);
 int		ft_get_the_max_flow(t_box *head, t_path **paths);
 int		ft_get_path(t_avl *u, t_avl *v, t_path *path);
 t_path	*ft_all_paths(t_box *head, int	*maxflow);
@@ -124,12 +131,17 @@ int		can_i_pass(t_avl *prev, t_avl *u, t_adj *adj);
 **	file : new_bfs.c
 */
 
-int		bfs(t_box *box, t_avl *start, t_avl *end, int *level);
+int		bfs(t_box *box, t_avl *start, t_bfs_data *data);
 int		is_empty(t_queue *q);
 void	pop_queue(t_queue *q);
 t_avl	*dequeue(t_queue *q);
 void	enqueue(t_queue *q, t_avl *node, int cap);
 int		is_empty(t_queue *q);
+int		ft_bfs_extentions(t_box *box, t_bfs_data *data, t_adj *cur_e, t_avl *curr_vertex);
+void	ft_free_data(t_bfs_data dt);
+
+
+
 
 /*
 **	file : make_group.c
@@ -137,5 +149,10 @@ int		is_empty(t_queue *q);
 t_path		*ft_make_group(t_box *head, int nb_path, int *score);
 int			ft_score(t_box *head, int nb_path, int *score, t_path **paths);
 void		ft_add_to_path(t_path *path, char *name);
+
+/*
+**	file : ft_simple_lstdel.c
+*/
+void	ft_simple_lstdel(t_list_simple **alst);
 
 #endif

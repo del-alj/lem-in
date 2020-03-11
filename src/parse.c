@@ -6,14 +6,14 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/08 19:47:47 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/11 01:07:37 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 #include <stdbool.h>
 #define BUFF_READ 10000
-
+int this_ant = 1;
 /*
  ** ****************************************************************************
  */
@@ -96,15 +96,14 @@ int		ft_check_line(char *str, t_data *data, t_box *head)
  ** ****************************************************************************
  */
 
-void	ft_read_all_file(char **str, int *length)
+void	ft_read_all_file(char **str, int *length, char **backup_buff)
 {
 	char	buff[BUFF_READ + 1];
 	char	*temp;
 	int		ret;
 
-	*str = (char*)ft_memalloc(BUFF_READ + 1);
-	if (!str)
-		exit(0);
+	if (!(*str = (char*)ft_memalloc(BUFF_READ + 1)))
+		exit(EXIT_FAILURE);
 	ret = read(0, *str, BUFF_READ);
 	(*str)[ret] = '\0';
 	*length = ret;
@@ -120,6 +119,8 @@ void	ft_read_all_file(char **str, int *length)
 		if (ret < BUFF_READ)
 			break ;
 	}
+	if ((*backup_buff = ft_strdup(*str)) == NULL)
+		exit(EXIT_FAILURE);
 }
 
 /*
@@ -139,7 +140,7 @@ int		ft_next_start(char *str, int *idx, int stop)
 }
 
 /*
- ** ***********************************5*****************************************
+ ** ****************************************************************************
  */
 
 int	get_ants_num(char *str, int *number_of_ants)
@@ -216,17 +217,15 @@ int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 
 int		ft_read_input(t_box *head, char **buff)
 {
+	int		bol;
 	char	*str;
+	int		stop;
 	int		index;
 	int		start;
-	int		bol;
-	int		stop;
 
 	bol = 0;
 	index = 0;
-	ft_read_all_file(&str, &stop);
-	if (!(*buff = ft_strdup(str)))
-		exit(0);
+	ft_read_all_file(&str, &stop, buff);
 	while (bol == 0)
 	{
 		start = ft_next_start(str, &index, stop);
@@ -234,6 +233,7 @@ int		ft_read_input(t_box *head, char **buff)
 		if (bol == -1)
 		{
 			ft_memdel((void**)&str);
+			ft_memdel((void**)buff);
 			ft_error_function(head->tree, "\tANTS NUMBER ERROR.");
 		}
 	}
@@ -253,12 +253,12 @@ int		ft_len_adj(t_adj *list)
 	int		len;
 	t_adj	*current;
 
-	current = list;
 	len = 0;
+	current = list;
 	while (current)
 	{
-		current = current->next;
 		len++;
+		current = current->next;
 	}
 	return (len);
 }
@@ -278,13 +278,11 @@ int		ft_min(int a, int b)
 
 void	ft_cnt_ports(t_box *head)
 {
-	int	p_start;
 	int	p_end;
+	int	p_start;
 
 	p_start = ft_len_adj(head->start->adj);
 	p_end = ft_len_adj(head->end->adj);
-	ft_printf("start_edge = %d, end_edge = %d;\n", p_start, p_end);
-	ft_printf("vertics_num == %d;\n", head->vertics_num);
 	head->ports = ft_min(p_start, p_end);
 }
 
@@ -292,26 +290,270 @@ void	ft_cnt_ports(t_box *head)
  ** ****************************************************************************
  */
 
-void	ft_pass_ants(t_path *path, int maxflow)
+void		ft_print_ant(int i, char *str, int nbr_of_ants)
 {
-	int		ant;
-	int		cnt;
-	t_path *paths;
-
-	paths = path;
-	cnt = 0;
-	ant = 1;
-	while (cnt < paths[0].len)
+//	if (i <= nbr_of_ants)
 	{
 		ft_putchar('L');
-		ft_putnbr(ant);
+		ft_putnbr(i);
 		ft_putchar('-');
-		ft_putstr(paths[0].list->content);
-		ft_putchar('\n');
-		paths[0].list = paths[0].list->next;
-		cnt++;
-//		ant++;
+		ft_putstr(str);
+		ft_putchar(' ');
 	}
+}
+
+/*
+ ** ****************************************************************************
+
+
+ void	ft_pass_ants(t_path *paths, int maxflow, int nbr_of_ants)
+ {
+ int				ant;
+ int				cnt;
+ int				i;
+ t_list_simple	*path;
+
+ i = 0;
+ cnt = 0;
+ ant = 1;
+ nbr_of_ants++;
+ while (cnt < nbr_of_ants + paths[i].len)
+ {
+ path = paths[i].list;
+ while (path->next && path->position == 0)
+ {
+ if (path->next->position != 0)
+ break;
+ path = path->next;
+ }
+ if (path->position == 0 && !path->next)
+ path->position = 1;
+ if (path->next && path->position == 0 && path->next->position != 0)
+ path->position = path->next->position;
+ while (path && path->position != 0)
+ {
+ ft_print_ant(path->position, path->content, nbr_of_ants);
+ if (ft_strequ(path->content, paths[i].list->content) && path->content != 0)
+ path->position =  path->position + 1;
+ path = path->next;
+ if (path && path->position < nbr_of_ants)
+ path->position = path->position + 1; 
+ }
+ ft_putchar('\n');
+ cnt++;
+ }
+
+ }
+
+
+ ** ****************************************************************************
+ */
+
+int		ft_find_big_path(int maxflow, t_path *paths, int *index)
+{
+	int	i;
+	int	len;
+	int min;
+
+	len = 0;
+	min = 2147483647;
+	i = 0;
+	while (i < maxflow)
+	{
+		if (len < paths[i].len)
+			len = paths[i].len;
+		if (min > paths[i].len)
+		{	
+			min = paths[i].len;
+			*index = i;
+		}
+		i++;
+	}
+	return (len);
+}
+
+/*
+ ** ***************************************************************************
+ */
+
+void	cout_ants_in_path(int maxflow, t_path *paths, int nbr_of_ants)
+{
+	int	i;
+	int big;
+	int div;
+	int mod;
+	int	min_path;
+
+	div = 0;	
+	i = 0;
+	min_path = 0;
+	big = ft_find_big_path(maxflow, paths, &min_path);
+	while (i < maxflow)
+	{
+		paths[i].path_ant_nbr = big - paths[i].len;
+		div = div + paths[i].path_ant_nbr;
+		i++;
+	}
+	div = (nbr_of_ants - div) / maxflow;
+	mod = (nbr_of_ants - div) % maxflow;
+	i = 0;
+	while (i < maxflow)
+	{
+		paths[i].path_ant_nbr = paths[i].path_ant_nbr + div;
+		i++;
+	}
+	paths[min_path].path_ant_nbr = paths[min_path].path_ant_nbr + mod;
+}
+
+/*
+ ** *****************************************************************************
+
+
+ void	ft_recursive(t_list_simple *path, int nbr_of_ants,
+ int i, t_path *paths, int maxflow)
+ {
+ while (path->next && path->position == 0)
+ {
+ if (path->next->position != 0)
+ break;
+ path = path->next;
+ }
+ if (path->position == 0 && !path->next)
+ path->position = 1 + i;
+ if (path->next && path->position == 0 && path->next->position != 0)
+ path->position = path->next->position;
+ while (path && path->position != 0)
+ {
+ ft_print_ant(path->position, path->content, nbr_of_ants);
+ if (ft_strequ(path->content, paths[i].list->content)
+ && path->content != 0)
+ path->position =  path->position + 1 + i;
+ path = path->next;
+ if (maxflow > 1 && path && path->position < nbr_of_ants)
+ path->position = path->position + 1 + i + 1;
+ else if (maxflow == 1 && path && path->position < nbr_of_ants)
+ path->position = path->position + 1 + i;
+//kindir nasali les path	
+}
+}
+
+
+ ** ****************************************************************************
+ */
+
+int		ft_in_this_room(t_list_simple *path, int ant, int nbr_of_ants)
+{
+	int i;
+
+	i = 0;
+	if (path->next && path->next->position == 0 && path->position != 0)
+	{
+		path->next->position = path->position;
+		ft_print_ant(path->position, path->next->content, nbr_of_ants);
+		path->position = 0;	
+		i = 1;
+	}
+	else if (path->next && path->next->position != 0 && path->position != 0)
+		i = ft_in_this_room(path->next, path->position, nbr_of_ants);
+	if (ant != -1)
+	{
+		path->position = ant;
+		ft_print_ant(path->position, path->content, nbr_of_ants);
+		i = 1;
+	}
+	else
+		path->position = 0;
+	return (i);
+}
+
+/*
+ ** *****************************************************************************
+ */
+
+int		ft_rest_ant(int nbr_of_ants, int len, t_path *paths)
+{
+	int		temp1;
+	int		temp2;
+	int		i;
+	int		ret;
+
+	ret = 0;
+	t_list_simple *path;
+	i = 0;
+	while (i < len)
+	{
+		path = paths[i].list;
+		temp2 = 0;
+		while (path && path->position == 0)
+			path = path->next;
+		if(path)
+		{
+			temp1 = path->position;
+			path->position = 0;
+			path = path->next;
+			ret++;
+		}
+		while (path)
+		{
+			temp2 = path->position;
+			path->position = temp1;
+			temp1 = temp2;
+			ft_print_ant(path->position, path->content, nbr_of_ants);
+			path = path->next;
+		}
+		i++;
+	}
+	return (ret);
+}
+
+/*
+ ** *****************************************************************************
+ */
+
+void	ft_pass_ants(t_path *paths, int maxflow, int nbr_of_ants)
+{
+	int				cnt;
+	int				i;
+	int				rep;
+	t_list_simple	*path;
+
+	i = 0;
+	cnt = 0;
+	rep = 0;
+	cout_ants_in_path(maxflow, paths, nbr_of_ants);
+	nbr_of_ants++;
+	path = paths[i].list;
+	while (cnt < nbr_of_ants)
+	{
+		while (i < maxflow)
+		{
+			path = paths[i].list;
+			if (paths[i].path_ant_nbr > 0)
+			{
+				if (path->position == 0)
+				{
+					path->position = ++cnt;
+					ft_print_ant(path->position, path->content, nbr_of_ants);
+				}
+				else
+					ft_in_this_room(path, ++cnt, nbr_of_ants);
+				paths[i].path_ant_nbr--;
+			}
+			else
+				rep++;
+			i++;
+		}
+		if (cnt != nbr_of_ants)
+			ft_putchar('\n');
+		i = 0;
+		if (rep >= maxflow)
+			break;
+	}
+	i = 0;
+	while (ft_in_this_room(path, -1, nbr_of_ants))
+		ft_putchar('\n');
+	while(ft_rest_ant(nbr_of_ants, maxflow, paths))
+		ft_putchar('\n');
 }
 
 /*
@@ -322,31 +564,27 @@ int		main(void)
 {
 	t_box			head;
 	int				ret;
-	const	char	*error[3] = {"NO ROOMS", "NO EDGES", "NO START/END ROOM"};
 	char			*buff;
 	t_path			*paths;
-	int				maxflow;
+	const	char	*error[3] = {"NO ROOMS", "NO EDGES", "NO START/END ROOM"};
 
 	head.tree = NULL;
 	head.start = NULL;
 	head.end = NULL;
 	head.ants_nbr = 0;
 
-	/*				the parsing part	*/
 	ret = ft_read_input(&head, &buff);
 	head.vertics_num++;
 	if (ret < 2)
 		ft_error_function(head.tree, (char*)error[ret]);
-	ft_memdel((void**)&buff);
 	ft_cnt_ports(&head);
-
-	/* 					algo 			*/
-	maxflow = ft_get_the_max_flow(&head, &paths);
-	ft_pass_ants(paths, maxflow);
-	ft_print_all_paths(paths, maxflow);
-
-	/*				free every thing	*/
+	ret = ft_get_the_max_flow(&head, &paths);
+	ft_pass_ants(paths, ret, head.ants_nbr);
+//	ft_print_all_paths(paths, ret);
 	ft_free_tree(head.tree);
+	ft_memdel((void**)&buff);
+	ft_simple_lstdel(&(paths->list));
+	ft_memdel((void**)&paths);
 	return (0);
 }
 

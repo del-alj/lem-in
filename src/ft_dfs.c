@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:02:35 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/08 18:34:57 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/09 00:16:28 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int		get_edge_cap(t_avl *u, t_avl *v)
 		ptr = ptr->next;
 	}
 	return (0);
-
 }
 
 /*
@@ -54,10 +53,9 @@ int		get_edge_cap(t_avl *u, t_avl *v)
 
 int		can_i_pass(t_avl *prev, t_avl *u, t_adj *edge)
 {
-
-	if(u->taken == 0)
+	if (u->taken == 0)
 		return (1);
-	if(u->taken == 1 && edge->cap == 2)
+	if (u->taken == 1 && edge->cap == 2)
 		return (1);
 	if (u->taken == 1 && get_edge_cap(prev, u) == 2)
 		return (1);
@@ -68,34 +66,27 @@ int		can_i_pass(t_avl *prev, t_avl *u, t_adj *edge)
 **	***************************************************************************
 */
 
-int		dfs(t_avl *prev, t_avl *u, t_avl *v, int flow, int *level)
+int		dfs(t_avl *prev, t_avl *u, t_avl *v, int *level)
 {
+	int		i;
 	t_adj	*adj;
 	int		valid_flow;
-	int i = 0;
 
-	if (flow <= 0)
-	{
-		ft_printf("flow is zeeeero \n");
-		exit(0);
-	}
 	if (u->id == v->id)
 		return (1);
+	i = 0;
 	adj = u->adj;
 	while (adj != NULL)
 	{
 		if ((adj->cap > 0) && (level[u->id] + 1 == level[adj->edge->id]) && \
-				(can_i_pass(prev, u, adj) == 1))
+				(can_i_pass(prev, u, adj) == 1) && \
+				((valid_flow = dfs(u, adj->edge, v, level)) > 0))
 		{
-			valid_flow = dfs(u, adj->edge, v, adj->cap + 1, level);
-			if (valid_flow > 0)
-			{
-				if (level[u->id] != 0 && u->id != v->id)
-					u->taken = 1;
-				adj->cap -= valid_flow;
-				ft_increase_capacity(adj->edge->adj, u, valid_flow);
-				return (valid_flow);
-			}
+			if (level[u->id] != 0 && u->id != v->id)
+				u->taken = 1;
+			adj->cap -= valid_flow;
+			ft_increase_capacity(adj->edge->adj, u, valid_flow);
+			return (valid_flow);
 		}
 		adj = adj->next;
 	}
@@ -108,37 +99,53 @@ int		dfs(t_avl *prev, t_avl *u, t_avl *v, int flow, int *level)
 
 int		ft_get_the_max_flow(t_box *head, t_path **paths)
 {
-	int ret;
-	int graph_flow;
-	int	iter = 1;
-	int	score = 2147483647;
-	int	level_tab[head->vertics_num];
+	int			ret;
+	int			tmp;
+	t_bfs_data	dt;
+	int			graph_flow;
+	int			score;
 
 	graph_flow = 0;
-	ft_memset(level_tab, 0, head->vertics_num * sizeof(int));
-	//ft_memset(level_tab, 0, head->vertics_num);
-	while (bfs(head, head->start, head->end, level_tab) != -1)
+	score = 2147483647;
+	if (((dt.level = ft_memalloc((head->vertics_num) * sizeof(int))) == NULL) ||
+	((dt.visited = ft_memalloc((head->vertics_num + 1) * sizeof(int))) == NULL))
+		exit(EXIT_FAILURE);
+	while (bfs(head, head->start, &dt) != -1)
 	{
-		//		int i = 0;
-		//		ft_printf("level == ");
-		//		while (i < head->vertics_num)
-		//			ft_printf(" %d ", level_tab[i++]);
-		//		ft_printf("\n");
-
-		while ((ret = dfs(NULL, head->start, head->end, 1, level_tab)) > 0)
+		tmp = graph_flow;
+		while ((ret = dfs(NULL, head->start, head->end, dt.level)) > 0)
 			graph_flow += ret;
-		//ft_printf("ret == %d, graph_flow == %d;\n", ret, graph_flow);
-		if (graph_flow > 0 && !(ft_score(head, graph_flow, &score, paths)))
+		if ((0 == (ret = ft_score(head, graph_flow, &score, paths))))
 		{
-			--graph_flow; // in this case, we'll ignore the last path we added
+			graph_flow -= (graph_flow - tmp);
 			return (graph_flow);
 		}
-		ft_memset(level_tab, 0, head->vertics_num * sizeof(int));
-//		ft_origin_bfs(head->start, head->end);
+		ft_memset(dt.level, 0, head->vertics_num * sizeof(int));
+		ft_memset(dt.visited, 0, (head->vertics_num + 1) * sizeof(int));
 	}
+	ft_free_data(dt);
 	return (graph_flow);
 }
 
 /*
 **	***************************************************************************
 */
+
+void	ft_free_data(t_bfs_data dt)
+{
+	t_adj	*head;
+	t_adj	*nxt;
+
+	ft_memdel((void**)&dt.visited);
+	ft_memdel((void**)&dt.level);
+
+
+	head = dt.q->head;
+	while (head != NULL)
+	{
+		nxt = head->next;
+		ft_memdel((void**)&head);
+		head = nxt;
+	}
+	ft_memdel((void**)&(dt.q));	
+}

@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 23:32:55 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/02/27 19:20:38 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/09 21:04:14 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ typedef struct	s_list
 	size_t			content_size;
 	struct s_list	*next;
 }				t_list;
+
+typedef struct	s_list_simple
+{
+	void	*content;
+	int		position;
+	struct	s_list_simple *next;
+}				t_list_simple;
 
 typedef struct	s_point
 {
