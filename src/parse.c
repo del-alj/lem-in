@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/12 19:27:54 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/12 21:09:21 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,7 +300,7 @@ int		main(void)
 	head.ants_nbr = 0;
 	paths = NULL;
 	ret = ft_read_input(&head, &buff);
-	ft_printf("%s\n", buff);
+	ft_printf("%s\n\n\n", buff);
 	head.vertics_num++;
 	if (ret < 2)
 		ft_error_function(head.tree, (char*)error[ret]);
@@ -309,7 +309,11 @@ int		main(void)
 	ft_pass_ants(paths, ret, head.ants_nbr);
 	ft_free_tree(head.tree);
 	ft_memdel((void**)&buff);
-	ft_simple_lstdel(&(paths->list));
+	ft_free_path_group(&paths);
 	ft_memdel((void**)&paths);
 	return (0);
 }
+
+/*
+** ****************************************************************************
+*/

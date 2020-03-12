@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 00:25:13 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/12 20:37:19 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/12 21:30:27 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int		ft_move_ants(t_list_simple *path, int nbr_of_ants)
 	temp2 = 0;
 	while (path && path->position == 0)
 		path = path->next;
-	if (path)
+	if (path && path->position != 0 && path->next)
 	{
 		temp1 = path->position;
 		path->position = 0;
@@ -136,10 +136,6 @@ void	ft_pass_ants(t_path *paths, int nb_paths, int nbr_of_ants)
 			}
 			i++;
 		}
-		if(i_move != 0)
-		{
-		printf("%d", i_move);
 			ft_putchar('\n');
-		}
 	}
 }
