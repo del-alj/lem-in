@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:02:35 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/10 01:20:19 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/12 08:10:24 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int		ft_get_the_max_flow(t_box *head, t_path **paths)
 		ft_memset(dt.level, 0, head->vertics_num * sizeof(int));
 		ft_memset(dt.visited, 0, (head->vertics_num + 1) * sizeof(int));
 	}
-	ft_free_data(dt);
+//	ft_free_data(dt);
 	return (graph_flow);
 }
 

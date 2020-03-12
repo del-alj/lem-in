@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 19:31:58 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/11 01:13:16 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/12 08:11:40 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ int		ft_score(t_box *head, int nb_path, int *score, t_path **paths)
 	new_score = ((new_score + head->ants_nbr) / nb_path) - 1;
 	if (new_score < (*score))
 	{
-		ft_free_path_group(paths);
+	//	ft_free_path_group(paths);
 		*paths = group;
 		(*score) = new_score;
 		return (1);
 	}
-	ft_free_path_group(&group);
+//	ft_free_path_group(&group);
 	return (0);
 }
 
