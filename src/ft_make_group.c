@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 19:31:58 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/12 08:11:40 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/12 20:43:00 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,10 @@ void	ft_free_path_group(t_path **paths_ptr)
 			{
 				nxt = lst->next;
 				if (lst->content)
+				{
 					free(lst->content);
+					lst->content = NULL;
+				}
 				free(lst);
 				lst = nxt;
 			}
