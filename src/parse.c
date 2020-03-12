@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/12 20:42:16 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/12 20:57:54 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	ft_read_all_file(char **str, int *length, char **backup_buff)
 		temp = ft_strjoin(*str, buff);
 		if (!temp)
 			exit(0);
-//		ft_memdel((void**)str);
+		ft_memdel((void**)str);
 		*str = temp;
 		*length += ret;
 		if (ret < BUFF_READ)
@@ -160,7 +160,7 @@ void	ft_add_room(t_box *head, t_data *data, int bol, char **str)
 {
 	if (bol == 2)
 	{
-	//	ft_memdel((void**)str);
+		ft_memdel((void**)str);
 		ft_error_function(head->tree, "\tin ROOM DEFINED AFTER AN EDGE.");
 	}
 	if ((head->tree) != NULL)
@@ -195,7 +195,7 @@ int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 		if (var == -1 || (data.var == 'S' && head->start) || \
 				(data.var == 'E' && head->end))
 		{
-//			ft_memdel((void**)&str);
+			ft_memdel((void**)&str);
 			ft_error_function(head->tree, "\tin LINE INFO.");
 		}
 		else if (var == 1)
@@ -227,15 +227,15 @@ int		ft_read_input(t_box *head, char **buff)
 		bol = get_ants_num(str + start, &(head->ants_nbr));
 		if (bol == -1)
 		{
-//			ft_memdel((void**)&str);
-//			ft_memdel((void**)buff);
+			ft_memdel((void**)&str);
+			ft_memdel((void**)buff);
 			ft_error_function(head->tree, "\tANTS NUMBER ERROR.");
 		}
 	}
 	bol = ft_hundle_rooms(index, str, stop, head);
 	if (!(head->start) || !(head->end))
 		ft_error_function(head->tree, NULL);
-///	ft_memdel((void**)&str);
+	ft_memdel((void**)&str);
 	return (bol);
 }
 
@@ -299,6 +299,7 @@ int		main(void)
 	head.ants_nbr = 0;
 	paths = NULL;
 	ret = ft_read_input(&head, &buff);
+	ft_printf("%s\n\n\n", buff);
 	head.vertics_num++;
 	if (ret < 2)
 		ft_error_function(head.tree, (char*)error[ret]);
@@ -306,10 +307,11 @@ int		main(void)
 	ret = ft_get_the_max_flow(&head, &paths);
 	ft_pass_ants(paths, ret, head.ants_nbr);
 //	ft_print_all_paths(paths, ret);
-//	ft_free_tree(head.tree);
-//	ft_memdel((void**)&buff);
-//	ft_simple_lstdel(&(paths->list));
-//	ft_memdel((void**)&paths);
+	ft_free_tree(head.tree);
+	ft_memdel((void**)&buff);
+	ft_free_path_group(&paths);
+	//ft_simple_lstdel(&(paths->list));
+	ft_memdel((void**)&paths);
 	return (0);
 }
 
