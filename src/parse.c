@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/12 00:54:13 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/03/12 19:21:19 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,6 +297,7 @@ int		main(void)
 	head.start = NULL;
 	head.end = NULL;
 	head.ants_nbr = 0;
+	paths = NULL;
 	ret = ft_read_input(&head, &buff);
 	head.vertics_num++;
 	if (ret < 2)
