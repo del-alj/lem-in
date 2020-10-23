@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/12 20:57:54 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/03/12 21:09:21 by del-alj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,6 +283,7 @@ void	ft_cnt_ports(t_box *head)
 
 /*
 ** ****************************************************************************
+** ft_print_all_paths(paths, ret);
 */
 
 int		main(void)
@@ -306,11 +307,9 @@ int		main(void)
 	ft_cnt_ports(&head);
 	ret = ft_get_the_max_flow(&head, &paths);
 	ft_pass_ants(paths, ret, head.ants_nbr);
-//	ft_print_all_paths(paths, ret);
 	ft_free_tree(head.tree);
 	ft_memdel((void**)&buff);
 	ft_free_path_group(&paths);
-	//ft_simple_lstdel(&(paths->list));
 	ft_memdel((void**)&paths);
 	return (0);
 }
