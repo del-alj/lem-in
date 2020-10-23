@@ -11,12 +11,10 @@ for line in sys.stdin:
     if line == 'exit':
         break
     if len(line) > 0:
-        if line[0] == 'L':
+        if line[0] == 'L':  # todo find someway to stock this data, the good way !
             listof_inst.append(line)
-        elif line.find('-') != -1:
-            listof_connections.append(line)
+        elif line.find('-') != -1:  # updating a dict that contains each room neighbers
             r1, r2 = line.split('-')
-#            print("line {}, r1:[{}], r2:[{}]".format(line, r1, r2))
             dictof_connections[r1].append(r2)
             dictof_connections[r2].append(r1)
         else:
@@ -26,11 +24,13 @@ for line in sys.stdin:
                 dictof_connections[tpl[0]] = []
 
 print("done")
-map = {}
+
+ants_map = {}
 for temp in listof_rooms:
     tpl = temp.split()
     if len(tpl) == 3:
         # room = [x, y, list of connections]
-        map[tpl[0]] = [tpl[1], tpl[2], dictof_connections[tpl[0]]]
+        ants_map[tpl[0]] = [tpl[1], tpl[2], dictof_connections[tpl[0]]]
 
-print(map)
+for room in ants_map.keys():
+    print("{}  x = {}, y = {}, ----     {}".format(room, ants_map[room][0], ants_map[room][1], ants_map[room][2]))
