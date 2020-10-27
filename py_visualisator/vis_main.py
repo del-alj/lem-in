@@ -2,11 +2,19 @@ import pygame, math
 import sys
 from typing import List
 
+padx = 0
+pady = 0
+
 def parcing():
     listof_rooms = []
     listof_inst: List[str] = []
     listof_connections = {}
     dictof_connections = {}
+
+    x_max = -1 
+    y_max = -1 
+    x_min = 1000000
+    y_min = 1000000
 
     for line in sys.stdin:
         line = line.strip()
@@ -25,19 +33,30 @@ def parcing():
                 if len(tpl) == 3:
                     dictof_connections[tpl[0]] = []
 
-                if (int(tpl[1]) > x_max):
-                    x_max = int(tpl[1])
-                elif (int(tpl[2]) > y_max):
-                    y_max = int(tpl[2])
-                if (int(tpl[1]) < x_min):
-                    x_min = int(tpl[1])
-                elif (int(tpl[2]) < y_min):
-                    y_min = int(tpl[2])
+                    if (int(tpl[1]) > x_max):
+                        x_max = int(tpl[1])
+                    if (int(tpl[2]) > y_max):
+                        y_max = int(tpl[2])
+
+                    if (int(tpl[1]) < x_min):
+                        x_min = int(tpl[1])
+                    if (int(tpl[2]) < y_min):
+                        y_min = int(tpl[2])
+
     for temp in listof_rooms:
         tpl = temp.split()
         if len(tpl) == 3:
             # room = [x, y, list of connections]
             listof_connections[tpl[0]] = [int(tpl[1]), int(tpl[2]), dictof_connections[tpl[0]]]
+            print("{}: {} {}".format(tpl[0], tpl[1], tpl[2]))
+    print ('max x : {}, min x = {}'.format(x_max, x_min))
+    print ('max y : {}, min y = {}'.format(y_max, y_min))
+    global padx
+    global pady
+    padx = int(width / (x_max + 1))
+    pady = int(height / (y_max + 1))
+    print ("padx == ", padx)
+    print ("pady == ", pady)
     return(listof_connections)
 
 def center_screen(zoom, z):
@@ -58,19 +77,22 @@ def draw_room_edg(screen, rooms, zoom, z):
     (x_map, y_map) = (0, 0)
     #x_map, y_map = center_screen(zoom, z)
     for rm in rooms:
-        x_room = int((rooms[rm][0] * zoom) + offset_x - int(x_map))
-        y_room = int((rooms[rm][1] * zoom) + offset_y - int(y_map))
+        # x_room = int((rooms[rm][0] * zoom) + offset_x - int(x_map))
+        x_room = rooms[rm][0] * padx
+        # y_room = int((rooms[rm][1] * zoom) + offset_y - int(y_map))
+        y_room = rooms[rm][1] * pady
         if rooms[rm][2]:
             edgs = rooms[rm][2]
             for r in edgs:
-                x_edg = rooms[r][0]
-                y_edg = rooms[r][1]
-                x_edg = int((x_edg * zoom) + offset_x - int(x_map))
-                y_edg = int((y_edg * zoom) + offset_y - int(y_map))
+                x_edg = rooms[r][0] * padx
+                y_edg = rooms[r][1] * pady
+                # x_edg = int((x_edg * zoom) + offset_x - int(x_map))
+                # y_edg = int((y_edg * zoom) + offset_y - int(y_map))
                 # draw edg
                 pygame.draw.line(screen, edg_color, (x_room, y_room), (x_edg, y_edg), line_width)
                 # i added this function her for cover the edg it is not professional but just tomporer for view
                 pygame.draw.circle(screen, (200, 1, 56), (x_edg, y_edg), radius_of_room)
+                # print ("{} at {},{}".format(r,x_edg, y_edg))
         # draw room
         pygame.draw.circle(screen, room_color, (x_room, y_room), radius_of_room)
 
@@ -115,7 +137,10 @@ def main(zoom):
 background_color = (183, 135, 86)
 room_color = (204, 193, 105)
 edg_color = (208, 152, 57)
-(width, height) = (2000, 1000)
+# for mac
+# (width, height) = (2000, 1000)
+# for lpc lmskin
+(width, height) = (700, 700)
 radius_of_room = 20
 #now manual it will become automated (offset_x, offset_y)
 offset_x = width / 4
