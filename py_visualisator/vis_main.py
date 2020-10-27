@@ -24,6 +24,16 @@ def parcing():
                 tpl = line.split()
                 if len(tpl) == 3:
                     dictof_connections[tpl[0]] = []
+
+                if (int(tpl[1]) > x_max):
+                    x_max = int(tpl[1])
+                elif (int(tpl[2]) > y_max):
+                    y_max = int(tpl[2])
+                if (int(tpl[1]) < x_min):
+                    x_min = int(tpl[1])
+                elif (int(tpl[2]) < y_min):
+                    y_min = int(tpl[2])
+
     for temp in listof_rooms:
         tpl = temp.split()
         if len(tpl) == 3:
@@ -104,6 +114,7 @@ def main(zoom, offset_x, offset_y):
                         z = -1
                 else:
                     z = 0
+                # not work in function separ
                 #(offset_x, offset_y) = moveing_with_keybord(event, offset_x, offset_y)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
