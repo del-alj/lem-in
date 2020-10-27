@@ -43,7 +43,7 @@ def center_screen(zoom, z):
         y_delta = int(((height * zoom) - height) / 2)
     return(x_delta, y_delta)
 
-def draw_room_edg(screen, rooms, zoom, z):
+def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y):
     line_width = 8
     #not work moxkil dyal inisalisation x_map and x_map
     (x_map, y_map) = (0, 0)
@@ -65,7 +65,20 @@ def draw_room_edg(screen, rooms, zoom, z):
         # draw room
         pygame.draw.circle(screen, room_color, (x_room, y_room), radius_of_room)
 
-def main(zoom):
+
+def moveing_with_keybord(event, offset_x, offset_y):
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_LEFT:
+            offset_x -= 10
+        if event.key == pygame.K_RIGHT:
+            offset_x += 10
+        if event.key == pygame.K_UP:
+            offset_y -= 10
+        if event.key == pygame.K_DOWN:
+            offset_y += 10
+    return(offset_x, offset_y)
+
+def main(zoom, offset_x, offset_y):
     z = 0
     rooms = parcing()
     # open window
@@ -91,11 +104,20 @@ def main(zoom):
                         z = -1
                 else:
                     z = 0
-
+                #(offset_x, offset_y) = moveing_with_keybord(event, offset_x, offset_y)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    offset_x -= 10
+                if event.key == pygame.K_RIGHT:
+                    offset_x += 10
+                if event.key == pygame.K_UP:
+                    offset_y -= 10
+                if event.key == pygame.K_DOWN:
+                    offset_y += 10
         # coloring background
         screen.fill(background_color)
         # draw room and edg
-        draw_room_edg(screen, rooms, zoom, z)
+        draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y)
        # pygame.display.update()
         pygame.display.flip()
 
@@ -119,4 +141,4 @@ nb_rooms = 20
 
 
 if __name__ == "__main__":
-    main(zoom)
+    main(zoom, offset_x, offset_y)
