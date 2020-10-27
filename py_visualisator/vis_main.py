@@ -7,6 +7,11 @@ listof_inst: List[str] = []
 listof_connections = []
 dictof_connections = {}
 
+x_max = 1000
+x_min = -1
+y_max = 1000
+y_min = -1
+
 for line in sys.stdin:
     line = line.strip()
     if line == 'exit':
@@ -23,6 +28,15 @@ for line in sys.stdin:
             tpl = line.split()
             if len(tpl) == 3:
                 dictof_connections[tpl[0]] = []
+                if (int(tpl[1]) > x_max):
+                    x_max = int(tpl[1])
+                elif (int(tpl[2]) > y_max):
+                    y_max = int(tpl[2])
+                if (int(tpl[1]) < x_min):
+                    x_min = int(tpl[1])
+                elif (int(tpl[2]) < y_min):
+                    y_min = int(tpl[2])
+                    
 
 print("done")
 
@@ -33,6 +47,12 @@ for temp in listof_rooms:
         # room = [x, y, list of connections]
         rooms[tpl[0]] = [int(tpl[1]), int(tpl[2]), dictof_connections[tpl[0]]]
 
+
+
+
+
+
+"""
 def center_screen():
 
     print(z)
@@ -123,3 +143,4 @@ while True:
     draw_room_edg()
    # pygame.display.update()
     pygame.display.flip()
+"""
