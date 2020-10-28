@@ -2,8 +2,6 @@ import pygame, math
 import sys
 from typing import List
 
-padx = 0
-pady = 0
 
 def parcing():
     listof_rooms = []
@@ -11,8 +9,8 @@ def parcing():
     listof_connections = {}
     dictof_connections = {}
 
-    x_max = -1 
-    y_max = -1 
+    x_max = -1
+    y_max = -1
     x_min = 1000000
     y_min = 1000000
 
@@ -26,7 +24,7 @@ def parcing():
             elif line.find('-') != -1:  # updating a dict that contains each room neighbers
                 r1, r2 = line.split('-')
                 dictof_connections[r1].append(r2)
-              #  dictof_connections[r2].append(r1)
+            #  dictof_connections[r2].append(r1)
             else:
                 listof_rooms.append(line)
                 tpl = line.split()
@@ -43,22 +41,19 @@ def parcing():
                     if (int(tpl[2]) < y_min):
                         y_min = int(tpl[2])
 
-
     for temp in listof_rooms:
         tpl = temp.split()
         if len(tpl) == 3:
             # room = [x, y, list of connections]
             listof_connections[tpl[0]] = [int(tpl[1]), int(tpl[2]), dictof_connections[tpl[0]]]
-            print("{}: {} {}".format(tpl[0], tpl[1], tpl[2]))
-    print ('max x : {}, min x = {}'.format(x_max, x_min))
-    print ('max y : {}, min y = {}'.format(y_max, y_min))
-    global padx
-    global pady
-    padx = int(width / (x_max + 1))
-    pady = int(height / (y_max + 1))
-    print ("padx == ", padx)
-    print ("pady == ", pady)
-    return(listof_connections)
+            #           print("{}: {} {}".format(tpl[0], tpl[1], tpl[2]))
+
+    pad_x = int(width / (x_max + 1))
+    pad_y = int(height / (y_max + 1))
+    change_cordinates(listof_connections, pad_x, pad_y)
+
+    return (listof_connections)
+
 
 # def center_screen(zoom, z):
 #     x_delta = 0
@@ -72,42 +67,45 @@ def parcing():
 #         y_delta = int(((height * zoom) - height) / 2)
 #     return(x_delta, y_delta)
 
-# def zoom_in(z: int, mouse: tuple, x: int, y: int):
-#     if x < mouse[0]:
-#         x -= 10
-#     else:
-#         x += 10
-#     if y < mouse[1]:
-#         y -= 10
-#     else:
-#         y += 10
-#     return ((x, y))
+def zoom_in(z: int, x: int, y: int):
+    '''
+    the size of the screen is 2000 * 1000
+    so the center of it is 1000 * 500
+
+    this func take care of the zoom
+    '''
+    # z == 1
+    if x < 1000:
+        x = x - 10
+    else:
+        x += 10
+
+    if y < 500:
+        y -= 10
+    else:
+        y += 10
+    return ((x, y))
 
 
-def draw_room_edg(screen, rooms, move_x, move_y):
+def draw_room_edg(screen, rooms, move_x, move_y, zoom):
     """
     this function draws the rooms and the edges btw them
     """
     line_width = 5
-    #not work moxkil dyal inisalisation x_map and x_map
+    print(zoom)
     for rm in rooms:
-        x_room = rooms[rm][0] * padx + move_x
-        y_room = rooms[rm][1] * pady + move_y
-
+        # if zoom != 0:
+        #   x_room, y_room = zoom_in(x_room, y_room, zoom)
         if rooms[rm][2]:
             edgs = rooms[rm][2]
             for r in edgs:
-                x_edg = rooms[r][0] * padx + move_x
-                y_edg = rooms[r][1] * pady + move_y
-
                 # drawing lines to the next vertices
-                pygame.draw.line(screen, edg_color, (x_room, y_room), (x_edg, y_edg), line_width)
+                pygame.draw.line(screen, edg_color, (rooms[rm][0], rooms[rm][1]), (rooms[r][0], rooms[r][1]), line_width)
 
-    for rm in rooms:
-        x_room = rooms[rm][0] * padx + move_x
-        y_room = rooms[rm][1] * pady + move_y
+    for vert in rooms:
         # draw the current room
-        pygame.draw.circle(screen, room_color, (x_room, y_room), radius_of_room)
+        pygame.draw.circle(screen, room_color, (rooms[vert][0], rooms[vert][1]), radius_of_room)
+
 
 def moveing_with_keybord(event, offset_x, offset_y):
     if event.type == pygame.KEYDOWN:
@@ -119,13 +117,33 @@ def moveing_with_keybord(event, offset_x, offset_y):
             offset_y -= 10
         if event.key == pygame.K_DOWN:
             offset_y += 10
-    return(offset_x, offset_y)
+    return (offset_x, offset_y)
+
+
+def change_cordinates(rooms: dict, padx: int, pady: int):
+    """
+    this changes the cords from the basic ones we get to the new screen scale
+    """
+    for rm in rooms:
+        rooms[rm][0] = rooms[rm][0] * padx
+        rooms[rm][1] = rooms[rm][1] * pady
+
+
+def move_graph(rooms: dict, move_x: int, move_y: int):
+    '''
+    this moves the graph to the new pos after getting the changes from keyboard arrows
+    '''
+    for rm in rooms:
+        rooms[rm][0] = rooms[rm][0] + move_x
+        rooms[rm][1] = rooms[rm][1] + move_y
+
 
 def main():
     # z = 0
     move_x = 0
     move_y = 0
     rooms = parcing()
+
     # open window
     pygame.init()
     screen = pygame.display.set_mode((width, height))
@@ -137,7 +155,7 @@ def main():
                 pygame.quit()
                 sys.exit()
 
-            #still not usit mouse
+            # still not usit mouse
             mouse = pygame.mouse.get_pos()
             # if event.type == pygame.MOUSEBUTTONDOWN:
             #     if event.button == 4:
@@ -148,17 +166,26 @@ def main():
             #             zoom /= 1.09
             #             z = -1
             # moving the screen with arrow keys
+            zoom = 0
             if event.type == pygame.KEYDOWN:
                 (move_x, move_y) = moveing_with_keybord(event, move_x, move_y)
+                move_graph(rooms, move_x, move_y)
+                if event.key == pygame.K_KP_PLUS:
+                    print("you clicked ++")
+                    zoom = 1
+                if event.key == pygame.K_KP_MINUS:
+                    print("you clicked --")
+                    zoom = -1
 
         # coloring background
         screen.fill(background_color)
         # draw the graph
-        draw_room_edg(screen, rooms, move_x, move_y)
-       # pygame.display.update()
+        draw_room_edg(screen, rooms, move_x, move_y, zoom)
+        # pygame.display.update()
         pygame.display.flip()
         # return to this value after each time i scroll
         # z = 0
+
 
 # initialization
 background_color = (183, 135, 86)
@@ -171,7 +198,7 @@ edg_color = (208, 152, 57)
 radius_of_room = 20
 
 nb_rooms = 20
-#if nb_rooms < 100:
+# if nb_rooms < 100:
 #    zoom = 100 / nb_rooms
 
 
