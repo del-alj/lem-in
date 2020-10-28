@@ -72,21 +72,21 @@ def center_screen(zoom, z):
         y_delta = int(((height * zoom) - height) / 2)
     return(x_delta, y_delta)
 
-def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y):
+def draw_room_edg(screen, rooms, zoom, z, move_x, move_y):
     line_width = 8
     #not work moxkil dyal inisalisation x_map and x_map
     (x_map, y_map) = (0, 0)
     #x_map, y_map = center_screen(zoom, z)
     for rm in rooms:
         # x_room = int((rooms[rm][0] * zoom) + offset_x - int(x_map))
-        x_room = rooms[rm][0] * padx + offset_x
+        x_room = rooms[rm][0] * padx + move_x
         # y_room = int((rooms[rm][1] * zoom) + offset_y - int(y_map))
-        y_room = rooms[rm][1] * pady + offset_y
+        y_room = rooms[rm][1] * pady + move_y
         if rooms[rm][2]:
             edgs = rooms[rm][2]
             for r in edgs:
-                x_edg = rooms[r][0] * padx + offset_x
-                y_edg = rooms[r][1] * pady + offset_y
+                x_edg = rooms[r][0] * padx + move_x
+                y_edg = rooms[r][1] * pady + move_y
                 # x_edg = int((x_edg * zoom) + offset_x - int(x_map))
                 # y_edg = int((y_edg * zoom) + offset_y - int(y_map))
                 # draw edg
@@ -110,7 +110,7 @@ def moveing_with_keybord(event, offset_x, offset_y):
             offset_y += 10
     return(offset_x, offset_y)
 
-def main(zoom, offset_x, offset_y):
+def main(zoom, move_x, move_y):
     z = 0
     rooms = parcing()
     # open window
@@ -136,21 +136,13 @@ def main(zoom, offset_x, offset_y):
                         z = -1
                 else:
                     z = 0
-                # not work in function separ
-                #(offset_x, offset_y) = moveing_with_keybord(event, offset_x, offset_y)
+            # moving the screen with arrow keys
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    offset_x -= 10
-                if event.key == pygame.K_RIGHT:
-                    offset_x += 10
-                if event.key == pygame.K_UP:
-                    offset_y -= 10
-                if event.key == pygame.K_DOWN:
-                    offset_y += 10
+                (move_x, move_y) = moveing_with_keybord(event, move_x, move_y)
         # coloring background
         screen.fill(background_color)
         # draw room and edg
-        draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y)
+        draw_room_edg(screen, rooms, zoom, z, move_x, move_y)
        # pygame.display.update()
         pygame.display.flip()
 
@@ -167,8 +159,8 @@ edg_color = (208, 152, 57)
 # (width, height) = (700, 700)
 radius_of_room = 20
 #now manual it will become automated (offset_x, offset_y)
-offset_x = 0
-offset_y = 0
+move_x = 0
+move_y = 0
 zoom = 10
 
 nb_rooms = 20
@@ -177,4 +169,4 @@ nb_rooms = 20
 
 
 if __name__ == "__main__":
-    main(zoom, offset_x, offset_y)
+    main(zoom, move_x, move_y)
