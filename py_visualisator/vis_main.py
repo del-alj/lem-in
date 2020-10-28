@@ -60,43 +60,54 @@ def parcing():
     print ("pady == ", pady)
     return(listof_connections)
 
-def center_screen(zoom, z):
-    x_delta = 0
-    y_delta = 0
-    if z == -1:
-        #hadi ba9i
-        x_delta = 1
-        y_delta = 1
-    if z == 1:
-        x_delta = int(((width * zoom) - width) / 2)
-        y_delta = int(((height * zoom) - height) / 2)
-    return(x_delta, y_delta)
+# def center_screen(zoom, z):
+#     x_delta = 0
+#     y_delta = 0
+#     if z == -1:
+#         #hadi ba9i
+#         x_delta = 1
+#         y_delta = 1
+#     if z == 1:
+#         x_delta = int(((width * zoom) - width) / 2)
+#         y_delta = int(((height * zoom) - height) / 2)
+#     return(x_delta, y_delta)
 
-def draw_room_edg(screen, rooms, zoom, z, move_x, move_y):
-    line_width = 8
+# def zoom_in(z: int, mouse: tuple, x: int, y: int):
+#     if x < mouse[0]:
+#         x -= 10
+#     else:
+#         x += 10
+#     if y < mouse[1]:
+#         y -= 10
+#     else:
+#         y += 10
+#     return ((x, y))
+
+
+def draw_room_edg(screen, rooms, move_x, move_y):
+    """
+    this function draws the rooms and the edges btw them
+    """
+    line_width = 5
     #not work moxkil dyal inisalisation x_map and x_map
-    (x_map, y_map) = (0, 0)
-    #x_map, y_map = center_screen(zoom, z)
     for rm in rooms:
-        # x_room = int((rooms[rm][0] * zoom) + offset_x - int(x_map))
         x_room = rooms[rm][0] * padx + move_x
-        # y_room = int((rooms[rm][1] * zoom) + offset_y - int(y_map))
         y_room = rooms[rm][1] * pady + move_y
+
         if rooms[rm][2]:
             edgs = rooms[rm][2]
             for r in edgs:
                 x_edg = rooms[r][0] * padx + move_x
                 y_edg = rooms[r][1] * pady + move_y
-                # x_edg = int((x_edg * zoom) + offset_x - int(x_map))
-                # y_edg = int((y_edg * zoom) + offset_y - int(y_map))
-                # draw edg
-                pygame.draw.line(screen, edg_color, (x_room, y_room), (x_edg, y_edg), line_width)
-                # i added this function her for cover the edg it is not professional but just tomporer for view
-                pygame.draw.circle(screen, (200, 1, 56), (x_edg, y_edg), radius_of_room)
-                # print ("{} at {},{}".format(r,x_edg, y_edg))
-        # draw room
-        pygame.draw.circle(screen, room_color, (x_room, y_room), radius_of_room)
 
+                # drawing lines to the next vertices
+                pygame.draw.line(screen, edg_color, (x_room, y_room), (x_edg, y_edg), line_width)
+
+    for rm in rooms:
+        x_room = rooms[rm][0] * padx + move_x
+        y_room = rooms[rm][1] * pady + move_y
+        # draw the current room
+        pygame.draw.circle(screen, room_color, (x_room, y_room), radius_of_room)
 
 def moveing_with_keybord(event, offset_x, offset_y):
     if event.type == pygame.KEYDOWN:
@@ -110,8 +121,10 @@ def moveing_with_keybord(event, offset_x, offset_y):
             offset_y += 10
     return(offset_x, offset_y)
 
-def main(zoom, move_x, move_y):
-    z = 0
+def main():
+    # z = 0
+    move_x = 0
+    move_y = 0
     rooms = parcing()
     # open window
     pygame.init()
@@ -123,31 +136,29 @@ def main(zoom, move_x, move_y):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
             #still not usit mouse
             mouse = pygame.mouse.get_pos()
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 4:
-                    zoom *= 1.09
-                    z = 1
-                elif event.button == 5:
-                    if zoom > 0:
-                        zoom /= 1.09
-                        z = -1
-                else:
-                    z = 0
+            # if event.type == pygame.MOUSEBUTTONDOWN:
+            #     if event.button == 4:
+            #         zoom *= 1.09
+            #         z = 1
+            #     elif event.button == 5:
+            #         if zoom > 0:
+            #             zoom /= 1.09
+            #             z = -1
             # moving the screen with arrow keys
             if event.type == pygame.KEYDOWN:
                 (move_x, move_y) = moveing_with_keybord(event, move_x, move_y)
+
         # coloring background
         screen.fill(background_color)
-        # draw room and edg
-        draw_room_edg(screen, rooms, zoom, z, move_x, move_y)
+        # draw the graph
+        draw_room_edg(screen, rooms, move_x, move_y)
        # pygame.display.update()
         pygame.display.flip()
-
-
-
+        # return to this value after each time i scroll
+        # z = 0
 
 # initialization
 background_color = (183, 135, 86)
@@ -158,10 +169,6 @@ edg_color = (208, 152, 57)
 # for lpc lmskin
 # (width, height) = (700, 700)
 radius_of_room = 20
-#now manual it will become automated (offset_x, offset_y)
-move_x = 0
-move_y = 0
-zoom = 10
 
 nb_rooms = 20
 #if nb_rooms < 100:
@@ -169,4 +176,4 @@ nb_rooms = 20
 
 
 if __name__ == "__main__":
-    main(zoom, move_x, move_y)
+    main()
