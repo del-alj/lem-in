@@ -79,14 +79,14 @@ def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y):
     #x_map, y_map = center_screen(zoom, z)
     for rm in rooms:
         # x_room = int((rooms[rm][0] * zoom) + offset_x - int(x_map))
-        x_room = rooms[rm][0] * padx
+        x_room = rooms[rm][0] * padx + offset_x
         # y_room = int((rooms[rm][1] * zoom) + offset_y - int(y_map))
-        y_room = rooms[rm][1] * pady
+        y_room = rooms[rm][1] * pady + offset_y
         if rooms[rm][2]:
             edgs = rooms[rm][2]
             for r in edgs:
-                x_edg = rooms[r][0] * padx
-                y_edg = rooms[r][1] * pady
+                x_edg = rooms[r][0] * padx + offset_x
+                y_edg = rooms[r][1] * pady + offset_y
                 # x_edg = int((x_edg * zoom) + offset_x - int(x_map))
                 # y_edg = int((y_edg * zoom) + offset_y - int(y_map))
                 # draw edg
@@ -117,7 +117,7 @@ def main(zoom, offset_x, offset_y):
     pygame.init()
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('Lem-in')
-    # loop
+    # pygame loop
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -162,13 +162,13 @@ background_color = (183, 135, 86)
 room_color = (204, 193, 105)
 edg_color = (208, 152, 57)
 # for mac
-# (width, height) = (2000, 1000)
+(width, height) = (2000, 1000)
 # for lpc lmskin
-(width, height) = (700, 700)
+# (width, height) = (700, 700)
 radius_of_room = 20
 #now manual it will become automated (offset_x, offset_y)
-offset_x = width / 4
-offset_y = height / 4
+offset_x = 0
+offset_y = 0
 zoom = 10
 
 nb_rooms = 20
