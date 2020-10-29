@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="da14432c-0cfd-4a87-9a66-d18841606f66" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output_exemple1" beforeDir="false" afterPath="$PROJECT_DIR$/output_exemple1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ants_type/1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ants_type/2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ants_type/3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ants_type/4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ants_type/5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ants_type/6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ants_type/7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ants_type/8.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tst.py" beforeDir="false" afterPath="$PROJECT_DIR$/tst.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vis_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/vis_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

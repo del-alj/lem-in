@@ -77,13 +77,8 @@ def center_screen(zoom, z):
     return(x_delta, y_delta)
 """
 
-def draw_ants():
-    for line in listof_inst:
-        splt = line.split()
-        for ant in
-
-
-def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line: str):
+# def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line: str):
+def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a):
     line_width = 8
     (x_map, y_map) = (0, 0)
     #center screan
@@ -109,12 +104,15 @@ def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line: str):
                 pygame.draw.circle(screen, room_color, (x_edg, y_edg), radius_of_room)
         pygame.draw.circle(screen, room_color, (x_room, y_room), radius_of_room)
 
-    splt = line.split()
-    for inst in splt:
-    for inst in splt:
 
+    for name_room in rooms:
+        is_ant = (nbr_ant % 8)
+            # draw the current room
+        x_room = int((rooms[name_room][0] * zoom) + offset_x + int(x_map))
+        y_room = int((rooms[name_room][1] * zoom) + offset_y + int(y_map))
+        screen.blit(a[is_ant], (x_room - radius_of_room, y_room - radius_of_room))
 
-   # print(z, x_map, y_map)
+    print(z, x_map, y_map)
 """
 def moveing_with_keybord(event, offset_x, offset_y):
     if event.type == pygame.KEYDOWN:
@@ -134,6 +132,7 @@ def main(zoom, offset_x, offset_y):
     rooms = parcing()
     # open window
     pygame.init()
+    clock = pygame.time.Clock()
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('Lem-in')
     # loop
@@ -170,11 +169,15 @@ def main(zoom, offset_x, offset_y):
         screen.fill(background_color)
 
         # draw room and edg
-        draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line)
+       # draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line)
+        path = {}
+        draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, ant)
         pygame.display.update()
         # pygame.display.flip()
         # we don't need the fps clock, the game is already slow.
         #       fpsClock.tick(FPS)
+
+
 
 
 # initialization
@@ -187,6 +190,27 @@ radius_of_room = 20
 offset_x = 0
 offset_y = 0
 zoom = 1
+
+
+
+
+
+#from parse
+nbr_ant = 1
+
+
+ant = {}
+ant[1] = pygame.image.load('ants_type/1.png')
+ant[2] = pygame.image.load('ants_type/2.png')
+ant[3] = pygame.image.load('ants_type/3.png')
+ant[4] = pygame.image.load('ants_type/4.png')
+ant[5] = pygame.image.load('ants_type/5.png')
+ant[6] = pygame.image.load('ants_type/6.png')
+ant[7] = pygame.image.load('ants_type/7.png')
+ant[8] = pygame.image.load('ants_type/8.png')
+
+
+
 
 if __name__ == "__main__":
     main(zoom, offset_x, offset_y)
