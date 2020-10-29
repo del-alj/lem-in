@@ -3,11 +3,10 @@ import sys
 from typing import List
 
 # we use frames, so that the game doesn't run faster then what the player can see.
-#       FPS = 60 # frames per second setting
-#       fpsClock = pygame.time.Clock()
+FPS = 1 # frames per second setting
+fpsClock = pygame.time.Clock()
 
 listof_inst: List[str] = []
-
 
 def parcing():
     listof_rooms = []
@@ -78,7 +77,7 @@ def center_screen(zoom, z):
 """
 
 # def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line: str):
-def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a):
+def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a: dict, line: str):
     line_width = 8
     (x_map, y_map) = (0, 0)
     #center screan
@@ -104,8 +103,13 @@ def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a):
                 pygame.draw.circle(screen, room_color, (x_edg, y_edg), radius_of_room)
         pygame.draw.circle(screen, room_color, (x_room, y_room), radius_of_room)
 
+    splt = line.split()
+    for inst in splt:
+        details = inst.split('-')
+        nbr_ant = int(details[0][1:])
+        name_room = details[1]
 
-    for name_room in rooms:
+
         is_ant = (nbr_ant % 8)
             # draw the current room
         x_room = int((rooms[name_room][0] * zoom) + offset_x + int(x_map))
@@ -126,7 +130,33 @@ def moveing_with_keybord(event, offset_x, offset_y):
             offset_y += 10
     return (offset_x, offset_y)
 """
+
+
+def moveing_with_keybord(event, offset_x, offset_y):
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_LEFT:
+            offset_x -= 10
+        if event.key == pygame.K_RIGHT:
+            offset_x += 10
+        if event.key == pygame.K_UP:
+            offset_y -= 10
+        if event.key == pygame.K_DOWN:
+            offset_y += 10
+    return (offset_x, offset_y)
+
+def ft_zoom(button: int, zoom: int, z: int):
+    if button == 4:
+        zoom *= 1.09
+        z = 1
+    elif button == 5:
+        zoom /= 1.09
+        z = -1
+    else:
+        z = 0
+    return ((zoom, z))
+
 def main(zoom, offset_x, offset_y):
+
     z = 0
     rooms = {}
     rooms = parcing()
@@ -144,38 +174,23 @@ def main(zoom, offset_x, offset_y):
 
             #zooming
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 4:
-                    zoom *= 1.09
-                    z = 1
-                elif event.button == 5:
-                    if zoom > 0:
-                        zoom /= 1.09
-                        z = -1
-                else:
-                    #hadi wa9ila  hiya li kat khalini mni n kliki yw9a3 dak moxkil
-                    z = 0
+                zoom, z = ft_zoom(event.button, zoom, z)
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    offset_x -= 20
-                if event.key == pygame.K_RIGHT:
-                    offset_x += 20
-                if event.key == pygame.K_UP:
-                    offset_y -= 20
-                if event.key == pygame.K_DOWN:
-                    offset_y += 20
+                (offset_x, offset_y) = moveing_with_keybord(event, offset_x, offset_y)
 
         # coloring background
         screen.fill(background_color)
 
         # draw room and edg
-       # draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line)
         path = {}
-        draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, ant)
+        # draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line)
+        draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, ant, line)
         pygame.display.update()
+
         # pygame.display.flip()
         # we don't need the fps clock, the game is already slow.
-        #       fpsClock.tick(FPS)
+        fpsClock.tick(FPS)
 
 
 
@@ -207,7 +222,7 @@ ant[4] = pygame.image.load('ants_type/4.png')
 ant[5] = pygame.image.load('ants_type/5.png')
 ant[6] = pygame.image.load('ants_type/6.png')
 ant[7] = pygame.image.load('ants_type/7.png')
-ant[8] = pygame.image.load('ants_type/8.png')
+ant[0] = pygame.image.load('ants_type/8.png')
 
 
 
