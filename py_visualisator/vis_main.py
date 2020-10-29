@@ -52,6 +52,9 @@ def parcing():
     pad_y = int(height / (y_max + 1))
     change_cordinates(listof_connections, pad_x, pad_y)
 
+   for line in listof_inst:
+    #    splited_line = line.split()
+     #   print ("++ {} ++".format(line))
     return (listof_connections)
 
 
@@ -110,13 +113,13 @@ def draw_room_edg(screen, rooms, move_x, move_y, zoom):
 def moveing_with_keybord(event, offset_x, offset_y):
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_LEFT:
-            offset_x -= 10
+            offset_x = -10
         if event.key == pygame.K_RIGHT:
-            offset_x += 10
+            offset_x = 10
         if event.key == pygame.K_UP:
-            offset_y -= 10
+            offset_y = -10
         if event.key == pygame.K_DOWN:
-            offset_y += 10
+            offset_y = 10
     return (offset_x, offset_y)
 
 
@@ -170,6 +173,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 (move_x, move_y) = moveing_with_keybord(event, move_x, move_y)
                 move_graph(rooms, move_x, move_y)
+                move_x, move_y = (0, 0)
                 if event.key == pygame.K_KP_PLUS:
                     print("you clicked ++")
                     zoom = 1

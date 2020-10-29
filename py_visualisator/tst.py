@@ -2,12 +2,19 @@ import pygame, math
 import sys
 from typing import List
 
+# we use frames, so that the game doesn't run faster then what the player can see.
+#       FPS = 60 # frames per second setting
+#       fpsClock = pygame.time.Clock()
+
+listof_inst: List[str] = []
+
+
 def parcing():
     listof_rooms = []
-    listof_inst: List[str] = []
     listof_connections = {}
     dictof_connections = {}
 
+    global listof_inst
     x_max = -1
     y_max = -1
     x_min = 1000000
@@ -69,7 +76,14 @@ def center_screen(zoom, z):
         y_delta = int(((height * zoom) - height) / 2)
     return(x_delta, y_delta)
 """
-def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y):
+
+def draw_ants():
+    for line in listof_inst:
+        splt = line.split()
+        for ant in
+
+
+def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line: str):
     line_width = 8
     (x_map, y_map) = (0, 0)
     #center screan
@@ -95,7 +109,12 @@ def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y):
                 pygame.draw.circle(screen, room_color, (x_edg, y_edg), radius_of_room)
         pygame.draw.circle(screen, room_color, (x_room, y_room), radius_of_room)
 
-    print(z, x_map, y_map)
+    splt = line.split()
+    for inst in splt:
+    for inst in splt:
+
+
+   # print(z, x_map, y_map)
 """
 def moveing_with_keybord(event, offset_x, offset_y):
     if event.type == pygame.KEYDOWN:
@@ -118,7 +137,7 @@ def main(zoom, offset_x, offset_y):
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('Lem-in')
     # loop
-    while True:
+    for line in listof_inst:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -139,20 +158,23 @@ def main(zoom, offset_x, offset_y):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    offset_x -= 10
+                    offset_x -= 20
                 if event.key == pygame.K_RIGHT:
-                    offset_x += 10
+                    offset_x += 20
                 if event.key == pygame.K_UP:
-                    offset_y -= 10
+                    offset_y -= 20
                 if event.key == pygame.K_DOWN:
-                    offset_y += 10
+                    offset_y += 20
 
         # coloring background
         screen.fill(background_color)
+
         # draw room and edg
-        draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y)
-       # pygame.display.update()
-        pygame.display.flip()
+        draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line)
+        pygame.display.update()
+        # pygame.display.flip()
+        # we don't need the fps clock, the game is already slow.
+        #       fpsClock.tick(FPS)
 
 
 # initialization
