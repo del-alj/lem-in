@@ -1,9 +1,10 @@
 import pygame, math
 import sys
 from typing import List
+from time import sleep
 
 # we use frames, so that the game doesn't run faster then what the player can see.
-FPS = 1 # frames per second setting
+FPS = 1  # frames per second setting
 fpsClock = pygame.time.Clock()
 
 listof_inst: List[str] = []
@@ -25,6 +26,7 @@ def calculate_map_edges(x_max: int, x_min: int, y_max: int, y_min: int, tpl):
         y_min = int(tpl[2])
     return ((x_max, x_min, y_max, y_min))
 
+
 def parcing():
     """
     reads the input from  stdin, then divids it to rooms info and list of edges
@@ -34,7 +36,6 @@ def parcing():
     global listof_inst
     global start_name
     global end_name
-
 
     listof_rooms = []
     map_dict = {}
@@ -62,7 +63,7 @@ def parcing():
                 if line == '##start':
                     bol = 1
                 else:
-                    bol = -1
+                    bol -= 1
             else:
                 listof_rooms.append(line)
                 tpl = line.split()
@@ -83,10 +84,9 @@ def parcing():
             map_dict[tpl[0]] = [int(tpl[1]), int(tpl[2]), dictof_connections[tpl[0]]]
     pad_x = int(width / (x_max + x_min))
     pad_y = int(height / (y_max + x_min))
-    print(pad_x, pad_y)
     change_cordinates(map_dict, pad_x, pad_y)
 
-    return(map_dict)
+    return (map_dict)
 
 
 def change_cordinates(rooms: dict, padx: int, pady: int):
@@ -97,13 +97,14 @@ def change_cordinates(rooms: dict, padx: int, pady: int):
         rooms[rm][0] = rooms[rm][0] * padx
         rooms[rm][1] = rooms[rm][1] * pady
 
+
 # def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line: str):
 def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a: dict, line: str):
     global cnt
     global last_ant
     line_width = 8
     (x_map, y_map) = (0, 0)
-    #center screan
+    # center screan
     if z == -1:
         x_map = int((width - (width * zoom)) / 2)
         y_map = int((height - (height * zoom)) / 2)
@@ -132,9 +133,8 @@ def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a: dict, line: str
         nbr_ant = int(details[0][1:])
         name_room = details[1]
 
-
         is_ant = (nbr_ant % 8)
-            # draw the current room
+        # draw the current room
         x_room = int((rooms[name_room][0] * zoom) + offset_x + int(x_map))
         y_room = int((rooms[name_room][1] * zoom) + offset_y + int(y_map))
         screen.blit(a[is_ant], (x_room - radius_of_room, y_room - radius_of_room))
@@ -142,16 +142,16 @@ def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a: dict, line: str
             cnt += 1
         if nbr_ant > last_ant:
             last_ant = nbr_ant
-        #draw start
+        # draw start
     x_room = int((rooms[start_name][0] * zoom) + offset_x + int(x_map))
     y_room = int((rooms[start_name][1] * zoom) + offset_y + int(y_map))
 
     screen.blit(a[is_ant], (x_room - radius_of_room, y_room - radius_of_room))
-   # pygame.draw.rect(screen, rect_color, (x_room - radius_of_room, y_room + radius_of_room,40,30))
+    # pygame.draw.rect(screen, rect_color, (x_room - radius_of_room, y_room + radius_of_room,40,30))
     font = pygame.font.Font('freesansbold.ttf', 21)
-    text = font.render(str(int(nbrof_ants) - last_ant) , True, nbr_color, background_color)
+    text = font.render(str(int(nbrof_ants) - last_ant), True, nbr_color, background_color)
     screen.blit(text, (x_room - 10, y_room + 25))
-        #draw end
+    # draw end
     x_room = int((rooms[end_name][0] * zoom) + offset_x + int(x_map))
     y_room = int((rooms[end_name][1] * zoom) + offset_y + int(y_map))
     # pygame.draw.rect(screen, rect_color, (x_room - radius_of_room, y_room + radius_of_room,40,30))
@@ -160,18 +160,17 @@ def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a: dict, line: str
     screen.blit(text, (x_room - 10, y_room + 25))
 
 
-
 def moveing_with_keybord(event, offset_x, offset_y):
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_LEFT:
-            offset_x -= 10
-        if event.key == pygame.K_RIGHT:
-            offset_x += 10
-        if event.key == pygame.K_UP:
-            offset_y -= 10
-        if event.key == pygame.K_DOWN:
-            offset_y += 10
+    if event.key == pygame.K_LEFT:
+        offset_x -= 10
+    if event.key == pygame.K_RIGHT:
+        offset_x += 10
+    if event.key == pygame.K_UP:
+        offset_y -= 10
+    if event.key == pygame.K_DOWN:
+        offset_y += 10
     return (offset_x, offset_y)
+
 
 def ft_zoom(button: int, zoom: int, z: int):
     if button == 4:
@@ -184,16 +183,17 @@ def ft_zoom(button: int, zoom: int, z: int):
         z = 0
     return ((zoom, z))
 
-def main(zoom, offset_x, offset_y):
 
+def main(zoom, offset_x, offset_y):
     global cnt
+    global FPS
     global last_ant
     z = 0
     rooms = {}
     rooms = parcing()
     # open window
     pygame.init()
-   # clock = pygame.time.Clock()
+    # clock = pygame.time.Clock()
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('Lem-in')
     # loop
@@ -203,12 +203,20 @@ def main(zoom, offset_x, offset_y):
                 pygame.quit()
                 sys.exit()
 
-            #zooming
+            # zooming
             if event.type == pygame.MOUSEBUTTONDOWN:
                 zoom, z = ft_zoom(event.button, zoom, z)
 
             if event.type == pygame.KEYDOWN:
-                (offset_x, offset_y) = moveing_with_keybord(event, offset_x, offset_y)
+                if event.key == pygame.K_LSHIFT:
+                    ##  to slow down the vis
+                    FPS = max((FPS - 5, 1))  # in case this went negatif, fps should always be > 0
+
+                elif event.key == pygame.K_RSHIFT:
+                    ## to accelerate the vis
+                    FPS += 5
+                else:
+                    (offset_x, offset_y) = moveing_with_keybord(event, offset_x, offset_y)
 
         # coloring background
         screen.fill(background_color)
@@ -217,13 +225,13 @@ def main(zoom, offset_x, offset_y):
         path = {}
         # draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line)
         draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, ant, line)
+
         pygame.display.update()
-        #
-
         # pygame.display.flip()
-        # we don't need the fps clock, the game is already slow.
-        #fpsClock.tick(FPS)
 
+        # we don't need the fps clock, the game is already slow.
+        fpsClock.tick(FPS)
+        print(FPS)
 
 
 # initialization
@@ -231,18 +239,17 @@ background_color = (183, 135, 86)
 room_color = (204, 193, 105)
 edg_color = (208, 152, 57)
 rect_color = (179, 208, 101)
-#rect_color = (244, 246, 246)
+# rect_color = (244, 246, 246)
 nbr_color = (18, 22, 22)
 (width, height) = (2000, 1000)
 radius_of_room = 20
-#now manual it will become automated (offset_x, offset_y)
+# now manual it will become automated (offset_x, offset_y)
 offset_x = 0
 offset_y = 0
 zoom = 1
 
 cnt = 0
 last_ant = 0
-
 
 ant = {}
 ant[1] = pygame.image.load('ants_type/1.png')
@@ -253,9 +260,6 @@ ant[5] = pygame.image.load('ants_type/5.png')
 ant[6] = pygame.image.load('ants_type/6.png')
 ant[7] = pygame.image.load('ants_type/7.png')
 ant[0] = pygame.image.load('ants_type/8.png')
-
-
-
 
 if __name__ == "__main__":
     main(zoom, offset_x, offset_y)
