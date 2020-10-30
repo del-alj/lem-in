@@ -81,8 +81,9 @@ def parcing():
         if len(tpl) == 3:
             # room = [x, y, list of connections]
             map_dict[tpl[0]] = [int(tpl[1]), int(tpl[2]), dictof_connections[tpl[0]]]
-    pad_x = int(width / (x_max + 1))
-    pad_y = int(height / (y_max + 1))
+    pad_x = int(width / (x_max + x_min))
+    pad_y = int(height / (y_max + x_min))
+    print(pad_x, pad_y)
     change_cordinates(map_dict, pad_x, pad_y)
 
     return(map_dict)
