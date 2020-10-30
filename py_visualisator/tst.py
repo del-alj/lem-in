@@ -99,6 +99,8 @@ def change_cordinates(rooms: dict, padx: int, pady: int):
 
 # def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line: str):
 def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a: dict, line: str):
+    global cnt
+    global last_ant
     line_width = 8
     (x_map, y_map) = (0, 0)
     #center screan
@@ -136,12 +138,26 @@ def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a: dict, line: str
         x_room = int((rooms[name_room][0] * zoom) + offset_x + int(x_map))
         y_room = int((rooms[name_room][1] * zoom) + offset_y + int(y_map))
         screen.blit(a[is_ant], (x_room - radius_of_room, y_room - radius_of_room))
+        if name_room == end_name:
+            cnt += 1
+        if nbr_ant > last_ant:
+            last_ant = nbr_ant
+        #draw start
+    x_room = int((rooms[start_name][0] * zoom) + offset_x + int(x_map))
+    y_room = int((rooms[start_name][1] * zoom) + offset_y + int(y_map))
 
-
-        pygame.draw.rect(screen, rect_color, (x_room - radius_of_room, y_room + radius_of_room,40,30))
-        font = pygame.font.Font('freesansbold.ttf', 21)
-        text = font.render(str(number_ants) , True, nbr_color, rect_color)
-        screen.blit(text, (x_room - radius_of_room, y_room + radius_of_room))
+    screen.blit(a[is_ant], (x_room - radius_of_room, y_room - radius_of_room))
+   # pygame.draw.rect(screen, rect_color, (x_room - radius_of_room, y_room + radius_of_room,40,30))
+    font = pygame.font.Font('freesansbold.ttf', 21)
+    text = font.render(str(int(nbrof_ants) - last_ant) , True, nbr_color, background_color)
+    screen.blit(text, (x_room - 10, y_room + 25))
+        #draw end
+    x_room = int((rooms[end_name][0] * zoom) + offset_x + int(x_map))
+    y_room = int((rooms[end_name][1] * zoom) + offset_y + int(y_map))
+    # pygame.draw.rect(screen, rect_color, (x_room - radius_of_room, y_room + radius_of_room,40,30))
+    font = pygame.font.Font('freesansbold.ttf', 21)
+    text = font.render(str(cnt), True, nbr_color, background_color)
+    screen.blit(text, (x_room - 10, y_room + 25))
 
 
 
@@ -170,7 +186,8 @@ def ft_zoom(button: int, zoom: int, z: int):
 
 def main(zoom, offset_x, offset_y):
 
-    global number_ants
+    global cnt
+    global last_ant
     z = 0
     rooms = {}
     rooms = parcing()
@@ -202,7 +219,7 @@ def main(zoom, offset_x, offset_y):
         draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, ant, line)
         pygame.display.update()
         #
-        number_ants -= 1
+
         # pygame.display.flip()
         # we don't need the fps clock, the game is already slow.
         #fpsClock.tick(FPS)
@@ -223,8 +240,8 @@ offset_x = 0
 offset_y = 0
 zoom = 1
 
-number_ants = 100
-
+cnt = 0
+last_ant = 0
 
 
 ant = {}
