@@ -62,19 +62,6 @@ def change_cordinates(rooms: dict, padx: int, pady: int):
     for rm in rooms:
         rooms[rm][0] = rooms[rm][0] * padx
         rooms[rm][1] = rooms[rm][1] * pady
-"""
-def center_screen(zoom, z):
-    x_delta = 0
-    y_delta = 0
-    if z == -1:
-        #hadi ba9i
-        x_delta = 1
-        y_delta = 1
-    if z == 1:
-        x_delta = int(((width * zoom) - width) / 2)
-        y_delta = int(((height * zoom) - height) / 2)
-    return(x_delta, y_delta)
-"""
 
 # def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line: str):
 def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a: dict, line: str):
@@ -116,20 +103,11 @@ def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a: dict, line: str
         y_room = int((rooms[name_room][1] * zoom) + offset_y + int(y_map))
         screen.blit(a[is_ant], (x_room - radius_of_room, y_room - radius_of_room))
 
-    print(z, x_map, y_map)
-"""
-def moveing_with_keybord(event, offset_x, offset_y):
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_LEFT:
-            offset_x -= 10
-        if event.key == pygame.K_RIGHT:
-            offset_x += 10
-        if event.key == pygame.K_UP:#
-            offset_y -= 10
-        if event.key == pygame.K_DOWN:
-            offset_y += 10
-    return (offset_x, offset_y)
-"""
+
+        pygame.draw.rect(screen, rect_color, (x_room - radius_of_room, y_room + radius_of_room,40,30))
+        font = pygame.font.Font('freesansbold.ttf', 21)
+        text = font.render(str(number_ants) , True, nbr_color, rect_color)
+        screen.blit(text, (x_room - radius_of_room, y_room + radius_of_room))
 
 
 def moveing_with_keybord(event, offset_x, offset_y):
@@ -157,12 +135,13 @@ def ft_zoom(button: int, zoom: int, z: int):
 
 def main(zoom, offset_x, offset_y):
 
+    global number_ants
     z = 0
     rooms = {}
     rooms = parcing()
     # open window
     pygame.init()
-    clock = pygame.time.Clock()
+   # clock = pygame.time.Clock()
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('Lem-in')
     # loop
@@ -187,11 +166,11 @@ def main(zoom, offset_x, offset_y):
         # draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line)
         draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, ant, line)
         pygame.display.update()
-
+        #
+        number_ants -= 1
         # pygame.display.flip()
         # we don't need the fps clock, the game is already slow.
-        fpsClock.tick(FPS)
-
+        #fpsClock.tick(FPS)
 
 
 
@@ -199,6 +178,9 @@ def main(zoom, offset_x, offset_y):
 background_color = (183, 135, 86)
 room_color = (204, 193, 105)
 edg_color = (208, 152, 57)
+rect_color = (179, 208, 101)
+#rect_color = (244, 246, 246)
+nbr_color = (18, 22, 22)
 (width, height) = (2000, 1000)
 radius_of_room = 20
 #now manual it will become automated (offset_x, offset_y)
@@ -206,8 +188,7 @@ offset_x = 0
 offset_y = 0
 zoom = 1
 
-
-
+number_ants = 100
 
 
 #from parse
