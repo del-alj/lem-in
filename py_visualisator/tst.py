@@ -7,53 +7,86 @@ FPS = 1 # frames per second setting
 fpsClock = pygame.time.Clock()
 
 listof_inst: List[str] = []
+# we well fill these vars from parse function
+nbrof_ants = 0
+start_name = ''
+end_name = ''
+
+
+def calculate_map_edges(x_max: int, x_min: int, y_max: int, y_min: int, tpl):
+    if (int(tpl[1]) > x_max):
+        x_max = int(tpl[1])
+    if (int(tpl[2]) > y_max):
+        y_max = int(tpl[2])
+
+    if (int(tpl[1]) < x_min):
+        x_min = int(tpl[1])
+    if (int(tpl[2]) < y_min):
+        y_min = int(tpl[2])
+    return ((x_max, x_min, y_max, y_min))
 
 def parcing():
+    """
+    reads the input from  stdin, then divids it to rooms info and list of edges
+    number of ants, start/sink are global variables and it's the easiest way to do the job for now
+
+    """
+    global listof_inst
+    global start_name
+    global end_name
+
+
     listof_rooms = []
-    listof_connections = {}
+    map_dict = {}
     dictof_connections = {}
 
-    global listof_inst
     x_max = -1
     y_max = -1
     x_min = 1000000
     y_min = 1000000
 
+    bol = 0
+
+    global nbrof_ants
+    nbrof_ants = sys.stdin.readline()
+
     for line in sys.stdin:
         line = line.strip()
-        if line == 'exit':
-            break
         if len(line) > 0:
             if line[0] == 'L':  # todo find someway to stock this data, the good way !
                 listof_inst.append(line)
             elif line.find('-') != -1:  # updating a dict that contains each room neighbers
                 r1, r2 = line.split('-')
                 dictof_connections[r1].append(r2)
-            #  dictof_connections[r2].append(r1)
+            elif line[0] == '#':
+                if line == '##start':
+                    bol = 1
+                else:
+                    bol = -1
             else:
                 listof_rooms.append(line)
                 tpl = line.split()
+                if bol != 0:
+                    if bol == 1:
+                        start_name = tpl[0]
+                    else:
+                        end_name = tpl[0]
+                    bol = 0
                 if len(tpl) == 3:
                     dictof_connections[tpl[0]] = []
-                    if (int(tpl[1]) > x_max):
-                        x_max = int(tpl[1])
-                    if (int(tpl[2]) > y_max):
-                        y_max = int(tpl[2])
-
-                    if (int(tpl[1]) < x_min):
-                        x_min = int(tpl[1])
-                    if (int(tpl[2]) < y_min):
-                        y_min = int(tpl[2])
+                    x_max, x_min, y_max, y_min = calculate_map_edges(x_max, x_min, y_max, y_min, tpl)
 
     for temp in listof_rooms:
         tpl = temp.split()
         if len(tpl) == 3:
             # room = [x, y, list of connections]
-            listof_connections[tpl[0]] = [int(tpl[1]), int(tpl[2]), dictof_connections[tpl[0]]]
+            map_dict[tpl[0]] = [int(tpl[1]), int(tpl[2]), dictof_connections[tpl[0]]]
     pad_x = int(width / (x_max + 1))
     pad_y = int(height / (y_max + 1))
-    change_cordinates(listof_connections, pad_x, pad_y)
-    return(listof_connections)
+    change_cordinates(map_dict, pad_x, pad_y)
+
+    return(map_dict)
+
 
 def change_cordinates(rooms: dict, padx: int, pady: int):
     """
@@ -116,7 +149,7 @@ def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a: dict, line: str
         y_room = int((rooms[name_room][1] * zoom) + offset_y + int(y_map))
         screen.blit(a[is_ant], (x_room - radius_of_room, y_room - radius_of_room))
 
-    print(z, x_map, y_map)
+    # print(z, x_map, y_map)
 """
 def moveing_with_keybord(event, offset_x, offset_y):
     if event.type == pygame.KEYDOWN:
@@ -209,9 +242,6 @@ zoom = 1
 
 
 
-
-#from parse
-nbr_ant = 1
 
 
 ant = {}
