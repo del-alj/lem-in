@@ -98,68 +98,6 @@ def change_cordinates(rooms: dict, padx: int, pady: int):
         rooms[rm][1] = rooms[rm][1] * pady
 
 
-# def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line: str):
-def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a: dict, line: str):
-    global cnt
-    global last_ant
-    line_width = 8
-    (x_map, y_map) = (0, 0)
-    # center screan
-    if z == -1:
-        x_map = int((width - (width * zoom)) / 2)
-        y_map = int((height - (height * zoom)) / 2)
-    if z == 1:
-        x_map = int(((width * zoom) - width) / 2) * -1
-        y_map = int(((height * zoom) - height) / 2) * -1
-
-    for rm in rooms:
-        x_room = int((rooms[rm][0] * zoom) + offset_x + int(x_map))
-        y_room = int((rooms[rm][1] * zoom) + offset_y + int(y_map))
-        if rooms[rm][2]:
-            edgs = rooms[rm][2]
-            for r in edgs:
-                x_edg = rooms[r][0]
-                y_edg = rooms[r][1]
-                x_edg = int((x_edg * zoom) + offset_x + int(x_map))
-                y_edg = int((y_edg * zoom) + offset_y + int(y_map))
-                # draw edg
-                pygame.draw.line(screen, edg_color, (x_room, y_room), (x_edg, y_edg), line_width)
-                pygame.draw.circle(screen, room_color, (x_edg, y_edg), radius_of_room)
-        pygame.draw.circle(screen, room_color, (x_room, y_room), radius_of_room)
-
-    splt = line.split()
-    for inst in splt:
-        details = inst.split('-')
-        nbr_ant = int(details[0][1:])
-        name_room = details[1]
-
-        is_ant = (nbr_ant % 8)
-        # draw the current room
-        x_room = int((rooms[name_room][0] * zoom) + offset_x + int(x_map))
-        y_room = int((rooms[name_room][1] * zoom) + offset_y + int(y_map))
-        screen.blit(a[is_ant], (x_room - radius_of_room, y_room - radius_of_room))
-        if name_room == end_name:
-            cnt += 1
-        if nbr_ant > last_ant:
-            last_ant = nbr_ant
-        # draw start
-    x_room = int((rooms[start_name][0] * zoom) + offset_x + int(x_map))
-    y_room = int((rooms[start_name][1] * zoom) + offset_y + int(y_map))
-
-    screen.blit(a[is_ant], (x_room - radius_of_room, y_room - radius_of_room))
-    # pygame.draw.rect(screen, rect_color, (x_room - radius_of_room, y_room + radius_of_room,40,30))
-    font = pygame.font.Font('freesansbold.ttf', 21)
-    text = font.render(str(int(nbrof_ants) - last_ant), True, nbr_color, background_color)
-    screen.blit(text, (x_room - 10, y_room + 25))
-    # draw end
-    x_room = int((rooms[end_name][0] * zoom) + offset_x + int(x_map))
-    y_room = int((rooms[end_name][1] * zoom) + offset_y + int(y_map))
-    # pygame.draw.rect(screen, rect_color, (x_room - radius_of_room, y_room + radius_of_room,40,30))
-    font = pygame.font.Font('freesansbold.ttf', 21)
-    text = font.render(str(cnt), True, nbr_color, background_color)
-    screen.blit(text, (x_room - 10, y_room + 25))
-
-
 def moveing_with_keybord(event, offset_x, offset_y):
     if event.key == pygame.K_LEFT:
         offset_x -= 10
@@ -184,10 +122,76 @@ def ft_zoom(button: int, zoom: int, z: int):
     return ((zoom, z))
 
 
+def write_numb(screen, rooms, name, zoom, offset_x, offset_y, x_map, y_map, st):
+    font = pygame.font.Font('freesansbold.ttf', 21)
+    x_room = int((rooms[name][0] * zoom) + offset_x + int(x_map))
+    y_room = int((rooms[name][1] * zoom) + offset_y + int(y_map))
+    text = font.render(str(st), True, nbr_color, background_color)
+    screen.blit(text, (x_room - 10, y_room + 25))
+    return(x_room, y_room)
+
+def draw_ant_start_to_and(screen, line, rooms, zoom, offset_x, offset_y, x_map, y_map, a, radius_of_room):
+    global cnt
+    global last_ant
+    splt = line.split()
+    for inst in splt:
+        details = inst.split('-')
+        nbr_ant = int(details[0][1:])
+        name_room = details[1]
+
+        is_ant = (nbr_ant % 8)
+        # draw the current room
+        x_room = int((rooms[name_room][0] * zoom) + offset_x + int(x_map))
+        y_room = int((rooms[name_room][1] * zoom) + offset_y + int(y_map))
+        screen.blit(a[is_ant], (x_room - radius_of_room, y_room - radius_of_room))
+        if name_room == end_name:
+            cnt += 1
+        if nbr_ant > last_ant:
+            last_ant = nbr_ant
+
+    font = pygame.font.Font('freesansbold.ttf', 21)
+    # draw start
+    (x_room, y_room) = write_numb(screen, rooms, start_name, zoom, offset_x, offset_y, x_map, y_map, (int(nbrof_ants) - last_ant))
+    screen.blit(a[is_ant], (x_room - radius_of_room, y_room - radius_of_room))
+    # draw end
+    write_numb(screen, rooms, end_name, zoom, offset_x, offset_y, x_map, y_map, cnt)
+
+
+def center_screen_after_zoom(z, zoom):
+    (x_map, y_map) = (0, 0)
+    if z == -1:
+        x_map = int((width - (width * zoom)) / 2)
+        y_map = int((height - (height * zoom)) / 2)
+    if z == 1:
+        x_map = int(((width * zoom) - width) / 2) * -1
+        y_map = int(((height * zoom) - height) / 2) * -1
+    return (x_map, y_map)
+
+# def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line: str):
+def draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, a: dict, line: str):
+    line_width = 8
+    # center screen after zooming
+    (x_map, y_map) = center_screen_after_zoom(z, zoom)
+    for rm in rooms:
+        x_room = int((rooms[rm][0] * zoom) + offset_x + int(x_map))
+        y_room = int((rooms[rm][1] * zoom) + offset_y + int(y_map))
+        if rooms[rm][2]:
+            edgs = rooms[rm][2]
+            for r in edgs:
+                x_edg = int((rooms[r][0] * zoom) + offset_x + int(x_map))
+                y_edg = int((rooms[r][1] * zoom) + offset_y + int(y_map))
+                # draw edg
+                pygame.draw.line(screen, edg_color, (x_room, y_room), (x_edg, y_edg), line_width)
+                pygame.draw.circle(screen, room_color, (x_edg, y_edg), radius_of_room)
+        pygame.draw.circle(screen, room_color, (x_room, y_room), radius_of_room)
+    draw_ant_start_to_and(screen, line, rooms, zoom, offset_x, offset_y, x_map, y_map, a, radius_of_room)
+
+
 def main(zoom, offset_x, offset_y):
     global cnt
     global FPS
     global last_ant
+
     z = 0
     rooms = {}
     rooms = parcing()
@@ -250,7 +254,6 @@ zoom = 1
 
 cnt = 0
 last_ant = 0
-
 ant = {}
 ant[1] = pygame.image.load('ants_type/1.png')
 ant[2] = pygame.image.load('ants_type/2.png')
