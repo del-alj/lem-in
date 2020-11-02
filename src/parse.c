@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/03/12 21:09:21 by del-alj          ###   ########.fr       */
+/*   Updated: 2020/11/02 09:10:09 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int		ft_next_start(char *str, int *idx, int stop)
 ** ****************************************************************************
 */
 
-int	get_ants_num(char *str, int *number_of_ants)
+int		get_ants_num(char *str, int *number_of_ants)
 {
 	if ((*str == '#') && ft_strequ(str, "##start") == 0 && \
 			ft_strequ(str, "##end") == 0)

@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 19:31:58 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/12 20:53:35 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/11/02 09:08:05 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,28 +82,25 @@ void	ft_free_path_group(t_path **paths_ptr)
 	t_path			*paths;
 
 	paths = *paths_ptr;
-	if (paths_ptr && paths)
+	i = -1;
+	while ((paths_ptr && paths) && (paths[++i].list != NULL))
 	{
-		i = -1;
-		while (paths[++i].list != NULL)
+		lst = paths[i].list;
+		while (lst != NULL)
 		{
-			lst = paths[i].list;
-			while (lst != NULL)
+			nxt = lst->next;
+			if (lst->content)
 			{
-				nxt = lst->next;
-				if (lst->content)
-				{
-					free(lst->content);
-					lst->content = NULL;
-				}
-				free(lst);
-				lst = nxt;
+				free(lst->content);
+				lst->content = NULL;
 			}
+			free(lst);
+			lst = nxt;
 		}
-		if (*paths_ptr)
-			free(*paths_ptr);
-		*paths_ptr = NULL;
 	}
+	if ((paths_ptr && paths) && *paths_ptr)
+		free(*paths_ptr);
+	(paths_ptr && paths) ? (void)(*paths_ptr = NULL) : (void)(0);
 }
 
 /*
