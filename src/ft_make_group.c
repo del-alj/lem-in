@@ -45,6 +45,9 @@ t_path	*ft_make_group(t_box *head, int nb_path, int *score)
 
 /*
 **	***************************************************************************
+** first we create the path group
+** new_score = number of usable vertics of the graph
+** new_score = number of final result output lines
 */
 
 int		ft_score(t_box *head, int nb_path, int *score, t_path **paths)

@@ -13,11 +13,10 @@
 #ifndef FT_LEM_IN_H
 # define FT_LEM_IN_H
 
-#include <stdio.h>
+# include <stdio.h>
 # include "../libftprintf/headers/libft.h"
 # include "../libftprintf/headers/ft_printf.h"
 
-#define MIN_OF2(a, b) (a < b ? a : b)
 #define BUFF_READ 10000
 
 typedef struct	s_avl
@@ -59,6 +58,12 @@ typedef struct      s_box
 	int				vertics_num;
 }					t_box;
 
+/*
+** len : length of the path
+** path_ant_nbr: the number of ants that will take this path
+** list: list that contains the vertics names and the ant number that's in that vertics
+*/
+
 typedef struct	s_path
 {
 	int				len;
@@ -81,7 +86,6 @@ typedef struct s_bfs_data
 }				t_bfs_data;
 
 t_avl		*ft_new_node(t_data data);
-int			ft_bfs(t_box *box, t_avl *start, t_avl *end);
 int			ft_height(t_avl *node);
 int			ft_is_not_visited(t_adj *list, t_avl *room);
 int			ft_max(int a, int b);
@@ -92,7 +96,6 @@ void		ft_error_function(t_avl *tree, char *str);
 void		ft_if_start_end(t_avl *node, t_data data, t_box *box);
 void		ft_insert_node(t_avl **tree, t_data data, t_box *box);
 void		ft_print_tree(t_avl *tree, char c);
-t_queue		*ft_init_queue(t_avl *start);
 void		ft_pass_ants(t_path *paths, int nb_paths, int nbr_of_ants);
 void		ft_print_ant(int i, char *str);
 
@@ -143,6 +146,7 @@ int		is_empty(t_queue *q);
 int		ft_bfs_extentions(t_box *box, t_bfs_data *data, t_adj *cur_e, t_avl *curr_vertex);
 void	ft_free_data(t_bfs_data dt);
 void	ft_free_queue(t_queue **q);
+t_queue		*ft_init_queue(t_avl *start);
 
 
 

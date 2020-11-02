@@ -140,6 +140,7 @@ def draw_ant_start_to_and(screen, line, rooms, zoom, offset_x, offset_y, x_map, 
         name_room = details[1]
 
         is_ant = (nbr_ant % 8)
+        print ("end name : [{}]\n\n\n", end_name)
         # draw the current room
         x_room = int((rooms[name_room][0] * zoom) + offset_x + int(x_map))
         y_room = int((rooms[name_room][1] * zoom) + offset_y + int(y_map))

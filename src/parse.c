@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/11/02 09:10:09 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/11/02 09:55:26 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	ft_read_all_file(char **str, int *length, char **backup_buff)
 ** ****************************************************************************
 */
 
-int		ft_next_start(char *str, int *idx, int stop)
+int		ft_update_next_start(char *str, int *idx, int stop)
 {
 	int		start;
 
@@ -136,6 +136,9 @@ int		ft_next_start(char *str, int *idx, int stop)
 
 /*
 ** ****************************************************************************
+** if (its a comment retrun 0)
+** else if its something rather then a number or a big number return ERROR (-1)
+** else read the number and return true
 */
 
 int		get_ants_num(char *str, int *number_of_ants)
@@ -175,9 +178,12 @@ void	ft_add_room(t_box *head, t_data *data, int bol, char **str)
 
 /*
 ** ****************************************************************************
+** reads all the input string and saves it to a propre data structure
+** take care of deplacates start and end :: stops the programe bcs it's an error
+** saves all the rooms and edges
 */
 
-int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
+int		ft_save_rooms_and_edges(int index, char *str, int stop, t_box *head)
 {
 	int		start;
 	int		bol;
@@ -188,7 +194,7 @@ int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 	data.var = 'M';
 	while (index < stop)
 	{
-		start = ft_next_start(str, &index, stop);
+		start = ft_update_next_start(str, &index, stop);
 		if (str[start] == 'L')
 			ft_error_function(head->tree, "in LINE INFO");
 		var = ft_check_line(str + start, &data, head);
@@ -208,6 +214,8 @@ int		ft_hundle_rooms(int index, char *str, int stop, t_box *head)
 
 /*
 ** ****************************************************************************
+** read all the input at once and keep it in two separate buffers
+** escap the comments at start tell you find the ants number
 */
 
 int		ft_read_input(t_box *head, char **buff)
@@ -223,7 +231,7 @@ int		ft_read_input(t_box *head, char **buff)
 	ft_read_all_file(&str, &stop, buff);
 	while (bol == 0)
 	{
-		start = ft_next_start(str, &index, stop);
+		start = ft_update_next_start(str, &index, stop);
 		bol = get_ants_num(str + start, &(head->ants_nbr));
 		if (bol == -1)
 		{
@@ -232,7 +240,7 @@ int		ft_read_input(t_box *head, char **buff)
 			ft_error_function(head->tree, "\tANTS NUMBER ERROR.");
 		}
 	}
-	bol = ft_hundle_rooms(index, str, stop, head);
+	bol = ft_save_rooms_and_edges(index, str, stop, head);
 	if (!(head->start) || !(head->end))
 		ft_error_function(head->tree, NULL);
 	ft_memdel((void**)&str);
@@ -260,25 +268,18 @@ int		ft_len_adj(t_adj *list)
 
 /*
 ** ****************************************************************************
+** reads whats the max start can give and the max sink can get
+** so that you can know the max-flow the graph can take at each turn.
 */
 
-int		ft_min(int a, int b)
-{
-	return ((a > b) ? b : a);
-}
-
-/*
-** ****************************************************************************
-*/
-
-void	ft_cnt_ports(t_box *head)
+void	ft_count_bottleneck_edges(t_box *head)
 {
 	int	p_end;
 	int	p_start;
 
 	p_start = ft_len_adj(head->start->adj);
 	p_end = ft_len_adj(head->end->adj);
-	head->ports = ft_min(p_start, p_end);
+	head->ports = (p_start > p_end) ? p_end : p_start;
 }
 
 /*
@@ -304,7 +305,7 @@ int		main(void)
 	head.vertics_num++;
 	if (ret < 2)
 		ft_error_function(head.tree, (char*)error[ret]);
-	ft_cnt_ports(&head);
+	ft_count_bottleneck_edges(&head);
 	ret = ft_get_the_max_flow(&head, &paths);
 	ft_pass_ants(paths, ret, head.ants_nbr);
 	ft_free_tree(head.tree);

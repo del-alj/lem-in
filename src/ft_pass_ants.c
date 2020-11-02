@@ -16,10 +16,8 @@ int		ft_find_big_path(int maxflow, t_path *paths, int *index)
 {
 	int	i;
 	int	len;
-	int min;
 
 	len = 0;
-	min = 2147483647;
 	i = 0;
 	while (i < maxflow)
 	{
@@ -32,9 +30,10 @@ int		ft_find_big_path(int maxflow, t_path *paths, int *index)
 
 /*
 ** ***************************************************************************
+** this counts how many ants will pass by each of the paths
 */
 
-void	cout_ants_in_path(int maxflow, t_path *paths, int nbr_of_ants)
+void	count_ants_in_path(int maxflow, t_path *paths, int nbr_of_ants)
 {
 	int	i;
 	int	big;
@@ -65,39 +64,48 @@ void	cout_ants_in_path(int maxflow, t_path *paths, int nbr_of_ants)
 
 /*
 ** *****************************************************************************
+** this func goes recursively to the end of the path, then starts printing
+** in reverse (from the last vert in the path).
 */
 
-int		ft_move_ants(t_list_simple *path, int nbr_of_ants)
+void	ft_move_and_print(t_list_simple *path, int nbr_of_ants, int temp1)
 {
-	int		temp1;
-	int		temp2;
-	int		ret;
+	int	temp2 = 0;
 
-	ret = 0;
-	temp2 = 0;
-	while (path && path->position == 0)
-		path = path->next;
-	if (path && path->position != 0 && path->next)
-	{
-		temp1 = path->position;
-		path->position = 0;
-		path = path->next;
-		ret++;
-	}
-	while (path)
+	if (path)
 	{
 		temp2 = path->position;
 		path->position = temp1;
 		temp1 = temp2;
+		ft_move_and_print(path->next, nbr_of_ants, temp1);
 		if (path->position != 0)
 			ft_print_ant(path->position, path->content);
-		path = path->next;
 	}
+}
+
+int		ft_move_ants(t_list_simple *path, int nbr_of_ants)
+{
+	int		temp;
+	int		ret;
+
+	ret = 0;
+	temp = 0;
+	while (path && path->position == 0)
+		path = path->next;
+	if (path && path->position != 0 && path->next)
+	{
+		temp = path->position;
+		path->position = 0;
+		path = path->next;
+		ret++;
+	}
+	ft_move_and_print(path, nbr_of_ants, temp);
 	return (ret);
 }
 
 /*
 ** ***************************************************************************
+** this fill's the first vertics in each path with the apropriate ant.
 */
 
 void	ft_init_path(int ant_nbr, t_path *paths, int i)
@@ -119,7 +127,7 @@ void	ft_pass_ants(t_path *paths, int nb_paths, int nbr_of_ants)
 
 	i_move = -1;
 	ant_nbr = 0;
-	cout_ants_in_path(nb_paths, paths, nbr_of_ants);
+	count_ants_in_path(nb_paths, paths, nbr_of_ants);
 	while (i_move != 0)
 	{
 		i = 0;

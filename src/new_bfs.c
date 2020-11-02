@@ -26,7 +26,7 @@ int		bfs(t_box *box, t_avl *start, t_bfs_data *data)
 	end_reached = -1;
 	data->q = ft_init_queue(start);
 	data->visited[start->id] = 1;
-	while (!is_empty(data->q))
+	while (data->q->front != NULL)
 	{
 		curr_vertex = dequeue(data->q);
 		cur_e = curr_vertex->adj;
@@ -60,9 +60,9 @@ int		ft_bfs_extentions(t_box *box, t_bfs_data *data, \
 			if (data->level[cur_e->edge->id] == 0)
 				data->level[cur_e->edge->id] = data->level[curr_vertex->id] + 1;
 			enqueue(data->q, cur_e->edge, cur_e->cap);
+			bol[1] = 1;
 			if (cur_e->edge->id == box->end->id)
 				bol[0] = 1;
-			bol[1] = 1;
 		}
 		cur_e = cur_e->next;
 	}
@@ -78,11 +78,19 @@ int		ft_bfs_extentions(t_box *box, t_bfs_data *data, \
 ** ***************************************************************************
 */
 
-int		is_empty(t_queue *q)
+t_queue	*ft_init_queue(t_avl *start)
 {
-	if (q->front == NULL)
-		return (1);
-	return (0);
+	t_queue	*q;
+
+	q = (t_queue*)malloc(sizeof(t_queue));
+	q->head = (t_adj*)malloc(sizeof(t_adj));
+	q->head->cap = 1;
+	q->head->edge = start;
+	q->head->prev = NULL;
+	q->head->next = NULL;
+	q->front = q->head;
+	q->rear = q->head;
+	return (q);
 }
 
 /*

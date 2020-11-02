@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_lem_in.h"
-
+//#include "ft_lem_in.h"
+/*
 int		ft_is_not_visited(t_adj *list, t_avl *room)
 {
 	t_adj	*current;
@@ -25,25 +25,10 @@ int		ft_is_not_visited(t_adj *list, t_avl *room)
 	}
 	return (1);
 }
-
+*/
 /*
 ** ***************************************************************************
 */
-
-t_queue	*ft_init_queue(t_avl *start)
-{
-	t_queue	*q;
-
-	q = (t_queue*)malloc(sizeof(t_queue));
-	q->head = (t_adj*)malloc(sizeof(t_adj));
-	q->head->cap = 1;
-	q->head->edge = start;
-	q->head->prev = NULL;
-	q->head->next = NULL;
-	q->front = q->head;
-	q->rear = q->head;
-	return (q);
-}
 
 /*
 ** ***************************************************************************
