@@ -16,7 +16,7 @@
 ** ***************************************************************************
 */
 
-t_avl	*ft_find(t_avl *tree, char *room)
+static	t_avl	*ft_find(t_avl *tree, char *room)
 {
 	int	key;
 
@@ -37,7 +37,7 @@ t_avl	*ft_find(t_avl *tree, char *room)
 ** ***************************************************************************
 */
 
-void	ft_push_back(t_avl *link1, t_avl *link2)
+static void		ft_push_back(t_avl *link1, t_avl *link2)
 {
 	t_adj	*l1;
 
@@ -70,7 +70,7 @@ void	ft_push_back(t_avl *link1, t_avl *link2)
 ** ***************************************************************************
 */
 
-void	ft_add_edge(t_avl **tree, char *r1, char *r2)
+void			ft_add_edge(t_avl **tree, char *r1, char *r2)
 {
 	t_avl	*link1;
 	t_avl	*link2;

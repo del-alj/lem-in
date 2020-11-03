@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 12:39:05 by del-alj           #+#    #+#             */
-/*   Updated: 2020/11/03 09:08:51 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/11/03 10:31:54 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define FT_LEM_IN_H
 
 # include <stdio.h>
-# include "../libftprintf/headers/libft.h"
-# include "../libftprintf/headers/ft_printf.h"
+# include "../libft/headers/libft.h"
 
 # define BUFF_READ 10000
 
@@ -86,69 +85,57 @@ typedef struct		s_bfs_data
 	int		*visited;
 }					t_bfs_data;
 
-t_avl				*ft_new_node(t_data data);
-int					ft_height(t_avl *node);
-int					ft_is_not_visited(t_adj *list, t_avl *room);
-int					ft_max(int a, int b);
-int					ft_origin_bfs(t_avl *start, t_avl *end);
-void				ft_add_edge(t_avl **tree, char *r1, char *r2);
-void				ft_balance(t_avl **tree, t_data data);
-void				ft_error_function(t_avl *tree, char *str);
-void				ft_if_start_end(t_avl *node, t_data data, t_box *box);
-void				ft_insert_node(t_avl **tree, t_data data, t_box *box);
-void				ft_print_tree(t_avl *tree, char c);
-void				ft_pass_ants(t_path *paths, int nb_paths, int nbr_of_ants);
-void				ft_print_ant(int i, char *str);
+/*
+**	file : ft_max.c
+*/
 
-long long			ft_atoi_m(char *str);
+int					ft_max(int a, int b);
+
+/*
+** file : ft_add_egde.c
+*/
+
+void				ft_add_edge(t_avl **tree, char *r1, char *r2);
+
+/*
+**	file : ft_balance.c
+*/
+
+void				ft_balance(t_avl **tree, t_data data);
+
 /*
 ** file : parser.c
 */
-
-int					ft_get_room_info(char *str, int i, t_data *data);
-int					ft_check_room(char *str, t_data *data);
+int					ft_update_next_start(char *str, int *idx, int stop);
 int					ft_read_input(t_box *head, char **buff);
-
-/*
-** file : parser_tools.c
-*/
-
-char				*ft_escap_whitspace(char *str);
-void				ft_print_link(t_avl *tree);
-void				ft_print_all_paths(t_path *paths, int maxflow);
 
 /*
 ** file : ft_error_function.c
 */
 
+void				ft_free_data(t_bfs_data dt);
+void				ft_free_queue(t_queue **q);
 void				ft_free_tree(t_avl *tree);
+void				ft_error_function(t_avl *tree, char *str);
 
 /*
 **	ft_dfs.c
 */
 
-void				ft_increase_capacity(t_adj *edge, t_avl *v, int flow);
+int					can_i_pass(t_avl *prev, t_avl *u, t_adj *adj);
 int					dfs(t_avl *prev, t_avl *u, t_avl *v, int *level);
 int					ft_get_the_max_flow(t_box *head, t_path **paths);
-int					ft_get_path(t_avl *u, t_avl *v, t_path *path);
-t_path				*ft_all_paths(t_box *head, int	*maxflow);
-int					can_i_pass(t_avl *prev, t_avl *u, t_adj *adj);
 
 /*
-**	file : new_bfs.c
+**	file : bfs.c
 */
 
 int					bfs(t_box *box, t_avl *start, t_bfs_data *data);
-int					is_empty(t_queue *q);
-void				pop_queue(t_queue *q);
-t_avl				*dequeue(t_queue *q);
-void				enqueue(t_queue *q, t_avl *node, int cap);
-int					is_empty(t_queue *q);
 int					ft_bfs_extentions(t_box *box, t_bfs_data *data, \
 										t_adj *cur_e, t_avl *curr_vertex);
-void				ft_free_data(t_bfs_data dt);
-void				ft_free_queue(t_queue **q);
 t_queue				*ft_init_queue(t_avl *start);
+void				enqueue(t_queue *q, t_avl *node, int cap);
+t_avl				*dequeue(t_queue *q);
 
 /*
 **	file : make_group.c
@@ -157,13 +144,55 @@ t_queue				*ft_init_queue(t_avl *start);
 t_path				*ft_make_group(t_box *head, int nb_path, int *score);
 int					ft_score(t_box *head, int nb_path, \
 								int *score, t_path **paths);
-void				ft_add_to_path(t_path *path, char *name);
 void				ft_free_path_group(t_path **paths);
+void				ft_add_to_path(t_path *path, char *name);
 
 /*
 **	file : ft_simple_lstdel.c
 */
 
 void				ft_simple_lstdel(t_list_simple **alst);
+
+/*
+**	file : ft_main.c
+*/
+
+void				ft_count_bottleneck_edges(t_box *head);
+int					ft_len_adj(t_adj *list);
+
+/*
+**	file : save_info.c
+*/
+
+int					ft_get_room_info(char *str, int i, t_data *data);
+int					ft_get_edge_info(char *str, int i, t_data *data);
+int					ft_check_line(char *str, t_data *data, t_box *head);
+void				ft_add_room(t_box *head, t_data *data, int bol, char **str);
+int					ft_save_rooms_and_edges(int index, char *str, \
+												int stop, t_box *head);
+
+/*
+**	file : ft_insert_node.c
+*/
+
+int					ft_height(t_avl *node);
+void				ft_if_start_end(t_avl *node, t_data data, t_box *box);
+t_avl				*ft_new_node(t_data data);
+void				ft_insert_node(t_avl **tree, t_data data, t_box *box);
+
+/*
+**	file : ft_pass_ants.c
+*/
+
+void				ft_pass_ants(t_path *paths, int nb_paths, int nbr_of_ants);
+
+/*
+**	file : ft_print_ant.c
+*/
+
+void				count_ants_in_path(int maxflow, \
+										t_path *paths, \
+										int nbr_of_ants);
+void				ft_print_ant(int i, char *str);
 
 #endif

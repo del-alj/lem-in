@@ -16,7 +16,38 @@
 **	***************************************************************************
 */
 
-t_path	*ft_make_group(t_box *head, int nb_path, int *score)
+static	int		ft_get_path(t_avl *u, t_avl *v, t_path *path)
+{
+	t_adj	*adj;
+	int		valid_flow;
+
+	if (u->id == v->id)
+	{
+		ft_add_to_path(path, u->name);
+		return (1);
+	}
+	adj = u->adj;
+	while (adj != NULL)
+	{
+		if (adj->cap == 0)
+		{
+			valid_flow = ft_get_path(adj->edge, v, path);
+			if (valid_flow > 0)
+			{
+				ft_add_to_path(path, u->name);
+				return (valid_flow + 1);
+			}
+		}
+		adj = adj->next;
+	}
+	return (0);
+}
+
+/*
+**	***************************************************************************
+*/
+
+t_path			*ft_make_group(t_box *head, int nb_path, int *score)
 {
 	int		i;
 	t_adj	*ptr;
@@ -50,7 +81,7 @@ t_path	*ft_make_group(t_box *head, int nb_path, int *score)
 ** new_score = number of final result output lines
 */
 
-int		ft_score(t_box *head, int nb_path, int *score, t_path **paths)
+int				ft_score(t_box *head, int nb_path, int *score, t_path **paths)
 {
 	int		indx;
 	t_path	*group;
@@ -77,7 +108,11 @@ int		ft_score(t_box *head, int nb_path, int *score, t_path **paths)
 	return (0);
 }
 
-void	ft_free_path_group(t_path **paths_ptr)
+/*
+**	***************************************************************************
+*/
+
+void			ft_free_path_group(t_path **paths_ptr)
 {
 	int				i;
 	t_list_simple	*lst;
@@ -110,38 +145,7 @@ void	ft_free_path_group(t_path **paths_ptr)
 **	***************************************************************************
 */
 
-int		ft_get_path(t_avl *u, t_avl *v, t_path *path)
-{
-	t_adj	*adj;
-	int		valid_flow;
-
-	if (u->id == v->id)
-	{
-		ft_add_to_path(path, u->name);
-		return (1);
-	}
-	adj = u->adj;
-	while (adj != NULL)
-	{
-		if (adj->cap == 0)
-		{
-			valid_flow = ft_get_path(adj->edge, v, path);
-			if (valid_flow > 0)
-			{
-				ft_add_to_path(path, u->name);
-				return (valid_flow + 1);
-			}
-		}
-		adj = adj->next;
-	}
-	return (0);
-}
-
-/*
-**	***************************************************************************
-*/
-
-void	ft_add_to_path(t_path *path, char *name)
+void			ft_add_to_path(t_path *path, char *name)
 {
 	t_list_simple	*tmp;
 

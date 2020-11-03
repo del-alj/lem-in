@@ -16,7 +16,7 @@
 **	***************************************************************************
 */
 
-void	ft_increase_capacity(t_adj *edge, t_avl *v, int flow)
+static	void	ft_increase_capacity(t_adj *edge, t_avl *v, int flow)
 {
 	t_adj	*ptr;
 
@@ -31,7 +31,7 @@ void	ft_increase_capacity(t_adj *edge, t_avl *v, int flow)
 **	***************************************************************************
 */
 
-int		get_edge_cap(t_avl *u, t_avl *v)
+static	int		get_edge_cap(t_avl *u, t_avl *v)
 {
 	t_adj *ptr;
 
@@ -51,7 +51,7 @@ int		get_edge_cap(t_avl *u, t_avl *v)
 **	***************************************************************************
 */
 
-int		can_i_pass(t_avl *prev, t_avl *u, t_adj *edge)
+int				can_i_pass(t_avl *prev, t_avl *u, t_adj *edge)
 {
 	if (u->taken == 0)
 		return (1);
@@ -67,7 +67,7 @@ int		can_i_pass(t_avl *prev, t_avl *u, t_adj *edge)
 ** valid flow is always == 1
 */
 
-int		dfs(t_avl *prev, t_avl *u, t_avl *v, int *level)
+int				dfs(t_avl *prev, t_avl *u, t_avl *v, int *level)
 {
 	int		i;
 	t_adj	*adj;
@@ -99,11 +99,11 @@ int		dfs(t_avl *prev, t_avl *u, t_avl *v, int *level)
 **	tmp[0] = ret; (0 or 1) either we've found a path or not
 **  tmp[1] = tmp; number of paths in last bfs graph we had
 ** 	valid_paths_nbr how many dfs paths we have in this iteration
-**			in the case of score == 0 we initialize the valid_paths_nbr with the 
-**			old value, since nothin had changed.
+**		in the case of score == 0 we initialize the valid_paths_nbr with the
+**		old value, since nothin had changed.
 */
 
-int		ft_get_the_max_flow(t_box *head, t_path **paths)
+int				ft_get_the_max_flow(t_box *head, t_path **paths)
 {
 	int			tmp[2];
 	t_bfs_data	dt;
@@ -122,7 +122,6 @@ int		ft_get_the_max_flow(t_box *head, t_path **paths)
 			valid_paths_nbr += tmp[0];
 		if (0 == ft_score(head, valid_paths_nbr, &score, paths))
 		{
-			//valid_paths_nbr -= (valid_paths_nbr - tmp[1]);
 			valid_paths_nbr = tmp[1];
 			break ;
 		}
@@ -131,35 +130,4 @@ int		ft_get_the_max_flow(t_box *head, t_path **paths)
 	}
 	ft_free_data(dt);
 	return (valid_paths_nbr);
-}
-
-/*
-**	***************************************************************************
-*/
-
-void	ft_free_data(t_bfs_data dt)
-{
-	ft_memdel((void**)&dt.visited);
-	ft_memdel((void**)&dt.level);
-	if (dt.q != NULL)
-		ft_free_queue(&dt.q);
-}
-
-void	ft_free_queue(t_queue **q)
-{
-	t_adj	*head;
-	t_adj	*nxt;
-
-	if (q && *q)
-	{
-		head = (*q)->head;
-		while (head != NULL)
-		{
-			nxt = head->next;
-			ft_memdel((void**)&head);
-			head = nxt;
-		}
-		ft_memdel((void**)q);
-		*q = NULL;
-	}
 }

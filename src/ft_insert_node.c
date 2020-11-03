@@ -16,6 +16,30 @@
 ** **************************************************************************
 */
 
+int		ft_height(t_avl *node)
+{
+	if (node)
+		return (node->height);
+	else
+		return (0);
+}
+
+/*
+** **************************************************************************
+*/
+
+void	ft_if_start_end(t_avl *node, t_data data, t_box *box)
+{
+	if (data.var == 'S')
+		box->start = node;
+	else if (data.var == 'E')
+		box->end = node;
+}
+
+/*
+** **************************************************************************
+*/
+
 t_avl	*ft_new_node(t_data data)
 {
 	t_avl		*node;

@@ -6,11 +6,46 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 14:11:37 by del-alj           #+#    #+#             */
-/*   Updated: 2020/03/12 08:11:46 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/11/03 09:14:44 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
+
+/*
+**	***************************************************************************
+*/
+
+void	ft_free_data(t_bfs_data dt)
+{
+	ft_memdel((void**)&dt.visited);
+	ft_memdel((void**)&dt.level);
+	if (dt.q != NULL)
+		ft_free_queue(&dt.q);
+}
+
+/*
+**	***************************************************************************
+*/
+
+void	ft_free_queue(t_queue **q)
+{
+	t_adj	*head;
+	t_adj	*nxt;
+
+	if (q && *q)
+	{
+		head = (*q)->head;
+		while (head != NULL)
+		{
+			nxt = head->next;
+			ft_memdel((void**)&head);
+			head = nxt;
+		}
+		ft_memdel((void**)q);
+		*q = NULL;
+	}
+}
 
 /*
 ** ***************************************************************************
@@ -39,14 +74,39 @@ void	ft_free_tree(t_avl *tree)
 
 /*
 ** ***************************************************************************
+*
+
+void	ft_putstr(char *str)
+{
+	int	len;
+
+	len = 0;
+	if (str)
+	{
+		while (str[len])
+			len++;
+		write(1, str, len);
+	}
+}
+*/
+/*
+** ***************************************************************************
 */
 
 void	ft_error_function(t_avl *tree, char *str)
 {
-//	ft_free_tree(tree);
+	ft_free_tree(tree);
 	if (str)
-		ft_printf("ERROR: %s\n", str);
+	{
+		ft_putstr("ERROR: ");
+		ft_putstr(str);
+		ft_putchar('\n');
+		// 		ft_printf("ERROR: %s\n", str);
+
+
+	}
 	else
-		ft_printf("ERROR.\n");
+			ft_putstr("ERROR.\n");
+		//ft_printf("ERROR.\n");
 	exit(0);
 }

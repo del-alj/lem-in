@@ -12,66 +12,19 @@
 
 #include "ft_lem_in.h"
 
-int		ft_find_big_path(int maxflow, t_path *paths, int *index)
-{
-	int	i;
-	int	len;
-
-	len = 0;
-	i = 0;
-	while (i < maxflow)
-	{
-		if (len < paths[i].len)
-			len = paths[i].len;
-		i++;
-	}
-	return (len);
-}
-
-/*
-** ***************************************************************************
-** this counts how many ants will pass by each of the paths
-*/
-
-void	count_ants_in_path(int maxflow, t_path *paths, int nbr_of_ants)
-{
-	int	i;
-	int	big;
-	int	div;
-	int	mod;
-	int	min_path;
-
-	div = 0;
-	i = 0;
-	min_path = 0;
-	big = ft_find_big_path(maxflow, paths, &min_path);
-	while (i < maxflow)
-	{
-		paths[i].path_ant_nbr = big - paths[i].len;
-		div = div + paths[i].path_ant_nbr;
-		i++;
-	}
-	mod = (nbr_of_ants - div) % maxflow;
-	div = (nbr_of_ants - div) / maxflow;
-	i = -1;
-	while (++i < maxflow)
-	{
-		paths[i].path_ant_nbr = paths[i].path_ant_nbr + div;
-		if (mod-- > 0)
-			paths[i].path_ant_nbr++;
-	}
-}
-
 /*
 ** *****************************************************************************
 ** this func goes recursively to the end of the path, then starts printing
 ** in reverse (from the last vert in the path).
 */
 
-void	ft_move_and_print(t_list_simple *path, int nbr_of_ants, int temp1)
+static	void	ft_move_and_print(t_list_simple *path, \
+									int nbr_of_ants, \
+									int temp1)
 {
-	int	temp2 = 0;
+	int	temp2;
 
+	temp2 = 0;
 	if (path)
 	{
 		temp2 = path->position;
@@ -83,7 +36,11 @@ void	ft_move_and_print(t_list_simple *path, int nbr_of_ants, int temp1)
 	}
 }
 
-int		ft_move_ants(t_list_simple *path, int nbr_of_ants)
+/*
+** *****************************************************************************
+*/
+
+static	int		ft_move_ants(t_list_simple *path, int nbr_of_ants)
 {
 	int		temp;
 	int		ret;
@@ -108,7 +65,7 @@ int		ft_move_ants(t_list_simple *path, int nbr_of_ants)
 ** this fill's the first vertics in each path with the apropriate ant.
 */
 
-void	ft_init_path(int ant_nbr, t_path *paths, int i)
+static	void	ft_init_path(int ant_nbr, t_path *paths, int i)
 {
 	paths[i].list->position = ant_nbr;
 	paths[i].path_ant_nbr--;
@@ -119,7 +76,7 @@ void	ft_init_path(int ant_nbr, t_path *paths, int i)
 ** ***************************************************************************
 */
 
-void	ft_pass_ants(t_path *paths, int nb_paths, int nbr_of_ants)
+void			ft_pass_ants(t_path *paths, int nb_paths, int nbr_of_ants)
 {
 	int	i;
 	int	i_move;
