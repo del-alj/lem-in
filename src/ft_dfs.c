@@ -98,6 +98,7 @@ int				dfs(t_avl *prev, t_avl *u, t_avl *v, int *level)
 **	***************************************************************************
 **	tmp[0] = ret; (0 or 1) either we've found a path or not
 **  tmp[1] = tmp; number of paths in last bfs graph we had
+**	tmp[2] = score, replaced it bcs of the norme
 ** 	valid_paths_nbr how many dfs paths we have in this iteration
 **		in the case of score == 0 we initialize the valid_paths_nbr with the
 **		old value, since nothin had changed.
@@ -105,13 +106,12 @@ int				dfs(t_avl *prev, t_avl *u, t_avl *v, int *level)
 
 int				ft_get_the_max_flow(t_box *head, t_path **paths)
 {
-	int			tmp[2];
+	int			tmp[3];
 	t_bfs_data	dt;
 	int			valid_paths_nbr;
-	int			score;
 
 	valid_paths_nbr = 0;
-	score = 2147483647;
+	tmp[2] = 2147483647;
 	if (((dt.level = ft_memalloc((head->vertics_num) * sizeof(int))) == NULL) ||
 	((dt.visited = ft_memalloc((head->vertics_num + 1) * sizeof(int))) == NULL))
 		exit(EXIT_FAILURE);
@@ -120,15 +120,14 @@ int				ft_get_the_max_flow(t_box *head, t_path **paths)
 		tmp[1] = valid_paths_nbr;
 		while ((tmp[0] = dfs(NULL, head->start, head->end, dt.level)) > 0)
 			valid_paths_nbr += tmp[0];
-		if ((valid_paths_nbr != 0) && (0 == ft_score(head, valid_paths_nbr, &score, paths)))
+		if ((valid_paths_nbr == 0 && tmp[1] == 0) || ((valid_paths_nbr != 0) \
+				&& (0 == ft_score(head, valid_paths_nbr, &tmp[2], paths))))
 		{
 			valid_paths_nbr = tmp[1];
 			break ;
 		}
 		ft_memset(dt.level, 0, head->vertics_num * sizeof(int));
 		ft_memset(dt.visited, 0, (head->vertics_num + 1) * sizeof(int));
-		if (valid_paths_nbr == 0 && tmp[1] == 0)
-			break;
 	}
 	ft_free_data(dt);
 	return (valid_paths_nbr);

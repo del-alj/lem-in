@@ -74,23 +74,6 @@ void	ft_free_tree(t_avl *tree)
 
 /*
 ** ***************************************************************************
-*
-
-void	ft_putstr(char *str)
-{
-	int	len;
-
-	len = 0;
-	if (str)
-	{
-		while (str[len])
-			len++;
-		write(1, str, len);
-	}
-}
-*/
-/*
-** ***************************************************************************
 */
 
 void	ft_error_function(t_avl *tree, char *str)
@@ -101,12 +84,8 @@ void	ft_error_function(t_avl *tree, char *str)
 		ft_putstr("ERROR: ");
 		ft_putstr(str);
 		ft_putchar('\n');
-		// 		ft_printf("ERROR: %s\n", str);
-
-
 	}
 	else
-			ft_putstr("ERROR.\n");
-		//ft_printf("ERROR.\n");
+		ft_putstr("ERROR.\n");
 	exit(0);
 }
