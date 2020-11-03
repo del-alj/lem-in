@@ -14,10 +14,10 @@
 
 int	ft_str_numbercmp(const char *s1, const char *s2)
 {
-	char *p1;
-	char *p2;
-	unsigned long long l1;
-	unsigned long long l2;
+	char				*p1;
+	char				*p2;
+	unsigned long long	l1;
+	unsigned long long	l2;
 
 	p1 = (char*)s1;
 	p2 = (char*)s2;

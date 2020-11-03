@@ -24,11 +24,11 @@ typedef struct	s_list
 	struct s_list	*next;
 }				t_list;
 
-typedef struct	s_list_simple
+typedef	struct	s_list_simple
 {
-	void	*content;
-	int		position;
-	struct	s_list_simple *next;
+	void					*content;
+	int						position;
+	struct s_list_simple	*next;
 }				t_list_simple;
 
 typedef struct	s_point
