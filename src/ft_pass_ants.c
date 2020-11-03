@@ -6,7 +6,7 @@
 /*   By: del-alj <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 00:25:13 by del-alj           #+#    #+#             */
-/*   Updated: 2020/11/02 09:09:00 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/11/03 18:50:37 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ void			ft_pass_ants(t_path *paths, int nb_paths, int nbr_of_ants)
 			}
 			i++;
 		}
-		ft_putchar('\n');
+		(i_move != 0) ? ft_putchar('\n') : 1;
 	}
 }
