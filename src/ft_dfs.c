@@ -120,13 +120,15 @@ int				ft_get_the_max_flow(t_box *head, t_path **paths)
 		tmp[1] = valid_paths_nbr;
 		while ((tmp[0] = dfs(NULL, head->start, head->end, dt.level)) > 0)
 			valid_paths_nbr += tmp[0];
-		if (0 == ft_score(head, valid_paths_nbr, &score, paths))
+		if ((valid_paths_nbr != 0) && (0 == ft_score(head, valid_paths_nbr, &score, paths)))
 		{
 			valid_paths_nbr = tmp[1];
 			break ;
 		}
 		ft_memset(dt.level, 0, head->vertics_num * sizeof(int));
 		ft_memset(dt.visited, 0, (head->vertics_num + 1) * sizeof(int));
+		if (valid_paths_nbr == 0 && tmp[1] == 0)
+			break;
 	}
 	ft_free_data(dt);
 	return (valid_paths_nbr);

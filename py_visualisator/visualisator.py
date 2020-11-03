@@ -202,41 +202,42 @@ def main(zoom, offset_x, offset_y):
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('Lem-in')
     # loop
-    for line in listof_inst:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+    while (True):
+        for line in listof_inst:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
-            # zooming
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                zoom, z = ft_zoom(event.button, zoom, z)
+                # zooming
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    zoom, z = ft_zoom(event.button, zoom, z)
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LSHIFT:
-                    ##  to slow down the vis
-                    FPS = max((FPS - 5, 1))  # in case this went negatif, fps should always be > 0
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LSHIFT:
+                        ##  to slow down the vis
+                        FPS = max((FPS - 5, 1))  # in case this went negatif, fps should always be > 0
 
-                elif event.key == pygame.K_RSHIFT:
-                    ## to accelerate the vis
-                    FPS += 5
-                else:
-                    (offset_x, offset_y) = moveing_with_keybord(event, offset_x, offset_y)
+                    elif event.key == pygame.K_RSHIFT:
+                        ## to accelerate the vis
+                        FPS += 5
+                    else:
+                        (offset_x, offset_y) = moveing_with_keybord(event, offset_x, offset_y)
 
-        # coloring background
-        screen.fill(background_color)
+            # coloring background
+            screen.fill(background_color)
 
-        # draw room and edg
-        path = {}
-        # draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line)
-        draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, ant, line)
+            # draw room and edg
+            path = {}
+            # draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, line)
+            draw_room_edg(screen, rooms, zoom, z, offset_x, offset_y, ant, line)
 
-        pygame.display.update()
-        # pygame.display.flip()
+            pygame.display.update()
+            # pygame.display.flip()
 
-        # we don't need the fps clock, the game is already slow.
-        fpsClock.tick(FPS)
-        print(FPS)
+            # we don't need the fps clock, the game is already slow.
+            fpsClock.tick(FPS)
+            print(FPS)
 
 
 # initialization

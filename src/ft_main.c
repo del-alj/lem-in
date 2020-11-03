@@ -66,7 +66,6 @@ int		main(void)
 	head.ants_nbr = 0;
 	paths = NULL;
 	ret = ft_read_input(&head, &buff);
-	//ft_printf("%s\n\n\n", buff);
 	ft_putstr(buff);
 	ft_putstr("\n\n\n");
 	head.vertics_num++;
@@ -74,6 +73,11 @@ int		main(void)
 		ft_error_function(head.tree, (char*)error[ret]);
 	ft_count_bottleneck_edges(&head);
 	ret = ft_get_the_max_flow(&head, &paths);
+	if (ret == 0)
+	{
+		printf("ret == 0");
+		exit (0);
+	}
 	ft_pass_ants(paths, ret, head.ants_nbr);
 	ft_free_tree(head.tree);
 	ft_memdel((void**)&buff);

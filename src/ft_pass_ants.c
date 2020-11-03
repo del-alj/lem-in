@@ -88,15 +88,15 @@ void			ft_pass_ants(t_path *paths, int nb_paths, int nbr_of_ants)
 	while (i_move != 0)
 	{
 		i = 0;
-		i_move = -1;
+		i_move = 0;
 		while (i < nb_paths)
 		{
 			if (ant_nbr > 0)
-				i_move = ft_move_ants(paths[i].list, nbr_of_ants);
+				i_move += ft_move_ants(paths[i].list, nbr_of_ants);
 			if (paths[i].path_ant_nbr > 0)
 			{
 				ant_nbr = ant_nbr + 1;
-				i_move = 1;
+				i_move += 1;
 				ft_init_path(ant_nbr, paths, i);
 			}
 			i++;
