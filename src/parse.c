@@ -6,7 +6,7 @@
 /*   By: mzaboub <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 12:42:07 by mzaboub           #+#    #+#             */
-/*   Updated: 2020/11/02 09:55:26 by mzaboub          ###   ########.fr       */
+/*   Updated: 2020/11/03 16:49:26 by mzaboub          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ static	void	ft_read_all_file(char **str, int *length, char **backup_buff)
 	ret = read(0, *str, BUFF_READ);
 	(*str)[ret] = '\0';
 	*length = ret;
+	temp = NULL;
 	while ((ret = read(0, buff, BUFF_READ)) > 0)
 	{
 		buff[ret] = '\0';
 		temp = ft_strjoin(*str, buff);
-		if (!temp)
+		if (temp == NULL)
 			exit(0);
 		ft_memdel((void**)str);
 		*str = temp;
